@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-03",
+  "scope": "Laptop Free Key quality refinement; accepted camera, crop and prop layout retained.",
+  "changes": [
+    "Photographic flame video restored from original source crop at1440x1080,25fps;5.4s loop.",
+    "AI-assisted detail restoration of snow/branches/ember bed at original1672x941 dimensions.",
+    "Original walnut PBR maps made more legible; fine joinery/lock screw details.",
+    "Reduced ice clouding, finer frost/fracture response; original melt and key choreography retained.",
+    "Diffuse green/violet aurora receiver on snow, warm fire falloff, subtle sky lights/environment colours on props."
+  ],
+  "imageGeneration": {
+    "mode": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit / detail restoration. Asset: high-resolution photographic environment texture for an existing Three.js winter scene. Image1 is the EDIT TARGET and geometry/framing reference. Produce the exact same winter night photograph composition at 3840x2160 or nearest high resolution with identical aspect ratio. This is a detail restoration, not a new composition. Preserve the horizon at y=.50, the mountain silhouettes, exact tree trunks/branches, open sky and all forest placement. Preserve the small stone/log ember bed centered x=.6105 y=.681 in the ORIGINAL image, same footprint and perspective, but resolve the stones, split charred wood, tiny glowing coals, cracked ash and rough granular surfaces with sharp photographic detail. No tall flames; flames are added separately as video. Preserve the existing tiny orange ember light pool; DO NOT bake green/violet aurora lighting into this texture because dynamic lighting is separate. Improve the ground with crisp natural snow crystal granules, wind-scoured ripples and subtle irregular packed snow texture, coherent perspective: small fine detail far away, visible crunchy grains in foreground. Resolve pine needles, bark fissures, snow-loaded twigs and naturally irregular fluffy snowy branch edges. Deep blue night illumination unchanged, no bright daylight. Preserve empty clear night sky and star field (no aurora in the image), same foreground and empty center. Do not add footprints, paths, people, snowmen, boxes, ice cubes, keys, text or UI. Preserve proportions and camera; no zoom, no pan, no reframing. No painterly smoothing, no halo sharpening, no artificial uniformly repeated noise. The goal is a premium fine-detail photorealistic restoration of THIS exact image.",
+    "source": "C:/Users/CR/Snowy/public/assets/realistic-winter/winter-camp-landscape-v3.webp",
+    "savedMaster": "C:/Users/CR/Documents/Codex/2026-11-03/c-users-cr-snowy-canva-or/work/quality-v1/environment-detail-source.png",
+    "runtimeAsset": "C:/Users/CR/Snowy/public/assets/quality-v1/winter-detail-landscape-v1.webp",
+    "dimensions": [
+      1672,
+      941
+    ],
+    "limitation": "Inferred detail restoration, not4K or recovery of authentic missing photographic detail."
+  },
+  "assets": {
+    "fire": "C:/Users/CR/Snowy/public/assets/quality-v1/fire-hd-loop.mp4",
+    "poster": "C:/Users/CR/Snowy/public/assets/quality-v1/fire-hd-poster.webp",
+    "environmentEncoding": "Decoded RGBA equality to edited PNG verified; dimensions preserved.",
+    "videoEncoding": "H264 CRF16 quality upgrade; lossy, not lossless.",
+    "firstSelectedPoster": "One of9laptop variants; smaller-layout posters retained."
+  },
+  "validation": {
+    "viewports": [
+      [
+        1517,
+        697
+      ],
+      [
+        1366,
+        768
+      ],
+      [
+        1440,
+        900
+      ]
+    ],
+    "devicePixelRatio": [
+      1,
+      1,
+      1.75
+    ],
+    "staticStates": 15,
+    "jsOrShaderErrors": 0,
+    "preciseOpeningFrames": 8,
+    "loopBoundaryVideoTimes": [
+      5.36,
+      0.04
+    ],
+    "cameraAndAnchorComparison": "1517x697 cameraPose and layoutAnchors exactly equal to baseline.",
+    "limitations": "Headless Edge screenshots/emulations and representative motion frames; no physical-device or universalFPS claim."
+  },
+  "performance": {
+    "fullAssetByteBudgetExcludingScriptsFontsAndLogo": {
+      "before": 11001099,
+      "after": 15618894
+    },
+    "note": "Full local file sizes, not measured streamed first-paint transfer. HD video frame pixels3.516x previous. Existing renderer/shared loop/DPR cap unchanged.",
+    "availablePhaseDrawCalls": {
+      "before": 86,
+      "after": 90
+    },
+    "availablePhaseTriangles": {
+      "before": 80256,
+      "after": 80544
+    },
+    "backgroundTextureDimensionsUnchanged": true
+  },
+  "references": [
+    "https://threejs.org/docs/pages/MeshPhysicalMaterial.html",
+    "https://threejs.org/docs/pages/MeshStandardMaterial.html",
+    "https://threejs.org/docs/pages/PointLight.html",
+    "https://www.pexels.com/video/a-fire-is-burning-in-the-dark-with-a-black-background-27098964/",
+    "https://www.pexels.com/license/",
+    "https://polyhaven.com/a/walnut_veneer_02"
+  ]
+}

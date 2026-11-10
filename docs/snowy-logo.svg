@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="none" width="280" height="64">
+  <defs>
+    <!-- Crystalline Ice Linear Gradients -->
+    <linearGradient id="iceCore" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#e0f2fe"/>
+      <stop offset="75%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <linearGradient id="facetTop" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+    </linearGradient>
+
+    <linearGradient id="facetDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <linearGradient id="facetRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <linearGradient id="facetLeft" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#bae6fd" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.85"/>
+    </linearGradient>
+
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#f0f9ff"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+
+    <linearGradient id="subTextGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+
+    <!-- Ambient Crystalline Glow -->
+    <filter id="iceGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <filter id="subtleGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- 3D Crystalline Ice Emblem -->
+  <g transform="translate(32, 32)">
+    <!-- Radial Ambient Aura -->
+    <circle cx="0" cy="0" r="22" fill="#00e5ff" opacity="0.12" filter="url(#iceGlow)"/>
+
+    <!-- 6-Fold Crystalline Facets (60 deg rotation) -->
+    <!-- Branch 0 deg -->
+    <g id="crystalBranch">
+      <!-- Upper diamond spine -->
+      <polygon points="0,-4 3,-15 0,-26 -3,-15" fill="url(#facetTop)"/>
+      <polygon points="0,-4 3,-15 0,-26 0,-4" fill="url(#facetLeft)"/>
+      <!-- Right wing crystal -->
+      <polygon points="2,-12 9,-17 7,-11 2,-9" fill="url(#facetRight)"/>
+      <!-- Left wing crystal -->
+      <polygon points="-2,-12 -9,-17 -7,-11 -2,-9" fill="url(#facetDeep)"/>
+      <!-- Outer crystal tip -->
+      <polygon points="0,-20 2,-24 0,-28 -2,-24" fill="#ffffff"/>
+    </g>
+
+    <use href="#crystalBranch" transform="rotate(60)"/>
+    <use href="#crystalBranch" transform="rotate(120)"/>
+    <use href="#crystalBranch" transform="rotate(180)"/>
+    <use href="#crystalBranch" transform="rotate(240)"/>
+    <use href="#crystalBranch" transform="rotate(300)"/>
+
+    <!-- Central 3D Hexagonal Prism Core -->
+    <polygon points="0,-9 7.8,-4.5 7.8,4.5 0,9 -7.8,4.5 -7.8,-4.5" fill="#075985" stroke="#38bdf8" stroke-width="0.8"/>
+    <!-- Top inner facet -->
+    <polygon points="0,-9 7.8,-4.5 0,0 -7.8,-4.5" fill="url(#facetTop)"/>
+    <!-- Right inner facet -->
+    <polygon points="7.8,-4.5 7.8,4.5 0,0" fill="url(#facetRight)"/>
+    <!-- Bottom right facet -->
+    <polygon points="7.8,4.5 0,9 0,0" fill="url(#facetDeep)"/>
+    <!-- Bottom left facet -->
+    <polygon points="0,9 -7.8,4.5 0,0" fill="#0369a1"/>
+    <!-- Top left facet -->
+    <polygon points="-7.8,4.5 -7.8,-4.5 0,0" fill="url(#facetLeft)"/>
+
+    <!-- Center Radiant Core Star -->
+    <polygon points="0,-4 1.2,-1.2 4,0 1.2,1.2 0,4 -1.2,1.2 -4,0 -1.2,-1.2" fill="#ffffff" filter="url(#subtleGlow)"/>
+  </g>
+
+  <!-- Brand Typography: SNOWY STUDIOS -->
+  <g transform="translate(70, 0)">
+    <!-- SNOWY Main Wordmark -->
+    <text x="0" y="36" font-family="'Sekuya', 'Space Grotesk', -apple-system, sans-serif" font-weight="900" font-size="28" letter-spacing="1.5" fill="url(#textGrad)" filter="url(#subtleGlow)">
+      SNOWY
+    </text>
+
+    <!-- STUDIOS Sub-Wordmark -->
+    <text x="1.5" y="49" font-family="'Space Grotesk', 'Inter', -apple-system, sans-serif" font-weight="700" font-size="9" letter-spacing="5" fill="url(#subTextGrad)" opacity="0.92">
+      STUDIOS
+    </text>
+
+    <!-- Accent Micro Diamond between S and Studios -->
+    <polygon points="126,27 128.5,30 126,33 123.5,30" fill="#38bdf8" opacity="0.8"/>
+  </g>
+</svg>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark" data-theme-preset="polar-night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Access Key | Snowy Studios</title>
+  <meta name="description" content="Melt the ice, open the Snowy vault and continue with LootLabs to get your free access key.">
+
+  <!-- Small current-scene capture paints before the interactive renderer. -->
+  <script>
+  (() => {
+    const previewDisabled=new URLSearchParams(location.search).get('scene-preview')==='off';
+    document.documentElement.dataset.scenePreview=previewDisabled?'off':'on';
+    let phase = 'waiting';
+    try {
+      const study = new URLSearchParams(location.search).get('ice-study');
+      const key = 'snowy:free-key:melt:v1' + (study && /^[1-4]$/.test(study) ? ':study:' + study : '');
+      const s = JSON.parse(sessionStorage.getItem(key)), now = Date.now();
+      const time = v => Number.isSafeInteger(v) && v >= 0 && v <= now;
+      if (s && s.version === 1 && time(s.startedAt)) {
+        if (s.key === null && s.unlockedAt === null) phase = !s.pending && now - s.startedAt >= 30000 ? 'available' : 'waiting';
+        else if (typeof s.key === 'string' && /^SNOWY-FREE-[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}-\d{4}$/.test(s.key)
+          && time(s.unlockedAt) && s.unlockedAt >= s.startedAt + 30000 && now - s.unlockedAt < 86400000) phase = 'ready';
+      }
+    } catch (_) { /* Storage is optional; the native state module validates again. */ }
+    document.documentElement.dataset.phase = phase;
+    const sceneSize = () => ({ width: innerWidth, height: Math.max(1, innerHeight - 84) });
+    const format = () => {
+      const { width, height } = sceneSize(), aspect = width / height;
+      return aspect < .70 ? 'portrait' : aspect < 1.25 ? 'tall' : aspect > 2.25 ? 'wide' : aspect > 1.88 ? 'standard' : 'landscape';
+    };
+    const laptop = () => innerWidth >= 900 && innerWidth / Math.max(1,innerHeight-84) >= 1.25;
+    const enhanced = () => laptop() && !matchMedia('(pointer:coarse)').matches && !navigator.connection?.saveData && !(navigator.hardwareConcurrency <= 4);
+    const previewFormat=()=>{
+      const {width,height}=sceneSize(),aspect=width/height;
+      if(aspect>=1.25&&(width<900||matchMedia('(pointer:coarse) and (max-width:1366px)').matches))return aspect>2.25?'compact-wide':'compact-landscape';
+      return width<700?'phone':!laptop()?'tablet':format();
+    };
+    const url = () => '/assets/progressive-scene/' + previewFormat() + '-' + phase + '.webp';
+    let selected = '';
+    const select = () => {
+      // The real scene's base photo is useful immediately, before any WebGL.
+      // It is not an obsolete screenshot of the animated scene.
+      const bounds=sceneSize(),aspect=bounds.width/bounds.height,portrait=aspect<1.25;
+      const source=enhanced()&&!portrait?'/assets/quality-v3/snow-restored.webp':'/assets/realistic-winter/winter-camp-'+(portrait?'portrait-v5':'landscape-v3')+'.webp';
+      const imageAspect=portrait?941/1672:1672/941,inset=portrait?0:laptop()?.12:.05;
+      const rx=Math.min(1,aspect/imageAspect)*(1-inset),ry=Math.min(1,imageAspect/aspect)*(1-inset);
+      const ox=(1-rx)/2-inset/2,oy=(1-ry)/2;
+      const baseStyle=document.documentElement.style;
+      baseStyle.setProperty('--winter-base-image','url("'+source+'")');
+      baseStyle.setProperty('--winter-base-size',(100/rx)+'% '+(100/ry)+'%');
+      baseStyle.setProperty('--winter-base-position',(rx<.999?100*ox/(1-rx):50)+'% '+(ry<.999?100*(1-ry-oy)/(1-ry):50)+'%');
+      const gx=.32*rx,gy=.90*ry,gox=.22+.32*ox,goy=.10+.90*(1-ry-oy);
+      baseStyle.setProperty('--winter-snow-size',(100/gx)+'% '+(100/gy)+'%');
+      baseStyle.setProperty('--winter-snow-position',(100*gox/(1-gx))+'% '+(100*goy/(1-gy))+'%');
+      baseStyle.setProperty('--winter-snow-mask','linear-gradient(180deg,transparent '+(100*(1-(.405-oy)/ry))+'%,#000 '+(100*(1-(.355-oy)/ry))+'%)');
+      if (document.getElementById('key-access')?.dataset.scenePresented === 'true') return;
+      // Match the native key target to the captured frame's cover crop, even
+      // before Three.js can project its own live target.
+      const frames = {...{...{...{"wide":[1530,609,1084.01,416.29],"standard":[1440,720,1097.14,492.16],"landscape":[1440,816,1147.43,557.78],"tall":[768,1024,591.45,691.59],"portrait":[780,1520,611.08,951.45]},...(laptop()?{"wide":[1530,609,1234.09,491.18],"standard":[1440,720,1162.79,580.72],"landscape":[1440,816,1163.64,658.14]}:{})},...(enhanced()?{"wide":[1530,609,1234.02,494.61],"standard":[1440,720,1162.74,584.77],"landscape":[1440,816,1163.61,662.75]}:{})},...(enhanced()?{"wide":[1530,609,1204.12,494.61],"standard":[1440,720,1134.59,584.77],"landscape":[1440,816,1135.47,662.75]}:{})};
+      const [w,h,x,y] = frames[format()];
+      const { width: sceneWidth, height } = sceneSize();
+      const scale = Math.max(sceneWidth/w, height/h), size = Math.max(44,60*scale+24);
+      const style = document.documentElement.style;
+      style.setProperty('--initial-key-left', (sceneWidth-w*scale)/2+x*scale-size/2+'px');
+      style.setProperty('--initial-key-top', (height-h*scale)/2+y*scale-22+'px');
+      style.setProperty('--initial-key-width', size+'px');
+      const lootFrames = {...{...{...{"wide":[800.1,313.3],"standard":[761.5,373.7],"landscape":[767,425.9],"tall":[310.4,588.5],"portrait":[311.6,842.5]},...(laptop()?{"wide":[802.9,367.5],"standard":[764.8,437.8],"landscape":[770.7,498.6]}:{})},...(enhanced()?{"wide":[802.9,367.5],"standard":[764.8,437.8],"landscape":[770.7,498.6]}:{})},...(enhanced()?{"wide":[802.9,367.5],"standard":[764.8,437.8],"landscape":[770.7,498.6]}:{})};
+      const [lootX,lootY] = lootFrames[format()], cardWidth = Math.min(sceneWidth < 700 ? 280 : 320,sceneWidth-32);
+      const safeX = Math.max(cardWidth/2+16,Math.min(sceneWidth-cardWidth/2-16,(sceneWidth-w*scale)/2+lootX*scale));
+      style.setProperty('--fallback-loot-x',safeX+'px');
+      style.setProperty('--fallback-loot-y',((height-h*scale)/2+lootY*scale+20)+'px');
+      if(previewDisabled&&document.getElementById('key-access')?.dataset.stageFallback!=='true')return;
+      const next = url(); if (next === selected) return;
+      selected = next;
+      document.documentElement.style.setProperty('--initial-scene-image', 'url("' + next + '")');
+      document.documentElement.dataset.previewDecoded='true';
+      const image=new Image();image.fetchPriority='high';image.src=next;
+      image.decode().then(()=>{
+        if(next!==selected)return;
+        document.documentElement.dataset.previewDecodedAt=String(performance.now());
+      },()=>{if(next===selected)selected='';});
+    };
+    select();
+    document.addEventListener('melt-key-poster-state', event => { if (['waiting','available','ready'].includes(event.detail)) { phase = event.detail; select(); } });
+    window.addEventListener('resize', select, {passive:true});
+  })();
+  </script>
+  <style>html,body{background:#071321}body.ice-access-page .ice-page{width:100%;padding:84px 0 0}body.ice-access-page .ice-scene{width:100%;height:calc(100svh - 84px);position:relative}.ice-initial-scene{z-index:1;pointer-events:none;background:#071321 var(--initial-scene-image) center/cover no-repeat;display:block;position:absolute;inset:0}html[data-scene-preview=off] .ice-initial-scene{display:none}html[data-scene-preview=off] [data-stage-fallback=true] .ice-initial-scene{display:block}[data-stage-fallback=true] .ice-initial-scene{background:#071321 var(--initial-scene-image) center/cover no-repeat;display:block}@media (width<=699px){body.ice-access-page .ice-scene{height:calc(100svh - 84px)}}</style>
+
+
+  <style id="winter-skeleton-critical">.ice-vault{isolation:isolate;height:calc(100svh - 84px);position:relative}.winter-skeleton{pointer-events:none;user-select:none;position:absolute;inset:0}.winter-skeleton-backdrop{z-index:0;background:var(--winter-base-image,none) var(--winter-base-position,50% 50%) / var(--winter-base-size,cover) no-repeat, radial-gradient(ellipse at 72% 22%,#103d4866,transparent 50%),linear-gradient(180deg,#06121f 0%,#102534 60%,#243a4b 61%,#132b3c 100%);position:absolute;inset:0}.winter-skeleton-object{z-index:3;background:linear-gradient(125deg,#91b6c838,#47718a26 52%,#a2ccd82b);border:1px solid #c8e6ed32;border-radius:5px;position:absolute;overflow:hidden;box-shadow:inset 0 1px #deefff26,0 8px 18px #00101f26;display:none!important}.winter-skeleton-object:after{content:"";background:linear-gradient(125deg,#0000 30%,#d2f1f410 45%,#0000 60%);position:absolute;inset:0}.winter-skeleton-chest{width:14%;height:18%;top:73%;left:46%;transform:translateY(-10%)}.winter-skeleton-chest span{border-top:1px solid #bfdbe32b;position:absolute;top:23%;left:0;right:0}.winter-skeleton-ice{background:linear-gradient(135deg,#a3d6e740,#729eb726 50%,#b0d7e638);border-radius:10px 8px 6px;width:9%;height:18%;top:74%;left:76%}.winter-skeleton-ice span{border-left:1px solid #e2f5ff2b;position:absolute;inset:8% 8% 10% 70%}[data-effects-presented=true] .winter-skeleton-backdrop,[data-phase=ready] .winter-skeleton-ice,[data-phase=available] .winter-skeleton-ice,[data-scene-presented=true] .winter-skeleton,html[data-preview-decoded=true] .winter-skeleton{display:none}@media (width<=899px),(orientation:portrait){.winter-skeleton-chest{width:35%;height:14%;top:70%;left:6%}.winter-skeleton-ice{width:29%;height:14%;top:70%;left:66%}}@media (width<=699px){.winter-skeleton-chest{width:40%;height:11%;top:77%;left:4%}.winter-skeleton-ice{width:29%;height:13%;top:75%;left:66%}}</style>
+
+  <link rel="preload" as="image" href="./assets/walnut-chest/walnut-color-mobile.webp" type="image/webp" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/quality-v1/fire-hd-poster.webp" type="image/webp" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/quality-v3/camp-detail.webp" type="image/webp" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/realistic-winter/aurora-user-original-v1.webp" type="image/webp" media="(min-width: 769px)" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/realistic-winter/aurora-mobile-v1.webp" type="image/webp" media="(max-width: 768px)" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./snowy-logo.webp" type="image/webp" fetchpriority="high">
+  
+
+  <link rel="preload" as="font" type="font/woff2" href="./fonts/sekuya.woff2" crossorigin>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+<!-- Critical baseline styles & SVG/Logo constraint to prevent page-transition FOUC -->
+  <style>html,body{color:#dfeaf1;color-scheme:dark;background:#071321;margin:0}svg{max-width:100%;height:auto}.brand-logo-img{display:block;width:auto!important;max-width:150px!important;height:44px!important;max-height:44px!important}.brand-snowflake-icon{flex-shrink:0;width:26px;height:26px}.btn-discord svg{fill:currentColor;width:18px;height:18px}.nav-logo svg,.brand svg{width:22px;height:22px}</style>
+
+  <!-- Synchronous Stylesheets to Eliminate FOUC on Navigation -->
+
+  <link rel="preload" as="font" href="./fonts/ibm-plex-sans/plex-e2291e842cf5.woff2" type="font/woff2" crossorigin>
+  <link href="./fonts/ibm-plex-sans/font.css" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/freeKey-D7BdDCUi.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/vendor-gsap-bXzFIbWr.js">
+  <link rel="modulepreload" crossorigin href="./assets/SnowyFooter-Dy0mc3AW.js">
+  <link rel="modulepreload" crossorigin href="./assets/vendor-lenis-BKII60EA.js">
+  <link rel="modulepreload" crossorigin href="./assets/Scroll-LFdG9vbQ.js">
+  <link rel="modulepreload" crossorigin href="./assets/preload-helper-CRzLMJPS.js">
+  <link rel="stylesheet" crossorigin href="./assets/SnowyFooter-BMrOBPYn.css">
+  <link rel="stylesheet" crossorigin href="./assets/vendor-lenis-fOJvfYOR.css">
+  <link rel="stylesheet" crossorigin href="./assets/freeKey-DYsonfGq.css">
+  <link rel="stylesheet" crossorigin href="./assets/reference-colors-GFnLTnD9.css">
+</head>
+<body class="has-polar-world ice-access-page" data-scene-page="free-key">
+  <div id="app" class="app-wrapper">
+    <!-- Sticky Navigation Bar -->
+    <header class="site-header" id="site-header" role="banner">
+      <div class="nav-container">
+        <a href="/index.html" class="brand-logo" aria-label="Snowy Studios Home">
+          <picture><source srcset="snowy-logo.webp" type="image/webp"><img src="./snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" /></picture>
+        </a>
+
+        <!-- Glassmorphic centered pill nav -->
+        <nav class="nav-pill" aria-label="Main Navigation">
+          <a href="/index.html"  class="nav-link">Home</a>
+          <a href="/scripts.html" class="nav-link">Scripts</a>
+          <a href="/free-key.html" class="nav-link active" aria-current="page">Free Key</a>
+          <a href="/pricing.html" class="nav-link">Pricing</a>
+          <a href="/contact.html" class="nav-link">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button type="button" id="key-menu-toggle" class="mobile-menu-toggle" aria-expanded="false" aria-controls="key-mobile-menu">Menu <span aria-hidden="true">+</span></button>
+          <!-- Discord Login -->
+
+          <!-- Discord Login -->
+          <a href="https://discord.gg" target="_blank" rel="noopener noreferrer" class="btn btn-discord">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            <span>Login</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <nav id="key-mobile-menu" class="key-mobile-nav" aria-label="Mobile navigation" hidden><a href="/index.html">Home</a><a href="/scripts.html">Scripts</a><a href="/free-key.html" aria-current="page">Free Key</a><a href="/pricing.html">Pricing</a><a href="/contact.html">Contact</a></nav>
+
+    <main id="main-content" class="ice-page">
+      <section id="key-access" class="ice-vault" data-phase="waiting" data-melt-stage="loading" aria-labelledby="ice-title">
+        <div class="ice-copy">
+          <svg class="pass-snow" viewBox="0 0 400 48" preserveAspectRatio="none" aria-hidden="true"><path d="M0 35Q0 23 15 26Q22 19 36 24Q45 2 79 9Q93 10 106 22Q123 15 141 22Q153 13 176 18Q191 0 213 9Q229 5 243 20Q269 15 282 25Q299 14 312 20Q325 4 349 12Q365 13 372 25Q391 17 400 32L400 45Q378 48 359 41Q335 48 316 42Q291 49 268 42Q244 48 215 42Q195 49 173 42Q144 48 122 41Q100 49 78 43Q52 49 27 41Q10 46 0 40Z" fill="#b9cccd"/><path d="M0 32Q0 20 15 23Q22 16 36 21Q45 0 79 6Q93 7 106 19Q123 12 141 19Q153 10 176 15Q191 -3 213 6Q229 2 243 17Q269 12 282 22Q299 11 312 17Q325 1 349 9Q365 10 372 22Q391 14 400 29L400 37Q378 41 359 34Q335 42 316 35Q291 43 268 35Q244 42 215 35Q195 43 173 35Q144 42 122 34Q100 42 78 36Q52 42 27 34Q10 39 0 33Z" fill="#f6faf8"/><path d="M48 10Q66 2 84 12M184 10Q199 0 211 10M330 13Q345 6 357 17" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+          <div class="pass-emblem" aria-hidden="true"><span class="pass-crystal"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><path id="pass-ray" d="M20 20V3m0 7-5-4m5 4 5-4m-5 9-7-5m7 5 7-5"/><use href="#pass-ray" transform="rotate(60 20 20)"/><use href="#pass-ray" transform="rotate(120 20 20)"/><use href="#pass-ray" transform="rotate(180 20 20)"/><use href="#pass-ray" transform="rotate(240 20 20)"/><use href="#pass-ray" transform="rotate(300 20 20)"/></svg></span><span class="pass-edition">SNOWY STUDIOS<strong>ACCESS / 024</strong></span></div>
+          <p class="ice-eyebrow"><span aria-hidden="true"></span> SNOWY / THE KEY VAULT</p>
+          <h1 id="ice-title">Let it melt<span>Keep playing</span></h1>
+          <p class="ice-intro">Your next session starts here.<br>Let the ice melt. Unlock a free 24-hour pass.</p>
+          <div class="ice-steps" aria-label="Three steps to your key"><span data-step="melt"><i>01</i> Melt</span><span data-step="lift"><i>02</i> Unlock</span><span data-step="play"><i>03</i> Play</span></div>
+          <p class="ice-pass-note"><span aria-hidden="true"></span> 24-hour pass <b aria-hidden="true">·</b> No payment required</p>
+          <aside class="key-utility" aria-label="Free key progress">
+          <div class="ice-status">
+            <div class="ice-clock-row"><span class="ice-clock-label">YOUR ICE MELTS IN</span><div class="ice-clock-value" aria-hidden="true"><span id="key-countdown" class="ice-clock">00:30</span><span id="key-clock-unit" class="ice-clock-unit"></span></div></div>
+            <progress id="key-progress" max="30" value="0" aria-label="Ice melting progress"></progress>
+            <h2 id="key-status-title">1. Wait for the ice to melt.</h2>
+            <p id="key-status-description">Wait 30 seconds. The ice will melt and free the golden key.</p>
+          </div>
+            <button id="key-sign-in" class="key-sign-in" type="button" aria-haspopup="dialog" aria-controls="key-sign-in-dialog">Sign in to start melting the ice</button>
+            <a class="key-premium-link" href="/pricing.html"><svg class="key-premium-crystal" viewBox="0 0 40 48" fill="none" aria-hidden="true"><path d="M20 2 36 12 33 33 20 46 7 33 4 12Z" fill="#123d51" stroke="#123d51" stroke-width="2"/><path d="m20 3 16 9-16 7L4 12Z" fill="#eaffff"/><path d="m4 12 16 7-8 14-5-1Z" fill="#90d5e8"/><path d="m36 12-16 7 8 14 5-1Z" fill="#5dabc5"/><path d="m20 19-8 14 8 12 8-12Z" fill="#d4f6fb"/><path d="m7 33 5 0 8 12Z" fill="#30738f"/><path d="m33 33-5 0-8 12Z" fill="#215d7a"/><path d="m20 3 0 16m-16-7 16 7 16-7M12 33h16" stroke="#164c64" stroke-opacity=".35"/><path d="m17 5 6 1-9 9-4-2Z" fill="#fff" fill-opacity=".72"/></svg><span class="key-premium-copy"><span class="key-premium-kicker" aria-hidden="true">PREMIUM ACCESS</span><strong>Get Premium</strong><span class="key-premium-benefit">Skip the wait</span></span><span class="key-premium-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          <div id="key-reward-slot" aria-label="Access card destination"></div>
+          </aside>
+        </div>
+        <div class="ice-scene" id="ice-scene">
+          <p class="ice-loading-note" role="status" hidden><span aria-hidden="true"></span>Loading the scene.<br>This may take a few seconds.</p>
+          <div class="winter-skeleton" aria-hidden="true">
+            <div class="winter-skeleton-backdrop"></div>
+            <div class="winter-skeleton-object winter-skeleton-chest"><span></span></div>
+            <div class="winter-skeleton-object winter-skeleton-ice"><span></span></div>
+          </div>
+
+          <div class="ice-initial-scene" aria-hidden="true"></div>
+          <div class="ice-scene-light" aria-hidden="true"></div>
+          <p class="ice-scene-label" aria-hidden="true"><span>ICE / 001</span><span>WALNUT / THE VAULT</span></p>
+          <div class="melt-fallback" aria-hidden="true"><svg viewBox="0 0 320 320" fill="none"><ellipse cx="160" cy="268" rx="115" ry="24" fill="#0d354b" stroke="#8cdff7" stroke-opacity=".3"/><g class="fallback-ice"><path d="m65 83 159-13 37 28-9 159-156 16-32-29Z" fill="#77cde4" fill-opacity=".25" stroke="#99e5f7" stroke-opacity=".7" stroke-width="2"/><path d="m65 83 33 29 163-14M98 112l-2 161" stroke="#b8f1ff" stroke-opacity=".6" stroke-width="2"/></g><g stroke="#d6c896" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><circle cx="161" cy="141" r="30"/><path d="M161 172v70m0-11h23m-23-19h17"/></g></svg></div>
+          <canvas id="ice-vault-canvas" aria-hidden="true"></canvas>
+          <button id="ice-vault-action" class="ice-action" type="button" aria-label="Unlock the box with the key" aria-describedby="key-status-description" disabled hidden><span class="ice-sr-only">Unlock the box</span></button>
+          <section id="key-result" class="ice-reward" aria-label="Your key gateway" hidden>
+            <div class="loot-reward-surface">
+              <a id="lootlabs-link" class="loot-link" href="https://flowauth.net/reward/a49a730ac9cc1ef08bb187236224f9e5" target="_blank" rel="noopener noreferrer" aria-label="Continue to LootLabs via FlowAuth (opens in a new tab)">
+                <svg class="loot-box-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m16 3 12 7v13l-12 7L4 23V10L16 3Z M4 10l12 7 12-7M16 17v13M10 6.5l12 7v6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                <span class="loot-link-copy"><span class="loot-kicker">YOUR NEXT STEP</span><strong>LootLabs</strong><span class="loot-detail">Log in to get your free key</span></span>
+                <span class="loot-arrow" aria-hidden="true">↗</span>
+              </a>
+              <div class="loot-reward-foot"><span>Log in on FlowAuth, then follow the steps.</span><button id="reset-key-btn" type="button" hidden>Watch again <span aria-hidden="true">↻</span></button></div>
+            </div>
+          </section>
+          <div class="ice-scene-bottom"><p id="ice-gesture">Watch the ice melt. The key opens your reward.</p></div>
+        </div>
+        <p id="key-announcement" class="ice-sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+        <script>
+        (() => {
+          try {
+            const root = document.getElementById('key-access');
+            const study = new URLSearchParams(location.search).get('ice-study');
+            const key = 'snowy:free-key:melt:v1' + (study && /^[1-4]$/.test(study) ? ':study:' + study : '');
+            const s = JSON.parse(sessionStorage.getItem(key)), now = Date.now();
+            const time = v => Number.isSafeInteger(v) && v >= 0 && v <= now;
+            if (root && s && s.version === 1 && time(s.startedAt)) {
+              if (s.key === null && s.unlockedAt === null && !s.pending) {
+                const rem = Math.max(0, Math.ceil((30000 - (now - s.startedAt)) / 1000));
+                if (rem > 0 && rem < 30) {
+                  const c = document.getElementById('key-countdown'); if (c) c.textContent = String(rem).padStart(2, '0');
+                  const u = document.getElementById('key-clock-unit'); if (u) u.textContent = 'SEC';
+                  const l = root.querySelector('.ice-clock-label'); if (l) l.textContent = 'MELTING';
+                  const pr = document.getElementById('key-progress'); if (pr) pr.value = (1 - rem / 30) * 30;
+                }
+              } else if (typeof s.key === 'string' && /^SNOWY-FREE-[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}-\d{4}$/.test(s.key)
+                && time(s.unlockedAt) && s.unlockedAt >= s.startedAt + 30000 && now - s.unlockedAt < 86400000) {
+                root.dataset.phase = 'ready';
+                const c = document.getElementById('key-countdown'); if (c) c.textContent = '✓';
+                const u = document.getElementById('key-clock-unit'); if (u) u.textContent = 'OPEN';
+                const l = root.querySelector('.ice-clock-label'); if (l) l.textContent = 'VAULT OPEN';
+                const t = document.getElementById('key-status-title'); if (t) t.textContent = '3. Your access is ready.';
+                const d = document.getElementById('key-status-description'); if (d) d.textContent = 'Continue through LootLabs and follow the steps to get your free key.';
+                const pr = document.getElementById('key-progress'); if (pr) pr.hidden = true;
+                const res = document.getElementById('key-result');
+                const slot = document.getElementById('key-reward-slot');
+                if (res && slot) { slot.appendChild(res); res.hidden = false; }
+                const rst = document.getElementById('reset-key-btn'); if (rst) rst.hidden = false;
+              }
+            }
+          } catch (_) {}
+        })();
+        </script>
+      </section>
+      <noscript><p class="ice-noscript">Enable JavaScript to melt the ice and reveal your key.</p></noscript>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer snowy-signoff" role="contentinfo" aria-label="Snowy Studios footer">
+  <div class="signoff-shell">
+    <div class="signoff-heading-row">
+      <div><p class="signoff-eyebrow"><i aria-hidden="true"></i>SNOWY STUDIOS / THE NEXT CHAPTER</p>
+        <h2 class="signoff-title">Your next move.<span>Made Snowy.</span></h2>
+        <a class="signoff-cta" href="/scripts.html">Find your next script <span aria-hidden="true">↗</span></a>
+      </div>
+      <nav class="signoff-nav" aria-label="Footer navigation">
+        <div><h3>Explore</h3><ul><li><a href="/scripts.html">Script library</a></li><li><a href="/free-key.html">Free access</a></li><li><a href="/pricing.html">Premium plans</a></li><li><a href="/contact.html">Talk to us</a></li></ul></div>
+        <div><h3>The details</h3><ul><li><span class="signoff-policy">Terms of Service</span></li><li><span class="signoff-policy">Privacy Policy</span></li><li><span class="signoff-policy">Refund Policy</span></li></ul><p class="signoff-policy-note">Policy links coming soon.</p></div>
+      </nav>
+    </div>
+    <div class="signoff-art" aria-hidden="true"><div class="signoff-orbit"></div><div class="signoff-horizon"></div><p class="signoff-word">SNOWY</p><svg class="signoff-crystal" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path transform="rotate(0 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(60 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(120 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(180 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(240 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(300 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><circle cx="40" cy="40" r="5"/></svg></div>
+    <div class="signoff-art-caption"><span>A little colder. A little further.</span><span>Built for your next session</span></div>
+    <div class="signoff-bottom"><p class="signoff-copyright">© 2026 Snowy Studios. All rights reserved.</p><div class="signoff-bottom-actions"><a href="/contact.html">Contact & support ↗</a><a class="signoff-backtop" href="#app">Back to the surface <span aria-hidden="true">↑</span></a></div></div>
+  </div>
+</footer>
+  </div>
+
+  <dialog id="key-sign-in-dialog" aria-labelledby="key-sign-in-title">
+    <h2 id="key-sign-in-title">Sign-in is not available yet</h2>
+    <p>Discord sign-in has not been configured for Snowy.</p>
+    <form method="dialog"><button type="submit">Close</button></form>
+  </dialog>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,42 @@
+{
+  "scope": "Retain previous photographic campfire; improve clarity and make snow slightly more natural. Laptop only.",
+  "rejectedExperiment": "3D rocks/logs and PBR foreground were removed from active source. Previous scene geometry, camera, prop transforms, flame video and choreography retained.",
+  "imageGeneration": {
+    "mode": "built-in image_gen",
+    "prompts": {
+      "campfire": "Use case: precise-object-edit, detail restoration ONLY. Image1 is exact edit target, a cropped texture of the APPROVED existing campfire base in a website. Enlarge/restore this exact crop to at least1280x768, maintaining exact aspect ratio5:3 and identical framing. Preserve the exact silhouette, individual rock placement, log arrangement, colors, tiny ember flame shapes, sizes and camera angle. Do NOT redesign the campfire or add/remove rocks or logs. Resolve fine real rock pores, sharp chipped stone edges, charred split wood fibres, uneven black ash and hot fine cracks between coals. Keep rocks dark natural charcoal grey/brown, never gold or toy-like. The firepit must remain exactly centered at x=.502,y=.473, occupying the same proportions. Snow remains blue-hour night snow, slightly more photographic with fine soft powder grains instead of the current artificial squiggly grooves; preserve broad shadow and orange light distribution. No tall fire or new flames; moving flames will be overlaid separately. No UI, text, objects or watermarks. This must look like the very SAME photograph with resolved fine detail, not a new campfire design. No zoom/pan/reframe, no increase in light intensity.",
+      "snow": "Precise local edit to Image1, existing approved website photograph. Change ONLY the ground snow below y=.62 to look slightly more naturally photographic: replace the artificial tangled noodle-like repetitive icy grooves with fine fresh dry powder granules, subtle broad wind-smoothed drifts, occasional tiny irregular snow crust edges. Keep it textured and detailed, not a flat smooth blank surface and not dark concrete. It must remain blue-hour snow with the same low brightness/blue hue, same orange fire pool. Preserve the EXACT firepit silhouette, rock/log arrangement, ember light, position, and size. Preserve absolutely all sky, stars, mountain silhouettes, tree trunks, forest framing and camera crop. Do not add new objects or footprints or tracks. This is a small realism correction to the snow, not a scene redesign. No new lighting, no green tint baked in, no blur, no zoom or pan, no shift of horizon. Same1672x941 aspect ratio and same framing. The upper62% should remain unchanged."
+    },
+    "savedFiles": [
+      "C:/Users/CR/Documents/Codex/2026-11-03/c-users-cr-snowy-canva-or/work/camp-clarity/assets/camp-detail.png",
+      "C:/Users/CR/Documents/Codex/2026-11-03/c-users-cr-snowy-canva-or/work/camp-clarity/assets/snow-restored.png"
+    ],
+    "runtimeFiles": [
+      "C:/Users/CR/Snowy/public/assets/quality-v3/camp-detail.webp",
+      "C:/Users/CR/Snowy/public/assets/quality-v3/snow-restored.webp"
+    ],
+    "dimensions": {
+      "campfire": [
+        1619,
+        971
+      ],
+      "environment": [
+        1672,
+        941
+      ]
+    },
+    "clarification": "Fine detail is inferred restoration, not recovery of missing photographic information. General approved silhouette/style retained; not pixel-exact identity of every stone."
+  },
+  "preservation": {
+    "upperOriginalPixels": 959728,
+    "upperChangedPixels": 0,
+    "upperFraction": 0.60998937,
+    "featherTopY": [
+      0.61,
+      0.64
+    ],
+    "webpDecodedRgbaDiff": 0
+  },
+  "rendering": "Separate HD detail sampler maps into the same original photo crop, then follows existing campfire composition transform. No 3D pit, new ground material or camera zoom.",
+  "validation": "1517x697 waiting, available and ready; four precise opening frames, independent visual review. Build and production smoke follow integration."
+}
