@@ -6,40 +6,26 @@
   <script>document.documentElement.classList.add('moon-layout-pending');</script>
   <title>Snowy Studios // Contact &amp; Support</title>
   <meta name="description" content="Get help with scripts, access, or an order. Join Discord and open a support ticket.">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
 <!-- Critical baseline styles & SVG/Logo constraint to prevent page-transition FOUC -->
-  <style>
-    /* Do not paint the unaligned moon while modules and fonts are loading. */
-    html.moon-layout-pending .support-scene .polar-layer--sky,
-    html.moon-layout-pending .support-beacon-art { visibility:hidden; }
-    html,body { margin:0; background:#07111d; color:#dfeaf1; color-scheme:dark; }
-    svg { max-width:100%; height:auto; }
-    .brand-logo-img { height:44px!important; width:auto!important; max-height:44px!important; max-width:150px!important; display:block; }
-    .brand-snowflake-icon { width:26px; height:26px; flex-shrink:0; }
-    .btn-discord svg { width:18px; height:18px; fill:currentColor; }
-    .nav-logo svg,.brand svg { width:22px; height:22px; }
-  </style>
+  <style>html.moon-layout-pending .support-scene .polar-layer--sky,html.moon-layout-pending .support-beacon-art{visibility:hidden}html,body{color:#dfeaf1;color-scheme:dark;background:#07111d;margin:0}svg{max-width:100%;height:auto}.brand-logo-img{display:block;width:auto!important;max-width:150px!important;height:44px!important;max-height:44px!important}.brand-snowflake-icon{flex-shrink:0;width:26px;height:26px}.btn-discord svg{fill:currentColor;width:18px;height:18px}.nav-logo svg,.brand svg{width:22px;height:22px}</style>
 
-  <!-- Synchronous Stylesheets to Eliminate FOUC on Navigation -->
-  <link rel="stylesheet" href="/src/styles/tokens.css">
-  <link rel="stylesheet" href="/src/styles/base.css">
-  <link rel="stylesheet" href="/src/styles/sections.css">
-  <link rel="stylesheet" href="/src/styles/themes.css">
-  <link rel="stylesheet" href="/src/styles/pages.css">
+  <!-- Synchronous Stylesheets to Eliminate FOUC on Navigation -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/styles/glacial-atmosphere.css">
-  <link rel="stylesheet" href="/src/styles/snowy-footer.css">
-  <link rel="stylesheet" href="/src/styles/contact-desk.css">
-  <link rel="stylesheet" href="/src/styles/polar-night.css">
-  <link rel="stylesheet" href="/src/styles/reference-colors.css">
-  <link rel="stylesheet" href="/src/styles/contact-polish.css">
-  <link rel="preload" as="image" href="/assets/atmosphere/moonlit-clear-landscape-v1.webp" media="(orientation:landscape)">
-  <link rel="preload" as="image" href="/assets/atmosphere/moonlit-clear-portrait-v1.webp" media="(orientation:portrait)">
-  <link rel="stylesheet" href="/src/styles/contact-support.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="./assets/atmosphere/moonlit-clear-landscape-v1.webp" media="(orientation:landscape)">
+  <link rel="preload" as="image" href="./assets/atmosphere/moonlit-clear-portrait-v1.webp" media="(orientation:portrait)">
+  <script type="module" crossorigin src="./assets/contact-CpX6QUMd.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/vendor-gsap-bXzFIbWr.js">
+  <link rel="modulepreload" crossorigin href="./assets/SnowyFooter-Dy0mc3AW.js">
+  <link rel="stylesheet" crossorigin href="./assets/SnowyFooter-BMrOBPYn.css">
+  <link rel="stylesheet" crossorigin href="./assets/contact-lszUBQUb.css">
+  <link rel="stylesheet" crossorigin href="./assets/glacial-atmosphere-fLTfy5HJ.css">
+  <link rel="stylesheet" crossorigin href="./assets/pages-BtqdToXX.css">
+  <link rel="stylesheet" crossorigin href="./assets/reference-colors-GFnLTnD9.css">
 </head>
 <body class="snowy-atmosphere has-polar-world" data-scene-page="contact">
   <div id="app" class="app-wrapper">
@@ -47,7 +33,7 @@
     <header class="site-header" id="site-header" role="banner">
       <div class="nav-container">
         <a href="/index.html" class="brand-logo" aria-label="Snowy Studios Home">
-          <img src="/snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" />
+          <img src="./snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" />
         </a>
 
         <!-- Glassmorphic centered pill nav -->
@@ -228,10 +214,7 @@
   </div>
 </footer>
   </div>
-
-  <script type="module" src="/src/pages/contact.ts"></script>
-  <script type="module" src="/src/components/GlacialAtmosphere.ts"></script>
-  <script type="module" src="/src/components/SnowyFooter.ts"></script>
+
 </body>
 </html>
 

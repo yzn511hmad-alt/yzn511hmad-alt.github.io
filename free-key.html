@@ -86,70 +86,39 @@
     window.addEventListener('resize', select, {passive:true});
   })();
   </script>
-  <style>
-    html,body {background:#071321;}
-    body.ice-access-page .ice-page {width:100%;padding:84px 0 0;}
-    body.ice-access-page .ice-scene {position:relative;width:100%;height:calc(100svh - 84px);}
-    .ice-initial-scene {display:block;position:absolute;inset:0;z-index:1;pointer-events:none;background:#071321 var(--initial-scene-image) center/cover no-repeat;}
-    html[data-scene-preview='off'] .ice-initial-scene {display:none;}
-    html[data-scene-preview='off'] [data-stage-fallback='true'] .ice-initial-scene {display:block;}
-    [data-stage-fallback="true"] .ice-initial-scene {display:block;background:#071321 var(--initial-scene-image) center/cover no-repeat;}
-    @media(max-width:699px) {body.ice-access-page .ice-scene {height:calc(100svh - 84px);}}
-  </style>
+  <style>html,body{background:#071321}body.ice-access-page .ice-page{width:100%;padding:84px 0 0}body.ice-access-page .ice-scene{width:100%;height:calc(100svh - 84px);position:relative}.ice-initial-scene{z-index:1;pointer-events:none;background:#071321 var(--initial-scene-image) center/cover no-repeat;display:block;position:absolute;inset:0}html[data-scene-preview=off] .ice-initial-scene{display:none}html[data-scene-preview=off] [data-stage-fallback=true] .ice-initial-scene{display:block}[data-stage-fallback=true] .ice-initial-scene{background:#071321 var(--initial-scene-image) center/cover no-repeat;display:block}@media (width<=699px){body.ice-access-page .ice-scene{height:calc(100svh - 84px)}}</style>
 
 
-  <style id="winter-skeleton-critical">
-    /* Present on the initial HTML paint, without waiting for app startup. */
-    .ice-vault {position:relative;isolation:isolate;height:calc(100svh - 84px);}
-/* Inline placeholders: no downloads, animation clock, or blocked controls. */
-.winter-skeleton {position:absolute;inset:0;pointer-events:none;user-select:none;}
-.winter-skeleton-backdrop {position:absolute;inset:0;z-index:0;background:var(--winter-base-image, none) var(--winter-base-position, 50% 50%) / var(--winter-base-size, cover) no-repeat, radial-gradient(ellipse at 72% 22%,#103d4866,transparent 50%),linear-gradient(180deg,#06121f 0%,#102534 60%,#243a4b 61%,#132b3c 100%);}
-.winter-skeleton-object {display:none !important;position:absolute;z-index:3;overflow:hidden;border:1px solid #c8e6ed32;background:linear-gradient(125deg,#91b6c838,#47718a26 52%,#a2ccd82b);box-shadow:inset 0 1px 0 #deefff26,0 8px 18px #00101f26;border-radius:5px;}
-.winter-skeleton-object::after {content:'';position:absolute;inset:0;background:linear-gradient(125deg,transparent 30%,#d2f1f410 45%,transparent 60%);}
-.winter-skeleton-chest {left:46%;top:73%;width:14%;height:18%;transform:translateY(-10%);}
-.winter-skeleton-chest span {position:absolute;top:23%;left:0;right:0;border-top:1px solid #bfdbe32b;}
-.winter-skeleton-ice {left:76%;top:74%;width:9%;height:18%;border-radius:10px 8px 6px 8px;background:linear-gradient(135deg,#a3d6e740,#729eb726 50%,#b0d7e638);}
-.winter-skeleton-ice span {position:absolute;inset:8% 8% 10% 70%;border-left:1px solid #e2f5ff2b;}
-[data-effects-presented='true'] .winter-skeleton-backdrop {display:none;}
-[data-phase='ready'] .winter-skeleton-ice,[data-phase='available'] .winter-skeleton-ice {display:none;}
-[data-scene-presented='true'] .winter-skeleton,html[data-preview-decoded='true'] .winter-skeleton {display:none;}
-@media(max-width:899px),(orientation:portrait){.winter-skeleton-chest{left:6%;top:70%;width:35%;height:14%;}.winter-skeleton-ice{left:66%;top:70%;width:29%;height:14%;}}
-@media(max-width:699px){.winter-skeleton-chest{left:4%;top:77%;width:40%;height:11%;}.winter-skeleton-ice{left:66%;top:75%;width:29%;height:13%;}}
-  </style>
+  <style id="winter-skeleton-critical">.ice-vault{isolation:isolate;height:calc(100svh - 84px);position:relative}.winter-skeleton{pointer-events:none;user-select:none;position:absolute;inset:0}.winter-skeleton-backdrop{z-index:0;background:var(--winter-base-image,none) var(--winter-base-position,50% 50%) / var(--winter-base-size,cover) no-repeat, radial-gradient(ellipse at 72% 22%,#103d4866,transparent 50%),linear-gradient(180deg,#06121f 0%,#102534 60%,#243a4b 61%,#132b3c 100%);position:absolute;inset:0}.winter-skeleton-object{z-index:3;background:linear-gradient(125deg,#91b6c838,#47718a26 52%,#a2ccd82b);border:1px solid #c8e6ed32;border-radius:5px;position:absolute;overflow:hidden;box-shadow:inset 0 1px #deefff26,0 8px 18px #00101f26;display:none!important}.winter-skeleton-object:after{content:"";background:linear-gradient(125deg,#0000 30%,#d2f1f410 45%,#0000 60%);position:absolute;inset:0}.winter-skeleton-chest{width:14%;height:18%;top:73%;left:46%;transform:translateY(-10%)}.winter-skeleton-chest span{border-top:1px solid #bfdbe32b;position:absolute;top:23%;left:0;right:0}.winter-skeleton-ice{background:linear-gradient(135deg,#a3d6e740,#729eb726 50%,#b0d7e638);border-radius:10px 8px 6px;width:9%;height:18%;top:74%;left:76%}.winter-skeleton-ice span{border-left:1px solid #e2f5ff2b;position:absolute;inset:8% 8% 10% 70%}[data-effects-presented=true] .winter-skeleton-backdrop,[data-phase=ready] .winter-skeleton-ice,[data-phase=available] .winter-skeleton-ice,[data-scene-presented=true] .winter-skeleton,html[data-preview-decoded=true] .winter-skeleton{display:none}@media (width<=899px),(orientation:portrait){.winter-skeleton-chest{width:35%;height:14%;top:70%;left:6%}.winter-skeleton-ice{width:29%;height:14%;top:70%;left:66%}}@media (width<=699px){.winter-skeleton-chest{width:40%;height:11%;top:77%;left:4%}.winter-skeleton-ice{width:29%;height:13%;top:75%;left:66%}}</style>
 
-  <link rel="preload" as="image" href="/assets/walnut-chest/walnut-color-mobile.webp" type="image/webp" crossorigin fetchpriority="high">
-  <link rel="preload" as="image" href="/assets/quality-v1/fire-hd-poster.webp" type="image/webp" crossorigin fetchpriority="high">
-  <link rel="preload" as="image" href="/assets/quality-v3/camp-detail.webp" type="image/webp" crossorigin fetchpriority="high">
-  <link rel="preload" as="image" href="/assets/realistic-winter/aurora-user-original-v1.webp" type="image/webp" media="(min-width: 769px)" crossorigin fetchpriority="high">
-  <link rel="preload" as="image" href="/assets/realistic-winter/aurora-mobile-v1.webp" type="image/webp" media="(max-width: 768px)" crossorigin fetchpriority="high">
-  <link rel="preload" as="image" href="/snowy-logo.webp" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/walnut-chest/walnut-color-mobile.webp" type="image/webp" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/quality-v1/fire-hd-poster.webp" type="image/webp" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/quality-v3/camp-detail.webp" type="image/webp" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/realistic-winter/aurora-user-original-v1.webp" type="image/webp" media="(min-width: 769px)" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/realistic-winter/aurora-mobile-v1.webp" type="image/webp" media="(max-width: 768px)" crossorigin fetchpriority="high">
+  <link rel="preload" as="image" href="./snowy-logo.webp" type="image/webp" fetchpriority="high">
   
 
-  <link rel="preload" as="font" type="font/woff2" href="/fonts/sekuya.woff2" crossorigin>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preload" as="font" type="font/woff2" href="./fonts/sekuya.woff2" crossorigin>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
 <!-- Critical baseline styles & SVG/Logo constraint to prevent page-transition FOUC -->
-  <style>
-    html,body { margin:0; background:#071321; color:#dfeaf1; color-scheme:dark; }
-    svg { max-width:100%; height:auto; }
-    .brand-logo-img { height:44px!important; width:auto!important; max-height:44px!important; max-width:150px!important; display:block; }
-    .brand-snowflake-icon { width:26px; height:26px; flex-shrink:0; }
-    .btn-discord svg { width:18px; height:18px; fill:currentColor; }
-    .nav-logo svg,.brand svg { width:22px; height:22px; }
-  </style>
+  <style>html,body{color:#dfeaf1;color-scheme:dark;background:#071321;margin:0}svg{max-width:100%;height:auto}.brand-logo-img{display:block;width:auto!important;max-width:150px!important;height:44px!important;max-height:44px!important}.brand-snowflake-icon{flex-shrink:0;width:26px;height:26px}.btn-discord svg{fill:currentColor;width:18px;height:18px}.nav-logo svg,.brand svg{width:22px;height:22px}</style>
 
   <!-- Synchronous Stylesheets to Eliminate FOUC on Navigation -->
-  <link rel="stylesheet" href="/src/styles/tokens.css">
-  <link rel="stylesheet" href="/src/styles/base.css">
-  <link rel="stylesheet" href="/src/styles/sections.css">
-  <link rel="stylesheet" href="/src/styles/themes.css">
 
-  <link rel="preload" as="font" href="/fonts/ibm-plex-sans/plex-e2291e842cf5.woff2" type="font/woff2" crossorigin>
-  <link href="/fonts/ibm-plex-sans/font.css" rel="stylesheet">
-  <link rel="stylesheet" href="/src/styles/snowy-footer.css">
-  <link rel="stylesheet" href="/src/styles/polar-night.css">
-  <link rel="stylesheet" href="/src/styles/reference-colors.css">
-  <link rel="stylesheet" href="/src/styles/melt-key.css">
+  <link rel="preload" as="font" href="./fonts/ibm-plex-sans/plex-e2291e842cf5.woff2" type="font/woff2" crossorigin>
+  <link href="./fonts/ibm-plex-sans/font.css" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/freeKey-D7BdDCUi.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/vendor-gsap-bXzFIbWr.js">
+  <link rel="modulepreload" crossorigin href="./assets/SnowyFooter-Dy0mc3AW.js">
+  <link rel="modulepreload" crossorigin href="./assets/vendor-lenis-BKII60EA.js">
+  <link rel="modulepreload" crossorigin href="./assets/Scroll-LFdG9vbQ.js">
+  <link rel="modulepreload" crossorigin href="./assets/preload-helper-CRzLMJPS.js">
+  <link rel="stylesheet" crossorigin href="./assets/SnowyFooter-BMrOBPYn.css">
+  <link rel="stylesheet" crossorigin href="./assets/vendor-lenis-fOJvfYOR.css">
+  <link rel="stylesheet" crossorigin href="./assets/freeKey-DYsonfGq.css">
+  <link rel="stylesheet" crossorigin href="./assets/reference-colors-GFnLTnD9.css">
 </head>
 <body class="has-polar-world ice-access-page" data-scene-page="free-key">
   <div id="app" class="app-wrapper">
@@ -157,7 +126,7 @@
     <header class="site-header" id="site-header" role="banner">
       <div class="nav-container">
         <a href="/index.html" class="brand-logo" aria-label="Snowy Studios Home">
-          <picture><source srcset="/snowy-logo.webp" type="image/webp"><img src="/snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" /></picture>
+          <picture><source srcset="snowy-logo.webp" type="image/webp"><img src="./snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" /></picture>
         </a>
 
         <!-- Glassmorphic centered pill nav -->
@@ -298,8 +267,6 @@
     <p>Discord sign-in has not been configured for Snowy.</p>
     <form method="dialog"><button type="submit">Close</button></form>
   </dialog>
-  <script type="module" src="/src/pages/free-key.ts"></script>
-  <script type="module" src="/src/components/SnowyFooter.ts"></script>
 
 </body>
 </html>
