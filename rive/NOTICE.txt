@@ -1,0 +1,2 @@
+Rive Canvas runtime from @rive-app/canvas. Copyright Rive. MIT license.
+https://github.com/rive-app/rive-wasm/blob/master/LICENSE

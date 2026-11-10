@@ -1,0 +1,21 @@
+{
+  "source": "https://polyhaven.com/a/walnut_veneer_02",
+  "license": "CC0-1.0",
+  "author": "Jenelle van Heerden",
+  "color": "Original2k JPEG DCT coefficients, SRGB and ICC preserved. Lossless progressive entropy recoding, exact decodedRGBA in Sharp and Edge; original JPEG saved in compression backup.",
+  "normalRoughness": "Original2k OpenGL normalRGB; source roughnessGreen storedinAlpha. WebPlossless, exactdecoded+GPUuploadvalidated onlocalEdge. ImageBitmap straightalpha+flipY, no colorconversion. RoughnessshaderreadsAlpha.",
+  "mobile": "Originalassets/walnut-chest maps preserved",
+  "gpuValidation": {
+    "hash": "4b8dcdceeac8dd4df21296cef8813425c7fef485e605207474574e91a166a875",
+    "width": 2048,
+    "height": 2048,
+    "error": 0,
+    "expected": "4b8dcdceeac8dd4df21296cef8813425c7fef485e605207474574e91a166a875",
+    "exactGpuMatch": true
+  },
+  "losslessCompression": {
+    "scope": "Free Key only",
+    "report": "work/compression-guard/max-lossless-20261103/integration.json",
+    "packedNormalRoughnessUnchanged": true
+  }
+}

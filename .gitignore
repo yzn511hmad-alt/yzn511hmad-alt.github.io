@@ -1,0 +1,23 @@
+# Executables & large binaries
+*.exe
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build output
+dist/
+dist-ssr/
+
+# Work / experiment archives & backups
+work/
+*.tmp
+*.tmp.zip
+*.log
+
+# Editor & OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

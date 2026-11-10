@@ -1,0 +1,22 @@
+{
+  "scope": "Free Key page and its own resources; shared chunks only as actual entry dependencies. No global public pruning or shared logo conversion.",
+  "files": [
+    "fonts/sekuya.woff2",
+    "assets/sky-masks-r8-v1/landscape.ktx2",
+    "assets/sky-masks-r8-v1/portrait.ktx2",
+    "assets/free-key-hero/glacier-key.webp"
+  ],
+  "directories": [
+    "assets/walnut-chest",
+    "assets/walnut-chest-v2",
+    "fonts/ibm-plex-sans"
+  ],
+  "patterns": [
+    "^assets/realistic-winter/initial-camp-(wide|standard|landscape)-(waiting|available|ready)-v(5|11)\\.webp$",
+    "^assets/realistic-winter/initial-camp-(tall|portrait)-(waiting|available|ready)-v2\\.webp$",
+    "^assets/ice-studies/study-3(-mobile)?\\.webp$",
+    "^assets/realistic-winter/(winter-camp-(landscape|portrait)-v3\\.webp|aurora-upper-v9-lossless\\.webp|aurora-user-original-v1\\.webp|aurora-sky-portrait-mask\\.webp|aurora-sky-landscape-enhanced-mask-v1\\.webp|flames-real-loop\\.mp4|flames-real-poster\\.jpg|credits\\.html|.*(attribution|ATTRIBUTION|PROVENANCE|provenance).*\\.(md|json))$",
+    "^assets/quality-v1/(fire-hd-loop\\.mp4|fire-hd-poster\\.webp|provenance\\.json)$",
+    "^assets/quality-v3/(snow-restored\\.webp|camp-detail\\.webp|provenance\\.json)$"
+  ]
+}

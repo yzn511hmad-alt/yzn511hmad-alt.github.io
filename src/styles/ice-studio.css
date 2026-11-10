@@ -1,0 +1,102 @@
+/* The room is a single static photographic exposure, shared by the cube and
+   the surrounding page. Functional content and the interactive canvas stay DOM siblings. */
+body.ice-access-page {
+  --ice-studio-base:#030b13;
+  --ice-studio-exit:#07111d;
+  --ice-studio-light:#8ed8ef;
+  --ice-studio-copy:#abc1cf;
+}
+body.ice-access-page .app-wrapper {background:var(--ice-studio-base);}
+body.ice-access-page .ice-page {
+  position:relative;
+  isolation:isolate;
+  max-width:none;
+  width:100%;
+  padding-left:50px;
+  padding-right:50px;
+  padding-bottom:84px;
+  overflow:clip;
+  background:var(--ice-studio-base);
+}
+body.ice-access-page .ice-page::after {
+  content:'';
+  position:absolute;
+  z-index:-1;
+  left:0;
+  right:0;
+  bottom:0;
+  height:70px;
+  background:linear-gradient(180deg,var(--ice-studio-base),var(--ice-studio-exit));
+  pointer-events:none;
+}
+body.ice-access-page .ice-vault,
+body.ice-access-page .ice-about {max-width:1480px;margin-left:auto;margin-right:auto;}
+body.ice-access-page .ice-vault {isolation:isolate;}
+/* Extend the original slate floor to both edges. The shadow, cube size and
+   screen-space strike geometry are independent of this decorative layer. */
+body.ice-access-page .ice-vault::before {
+  content:'';
+  position:absolute;
+  z-index:-2;
+  left:calc((100vw - 100%) / -2);
+  right:calc((100vw - 100%) / -2);
+  top:-120px;
+  bottom:-120px;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,#030b13d9 0%,#030b1399 24%,#030b1326 55%,#030b130a 78%,#030b1340),
+    linear-gradient(180deg,#030b13,transparent 30%,transparent 70%,#030b13),
+    url('/assets/ice-vault/room.webp') center / cover no-repeat;
+}
+/* A broad, static bounce of cold light, with no blur filter or animation loop. */
+body.ice-access-page .ice-vault::after {
+  content:'';
+  position:absolute;
+  z-index:-1;
+  top:-110px;
+  bottom:-90px;
+  left:calc((100vw - 100%) / -2);
+  right:calc((100vw - 100%) / -2);
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 46% 60% at 87% 15%,#7ac9f012,transparent 78%),
+    radial-gradient(ellipse 38% 13% at 76% 83%,#74bbdf12,transparent 80%);
+}
+body.ice-access-page .ice-scene {overflow:hidden;}
+body.ice-access-page .ice-scene::before {content:none;}
+body.ice-access-page .ice-scene::after {box-shadow:none;}
+body.ice-access-page .ice-scene-light {background:none;}
+body.ice-access-page .ice-intro {color:var(--ice-studio-copy);}
+body.ice-access-page .ice-status p {color:#a0bacb;}
+body.ice-access-page .ice-about {
+  position:relative;
+  gap:40px;
+  padding:34px 20px 0;
+  margin-top:28px;
+  border:0;
+}
+body.ice-access-page .ice-about p {color:#9db4c4;}
+body.ice-access-page .ice-about p>span {color:#7b9fb5;letter-spacing:.19em;margin-bottom:8px;}
+body.ice-access-page .ice-about a {color:#c9e8f5;border:0;min-height:44px;display:flex;align-items:center;}
+body.ice-access-page .ice-about a:hover {color:#edfbff;}
+/* Footer is a quiet, opaque continuation of the site's navigation palette. */
+html[data-theme-preset='polar-night'] body.ice-access-page .site-footer.snowy-signoff {background:var(--ice-studio-exit)!important;border-top:0;}
+@media(max-width:960px) {
+  body.ice-access-page .ice-page {padding-left:28px;padding-right:28px;}
+  body.ice-access-page .ice-about {gap:24px;padding-left:0;padding-right:0;}
+}
+@media(max-width:700px) {
+  body.ice-access-page .ice-page {padding-left:18px;padding-right:18px;padding-bottom:52px;}
+  body.ice-access-page .ice-vault::before {
+    top:60px;
+    bottom:150px;
+    background:
+      linear-gradient(180deg,#030b13 0%,#030b1340 32%,transparent 52%,#030b13 100%),
+      url('/assets/ice-vault/room-mobile.webp') center 58% / auto 100% no-repeat;
+  }
+  body.ice-access-page .ice-vault::after {
+    inset:40px -18px 200px;
+    background:radial-gradient(ellipse 95% 48% at 85% 34%,#77c7ec15,transparent 80%);
+  }
+  body.ice-access-page .ice-about {margin-top:35px;padding-top:23px;gap:22px;}
+}

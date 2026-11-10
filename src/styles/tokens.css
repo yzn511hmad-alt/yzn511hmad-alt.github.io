@@ -1,0 +1,107 @@
+/**
+ * DESIGN TOKENS (DARK MODE ONLY)
+ * Snowy Studios (getsnowy.net)
+ */
+
+:root {
+  --font-ui: 'IBM Plex Sans', sans-serif;
+  
+  /* ============================================================
+     Cyber-Glacial Arctic Ice Palette (لون ثلجي جليدي متكامل)
+     ============================================================ */
+  --bg-base: #081a33;                /* Deepest glacial oceanic abyss */
+  --bg-primary: #0c2448;             /* Rich glacial primary background */
+  --bg-secondary: #102e58;           /* Secondary section deep frost */
+  --surface-card: #153c6e;           /* Frosted crystalline card fill */
+  --surface-raised: #1a4985;         /* Elevated modals, dropdowns */
+  --surface-pill: #20589e;           /* Elevated sub-zero pill surface */
+  --surface-glass: rgba(12, 36, 72, 0.82);
+  --surface-glass-border: 1px solid rgba(56, 189, 248, 0.22);
+  --surface-glass-border-hover: 1px solid rgba(0, 240, 255, 0.45);
+
+  /* Translucent borders */
+  --border-subtle: rgba(56, 189, 248, 0.12);
+  --border-dim: rgba(56, 189, 248, 0.20);
+  --border-default: rgba(56, 189, 248, 0.30);
+  --border-active: rgba(0, 240, 255, 0.60);
+
+  /* Typography Tokens */
+  --text-primary: #f0f8ff;           /* Pure arctic frost white */
+  --text-secondary: #a3cbf5;         /* Ice-mist secondary */
+  --text-muted: #729ec9;             /* Muted glacial slate */
+  --text-disabled: #4a6d94;          /* Disabled states */
+  --text-on-accent: #050e1c;         /* Dark text on bright accent */
+
+  /* Accents */
+  --accent-ice: #38bdf8;             /* Vibrant glacial cyan */
+  --accent-cyan: #00f0ff;            /* Electric ice cyan */
+  --accent-cyan-glow: 0 0 24px rgba(0, 240, 255, 0.50);
+  --accent-frost: #e0f7ff;           /* Pale crystalline frost */
+  --accent-purple: #7dd3fc;          /* Mapped to light ice cyan */
+  --accent-purple-glow: 0 0 20px rgba(56, 189, 248, 0.35);
+  --accent-yellow: #fcd34d;
+
+  /* Aliases for compatibility */
+  --accent-primary: #38bdf8;
+  --accent-primary-dim: #0284c7;
+  --accent-secondary: #7dd3fc;
+
+  /* Persistent Dark Surfaces */
+  --persistent-dark-bg: #0c2448;
+  --persistent-dark-surface: #153c6e;
+  --persistent-dark-border: rgba(56, 189, 248, 0.22);
+  --persistent-dark-text: #f0f8ff;
+  --persistent-dark-subtext: #a3cbf5;
+
+  /* Typography Scales */
+  --font-sans: var(--font-ui);
+  --font-display: var(--font-ui);
+  --font-sekuya: var(--font-ui);
+  --font-mono: var(--font-ui);
+
+  --text-xs: clamp(0.7rem, 0.65rem + 0.2vw, 0.78rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.88rem);
+  --text-base: clamp(0.92rem, 0.88rem + 0.3vw, 1rem);
+  --text-lg: clamp(1.05rem, 1rem + 0.4vw, 1.2rem);
+  --text-xl: clamp(1.2rem, 1.1rem + 0.6vw, 1.45rem);
+  --text-2xl: clamp(1.45rem, 1.3rem + 0.9vw, 1.85rem);
+  --text-3xl: clamp(1.8rem, 1.5rem + 1.5vw, 2.5rem);
+  --text-4xl: clamp(2.3rem, 1.8rem + 2.2vw, 3.4rem);
+  --text-hero: clamp(2.8rem, 2.2rem + 3.8vw, 5.2rem);
+
+  /* Spacing Scale */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-4xl: 6rem;
+  --space-section: clamp(4.5rem, 8vw, 7.5rem);
+
+  /* Layout Containers */
+  --container-max: 1320px;
+  --container-pad: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-fast: 150ms var(--ease-expo);
+  --trans-med: 300ms var(--ease-expo);
+  --trans-slow: 600ms var(--ease-expo);
+
+  /* Z-Index */
+  --z-webgl: 0;
+  --z-content: 10;
+  --z-header: 100;
+}
+

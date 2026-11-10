@@ -1,0 +1,25 @@
+{
+  "tool": "Official ComfyUI v0.3.40 nodes, local headless execution",
+  "model": "RealESRGAN_x2plus",
+  "modelSHA256": "49fafd45f8fd7aa8d31ab2a22d14d91b536c34494a5cfe31eb5d89c2fa266abb",
+  "modelSource": "https://github.com/xinntao/Real-ESRGAN/releases/tag/v0.2.1",
+  "imageSource": "User-supplied aurora artwork",
+  "dimensions": [
+    4108,
+    1532
+  ],
+  "alpha": "original alpha, bilinearly resized by JoinImageWithAlpha",
+  "encoding": "lossless WebP; complete decoded RGBA equality to PNG master verified",
+  "detail": "Neural inference; not exact recovery of absent source information",
+  "postprocess": "Official ComfyUI ImageSharpen, parallel fine/broad luminance branches with bounded green/opacity/core protection; alpha unchanged",
+  "activeAsset": "aurora-upper-v9-lossless.webp",
+  "activeAssetSHA256": "6eee6c1fb99f76440c089eb46847ddb9caef60138caea799b4dcf6f801fc2360",
+  "localDetailReconstruction": {
+    "region": "upper diagonal green arc only",
+    "method": "AI-generated local patch high-frequency luminance blended with official ComfyUI Blur/Blend and a curved feathered mask",
+    "alpha": "bit-identical to previous image",
+    "outsideMaskPixels": 6002036,
+    "outsideMaskChangedPixels": 0,
+    "detail": "inferred local artwork detail, not recovered authentic photographic information"
+  }
+}

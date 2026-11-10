@@ -1,0 +1,214 @@
+/* Free Key: three functional states, one continuous photographic studio. */
+body.ice-access-page {
+  --vault-ink:#f0f9fd;
+  --vault-muted:#a6bfce;
+  --vault-accent:#a6e4f6;
+  --vault-gold:#d8c397;
+  --vault-card:#081a27ed;
+}
+body.ice-access-page .ice-copy {padding-right:12px;}
+body.ice-access-page .ice-eyebrow {font-size:10px;color:#a8cfdf;}
+body.ice-access-page .ice-intro {font-size:16px;line-height:1.75;}
+body.ice-access-page .ice-status {max-width:410px;margin-top:34px;}
+body.ice-access-page .ice-clock-label {font-size:9px;letter-spacing:.14em;line-height:1.6;max-width:150px;color:#9cbecf;}
+body.ice-access-page .ice-clock-value {display:flex;align-items:baseline;gap:10px;white-space:nowrap;}
+body.ice-access-page .ice-clock {font-size:48px;color:#d1effb;}
+body.ice-access-page .ice-clock-unit {font-size:10px;letter-spacing:.14em;color:#9ab9cb;}
+body.ice-access-page .ice-clock-unit:empty {display:none;}
+body.ice-access-page .ice-status progress {height:3px;margin-bottom:24px;}
+body.ice-access-page .ice-status h2 {font-size:22px;margin-top:22px;margin-bottom:10px;line-height:1.3;color:var(--vault-ink);}
+body.ice-access-page .ice-status p {font-size:13px;line-height:1.8;color:var(--vault-muted);min-height:48px;max-width:370px;}
+body.ice-access-page .ice-steps {gap:30px;margin-top:26px;}
+body.ice-access-page .ice-steps>span {font-size:12px;gap:9px;}
+body.ice-access-page .ice-steps i {display:grid;place-items:center;width:24px;height:24px;border:1px solid #a6d7ec24;border-radius:50%;font-size:9px;color:#8eacbd;}
+body.ice-access-page [data-phase='waiting'] [data-step='wait'] i,
+body.ice-access-page :is([data-phase='breakable'],[data-phase='opened']) [data-step='break'] i,
+body.ice-access-page [data-phase='ready'] [data-step='play'] i {border-color:#a6e4f665;color:#e3f8ff;background:#a6e4f610;}
+body.ice-access-page .ice-pass-note {font-size:11px;}
+/* The localized, finite unlock cue changes light, never the cube's pose. */
+body.ice-access-page .ice-scene-light {background:radial-gradient(ellipse 40% 38% at 51% 52%,#89cfee20,transparent 85%);opacity:.4;}
+body.ice-access-page [data-phase='breakable'] .ice-scene-light {background:radial-gradient(ellipse 43% 40% at 51% 52%,#93e6ff3b,transparent 85%);}
+body.ice-access-page .ice-scene-bottom {left:20px;right:20px;bottom:14px;flex-direction:column;gap:12px;text-align:center;}
+body.ice-access-page .ice-scene-bottom p {font-size:14px;font-weight:500;line-height:1.4;color:#c3dce8;}
+body.ice-access-page .ice-strike-meter {gap:7px;}
+body.ice-access-page .ice-strike-meter i {width:23px;height:4px;border-radius:2px;}
+body.ice-access-page [data-phase='waiting'] .ice-strike-meter {visibility:hidden;}
+body.ice-access-page [data-phase='breakable'] .ice-scene-bottom p {padding:10px 20px;background:#0a2030df;border:1px solid #9ce2f546;border-radius:30px;color:#e3f8ff;}
+body.ice-access-page [data-phase='opened'] .ice-scene-bottom p {color:#e8d5ae;}
+body.ice-access-page [data-phase='ready'] .ice-scene-bottom {display:none;}
+/* The retained gold key settles on this physical ice display above the code. */
+body.ice-access-page .ice-display {position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;visibility:hidden;}
+body.ice-access-page [data-phase='ready'] .ice-display {opacity:1;visibility:visible;transition:opacity .8s .1s;}
+body.ice-access-page .ice-display-halo {position:absolute;left:16%;right:14%;top:0;height:50%;background:radial-gradient(ellipse 26% 65% at 50% 48%,#d0b57e12,transparent 80%),radial-gradient(ellipse 64% 40% at 50% 84%,#91d5f22b,transparent 80%);}
+body.ice-access-page .ice-display-plinth {position:absolute;left:51%;top:34.5%;width:clamp(180px,42%,300px);height:auto;transform:translateX(-50%);filter:drop-shadow(0 12px 12px #0009);}
+body.ice-access-page .ice-reward {top:51%;left:50%;right:auto;transform:translateX(-50%);width:min(92%,550px);padding:24px 28px 22px;background:linear-gradient(125deg,#123044c9,var(--vault-card) 65%);border:1px solid #a9d7ed35;border-radius:14px;text-align:left;z-index:4;animation:none;box-shadow:0 14px 50px #0003;}
+body.ice-access-page .ice-reward-eyebrow {display:flex;align-items:center;gap:8px;font-size:8px;letter-spacing:.14em;color:#b4d8e7;margin-bottom:15px;}
+body.ice-access-page .ice-reward-eyebrow>span:first-child {width:5px;height:5px;border-radius:50%;background:#9acbb8;box-shadow:0 0 10px #9acbb833;}
+body.ice-access-page .ice-reward-badge {margin-left:auto;font-size:7px;letter-spacing:.12em;color:#d8c397;}
+body.ice-access-page .ice-reward h2 {font-size:27px;line-height:1.2;margin-bottom:20px;text-shadow:none;color:#edf9ff;font-weight:500;}
+body.ice-access-page .ice-reward output {font-size:clamp(15px,1.3vw,20px);line-height:1.6;font-weight:500;letter-spacing:.045em;padding:13px 14px;background:#010c155c;border:1px solid #a6d4e71c;border-radius:6px;color:#def5ff;text-shadow:none;}
+body.ice-access-page .ice-reward time {font-size:10px;margin-top:10px;color:#a8c0cf;}
+body.ice-access-page .ice-reward-actions {justify-content:space-between;gap:20px;margin-top:20px;}
+body.ice-access-page .ice-button {min-width:165px;min-height:46px;font-size:12px;padding:12px 17px;border-radius:6px;}
+body.ice-access-page #reset-key-btn {font-size:11px;min-height:44px;}
+body.ice-access-page .ice-about p {font-size:12px;}
+body.ice-access-page .ice-about p>span {font-size:8px;}
+body.ice-access-page .ice-about a {font-size:12px;}
+@media(min-width:961px) and (max-height:740px) {
+  body.ice-access-page .ice-intro {font-size:14px;margin-top:20px;}
+  body.ice-access-page .ice-eyebrow {margin-bottom:22px;}
+  body.ice-access-page .ice-status {margin-top:26px;}
+  body.ice-access-page .ice-clock {font-size:40px;}
+  body.ice-access-page .ice-status h2 {font-size:20px;margin-top:18px;}
+  body.ice-access-page .ice-status p {font-size:12px;min-height:43px;}
+  body.ice-access-page .ice-steps {margin-top:20px;}
+  body.ice-access-page .ice-pass-note {margin-top:20px;font-size:10px;}
+  body.ice-access-page .ice-reward {top:49%;padding:20px 24px 18px;}
+  body.ice-access-page .ice-reward h2 {font-size:25px;margin-bottom:16px;}
+  body.ice-access-page .ice-reward-actions {margin-top:15px;}
+}
+@media(min-width:701px) and (max-width:960px) {
+  body.ice-access-page .ice-status {max-width:310px;}
+  body.ice-access-page .ice-intro {font-size:14px;}
+  body.ice-access-page .ice-clock {font-size:36px;}
+  body.ice-access-page .ice-clock-row {gap:12px;}
+  body.ice-access-page .ice-clock-label {font-size:8px;max-width:125px;}
+  body.ice-access-page .ice-clock-unit {font-size:8px;}
+  body.ice-access-page .ice-status h2 {font-size:21px;}
+  body.ice-access-page .ice-reward {padding:20px 18px;}
+  body.ice-access-page .ice-reward h2 {font-size:24px;}
+  body.ice-access-page .ice-reward output {font-size:14px;padding:10px;}
+  body.ice-access-page .ice-reward-actions {gap:10px;}
+  body.ice-access-page .ice-button {min-width:120px;}
+}
+@media(max-width:700px) {
+  body.ice-access-page .ice-eyebrow {font-size:8px;}
+  body.ice-access-page .ice-intro {font-size:13px;line-height:1.7;}
+  body.ice-access-page .ice-status {max-width:none;margin-top:24px;}
+  body.ice-access-page .ice-clock {font-size:40px;}
+  body.ice-access-page .ice-clock-label {font-size:9px;max-width:160px;}
+  body.ice-access-page .ice-status h2 {font-size:21px;margin-top:20px;}
+  body.ice-access-page .ice-status p {font-size:13px;min-height:0;}
+  body.ice-access-page .ice-scene {height:380px;margin-top:16px;}
+  body.ice-access-page .ice-scene-bottom {bottom:0;gap:9px;}
+  body.ice-access-page .ice-scene-bottom p {font-size:12px;}
+  body.ice-access-page [data-phase='breakable'] .ice-scene-bottom p {padding:8px 16px;}
+  body.ice-access-page .ice-strike-meter i {width:19px;height:3px;}
+  body.ice-access-page [data-phase='ready'] .ice-scene {height:515px;}
+  body.ice-access-page .ice-display-plinth {width:210px;}
+  body.ice-access-page .ice-reward {top:49%;width:calc(100% - 32px);padding:21px 18px 18px;border-radius:12px;}
+  body.ice-access-page .ice-reward h2 {font-size:24px;margin-bottom:17px;}
+  body.ice-access-page .ice-reward output {font-size:14px;padding:11px 12px;letter-spacing:.03em;}
+  body.ice-access-page .ice-reward-eyebrow {font-size:7px;gap:6px;}
+  body.ice-access-page .ice-reward-badge {font-size:6px;}
+  body.ice-access-page .ice-button {min-width:140px;font-size:12px;min-height:46px;}
+  body.ice-access-page #reset-key-btn {font-size:10px;}
+  body.ice-access-page .ice-reward-actions {gap:12px;margin-top:15px;}
+  body.ice-access-page .ice-pass-note {font-size:10px;margin-top:22px;}
+  body.ice-access-page .ice-steps {gap:25px;margin-top:24px;}
+  body.ice-access-page .ice-about {margin-top:40px;}
+}
+@media(max-width:360px) {
+  body.ice-access-page [data-phase='ready'] .ice-scene {height:600px;}
+  body.ice-access-page .ice-reward {top:47%;}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.ice-access-page .ice-display {transition:none!important;}
+}
+
+/* A page-local type scale. Labels stay secondary through weight and color,
+   rather than being reduced to unreadable microtype. */
+body.ice-access-page .ice-page {
+  --vault-type-label:11px;
+  --vault-type-body:15px;
+  --vault-type-small:13px;
+  --vault-type-heading:24px;
+  --vault-muted:#b6cad7;
+}
+html[data-theme-preset='polar-night'] body.ice-access-page .ice-copy h1 {
+  font-weight:500;
+  letter-spacing:-.042em!important;
+  line-height:1.065!important;
+}
+body.ice-access-page .ice-eyebrow {font-size:var(--vault-type-label);letter-spacing:.16em;line-height:1.6;font-weight:500;}
+body.ice-access-page .ice-intro {font-size:17px;line-height:1.7;color:#c0d3df;letter-spacing:0;}
+body.ice-access-page .ice-clock-label {font-size:var(--vault-type-label);letter-spacing:.12em;color:#a8c8d8;font-weight:500;max-width:180px;}
+body.ice-access-page .ice-clock {font-weight:400;letter-spacing:-.04em;font-variant-numeric:tabular-nums lining-nums;}
+body.ice-access-page .ice-clock-unit {font-size:var(--vault-type-label);letter-spacing:.1em;color:#b7d1df;font-weight:500;}
+body.ice-access-page .ice-status h2 {font-size:var(--vault-type-heading);font-weight:500;letter-spacing:-.022em;line-height:1.3;}
+body.ice-access-page .ice-status p {font-size:var(--vault-type-body);line-height:1.7;max-width:42ch;text-wrap:pretty;color:var(--vault-muted);}
+body.ice-access-page .ice-steps>span {font-size:var(--vault-type-small);color:#9db5c5;}
+body.ice-access-page .ice-steps i {font-size:10px;}
+body.ice-access-page .ice-pass-note {font-size:12px;color:#a2bfce;}
+body.ice-access-page .ice-scene-label {font-size:10px;letter-spacing:.13em;color:#9bb7c7;}
+body.ice-access-page .ice-scene-bottom p {font-size:15px;font-weight:500;letter-spacing:0;}
+body.ice-access-page .ice-reward-eyebrow {font-size:10px;line-height:1.5;letter-spacing:.1em;font-weight:500;color:#b7d5e3;}
+body.ice-access-page .ice-reward-badge {font-size:9px;letter-spacing:.08em;}
+body.ice-access-page .ice-reward h2 {font-size:28px;font-weight:500;letter-spacing:-.025em;line-height:1.25;text-wrap:balance;}
+body.ice-access-page .ice-reward output {
+  --font-ui:'Cascadia Mono','SFMono-Regular',Consolas,'Liberation Mono',monospace;
+  font-size:clamp(16px,1.22vw,19px);font-weight:400;letter-spacing:.015em;line-height:1.65;
+  font-variant-ligatures:none;font-variant-numeric:lining-nums;overflow-wrap:anywhere;
+}
+body.ice-access-page .ice-reward time {font-size:12px;line-height:1.5;color:#abc3d1;}
+body.ice-access-page .ice-button {font-size:14px;font-weight:600;letter-spacing:0;}
+body.ice-access-page #reset-key-btn {font-size:13px;color:#b5d2e0;}
+body.ice-access-page .ice-about p {font-size:14px;line-height:1.7;color:#adc4d2;}
+body.ice-access-page .ice-about p>span {font-size:10px;letter-spacing:.13em;color:#94b7cb;}
+body.ice-access-page .ice-about a {font-size:14px;}
+@media(min-width:961px) and (max-height:740px) {
+  body.ice-access-page .ice-page {--vault-type-body:14px;--vault-type-heading:22px;}
+  body.ice-access-page .ice-intro {font-size:16px;line-height:1.65;}
+  body.ice-access-page .ice-status {margin-top:24px;}
+  body.ice-access-page .ice-status h2 {margin-top:16px;}
+  body.ice-access-page .ice-reward h2 {font-size:26px;margin-bottom:15px;}
+}
+@media(min-width:701px) and (max-width:960px) {
+  body.ice-access-page .ice-page {--vault-type-label:10px;--vault-type-body:14px;--vault-type-heading:22px;}
+  body.ice-access-page .ice-intro {font-size:15px;}
+  body.ice-access-page .ice-reward h2 {font-size:24px;}
+  body.ice-access-page .ice-reward output {font-size:15px;}
+  body.ice-access-page .ice-reward {top:47%;}
+}
+@media(max-width:700px) {
+  body.ice-access-page .ice-page {--vault-type-label:10px;--vault-type-body:14px;--vault-type-small:13px;--vault-type-heading:23px;}
+  body.ice-access-page .ice-intro {font-size:15px;line-height:1.7;}
+  body.ice-access-page .ice-scene-label {font-size:9px;}
+  body.ice-access-page .ice-scene-bottom p {font-size:13px;}
+  body.ice-access-page .ice-pass-note {font-size:11px;}
+  body.ice-access-page .ice-reward h2 {font-size:24px;}
+  body.ice-access-page .ice-reward output {font-size:15px;letter-spacing:0;}
+  body.ice-access-page .ice-reward-eyebrow {font-size:9px;}
+  body.ice-access-page .ice-reward-badge {font-size:8px;}
+  body.ice-access-page .ice-reward time {font-size:11px;}
+  body.ice-access-page .ice-button {min-width:124px;font-size:13px;}
+  body.ice-access-page #reset-key-btn {font-size:12px;}
+  body.ice-access-page .ice-reward-actions {gap:8px;}
+  body.ice-access-page [data-phase='ready'] .ice-scene {height:570px;}
+}
+@media(max-width:360px) {
+  body.ice-access-page [data-phase='ready'] .ice-scene {height:640px;}
+}
+
+/* Keep the complete interaction above the fold on laptop-height viewports.
+   Size from viewport height, not a fixed 550px scene plus page padding. */
+@media(min-width:961px) and (max-height:900px) {
+  body.ice-access-page .ice-page {padding-top:96px;}
+  body.ice-access-page .ice-vault {min-height:0;}
+  body.ice-access-page .ice-scene {height:clamp(460px,calc(100svh - 124px),680px);}
+  body.ice-access-page .ice-copy {padding-top:0;padding-bottom:0;}
+  html[data-theme-preset='polar-night'] body.ice-access-page .ice-copy h1 {font-size:clamp(52px,8.6svh,72px)!important;}
+  body.ice-access-page .ice-eyebrow {margin-bottom:16px;}
+  body.ice-access-page .ice-intro {margin-top:18px;font-size:16px;line-height:1.6;}
+  body.ice-access-page .ice-status {margin-top:20px;}
+  body.ice-access-page .ice-status h2 {margin-top:14px;margin-bottom:8px;font-size:22px;}
+  body.ice-access-page .ice-status p {font-size:14px;line-height:1.6;min-height:0;}
+  body.ice-access-page .ice-status progress {margin-top:12px;margin-bottom:16px;}
+  body.ice-access-page .ice-steps {margin-top:16px;}
+  body.ice-access-page .ice-pass-note {margin-top:14px;}
+  body.ice-access-page .ice-reward {top:49%;padding:18px 24px;}
+  body.ice-access-page .ice-reward h2 {font-size:25px;margin-bottom:14px;}
+  body.ice-access-page .ice-reward-eyebrow {margin-bottom:12px;}
+  body.ice-access-page .ice-reward-actions {margin-top:14px;}
+  body.ice-access-page .ice-display-plinth {width:clamp(220px,calc(52svh - 65px),300px);}
+}

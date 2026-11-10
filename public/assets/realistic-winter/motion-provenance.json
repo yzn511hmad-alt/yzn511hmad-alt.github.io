@@ -1,0 +1,27 @@
+{
+  "source": "C:\\Users\\CR\\Snowy\\public\\assets\\realistic-winter\\aurora-curtains-v3.mp4",
+  "originalSource": "Pexels video 5700806; cropped/forward-looped aurora-curtains-v3",
+  "duration": 6.8,
+  "frames": 64,
+  "method": "Farneback dense optical flow, material-coordinate integration, linear loop-drift removal",
+  "displacementPixelPercentiles": [
+    [
+      4.047553539276123,
+      5.1554577350616455
+    ],
+    [
+      18.6620496749878,
+      21.36094226837159
+    ],
+    [
+      35.6285133743286,
+      38.47807910919184
+    ],
+    [
+      61.78050994873047,
+      72.45521545410156
+    ]
+  ],
+  "atlas": "8x8 RGB tiles; R signed horizontal displacement range +/-.065UV, G signed vertical +/-.080UV, B filmed local light contrast; normalise byte/255 then signeddecode",
+  "creativeOriginal": "user-provided Ethereal Aurora Energy Ribbon.png remains colour/shape artwork"
+}

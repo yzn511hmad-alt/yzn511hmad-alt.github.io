@@ -1,0 +1,194 @@
+/* Contact-only refinement. Loaded after the shared, approved palette. */
+body[data-scene-page='contact'] .contact-desk {
+  --desk-copy:#b8cddc;
+  --desk-meta:#a8c2d3;
+  --desk-line:#94e9ff30;
+  padding-bottom:72px;
+}
+
+body[data-scene-page='contact'] .desk-hero {margin-bottom:44px;}
+body[data-scene-page='contact'] .desk-hero h1 {line-height:1.06;text-wrap:balance;}
+body[data-scene-page='contact'] .desk-hero p {font-size:16px;line-height:1.75;}
+body[data-scene-page='contact'] .desk-kicker {font-size:11px;letter-spacing:.15em;}
+body[data-scene-page='contact'] .desk-section-label {font-size:11px;line-height:1.6;letter-spacing:.11em;}
+body[data-scene-page='contact'] .desk-sidebar {min-width:0;padding-top:0;}
+body[data-scene-page='contact'] :is(#desk-form,#desk-draft) {scroll-margin-top:110px;}
+body[data-scene-page='contact'] .mobile-menu-toggle {border:1px solid #94e9ff38;border-radius:8px;background:#03192d;color:#d5eefb;min-height:44px;cursor:pointer;}
+body[data-scene-page='contact'] .mobile-menu-toggle[hidden],
+body[data-scene-page='contact'] .desk-mobile-nav[hidden] {display:none!important;}
+body[data-scene-page='contact'] .desk-mobile-nav {position:fixed;z-index:9998;top:82px;left:18px;right:18px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:4px;border:1px solid #94e9ff40;border-radius:12px;background:#03192dfc;box-shadow:0 16px 40px #0006;}
+body[data-scene-page='contact'] .desk-mobile-nav a {display:flex;align-items:center;min-height:44px;padding:10px 12px;border-radius:7px;color:#c9e2ef;font-size:14px;text-decoration:none;}
+body[data-scene-page='contact'] .desk-mobile-nav a[aria-current='page'] {background:#94e9ff14;color:#c3f5ff;}
+body[data-scene-page='contact'] :is(.desk-mobile-nav a,.mobile-menu-toggle):focus-visible {outline:2px solid #a8efff;outline-offset:3px;}
+body[data-scene-page='contact'] .desk-nojs-nav {display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;}
+body[data-scene-page='contact'] .desk-nojs-message {padding:16px;border:1px solid #94e9ff40;background:#03192df5;margin-bottom:24px;}
+@media(min-width:961px) {body[data-scene-page='contact'] .desk-mobile-nav {display:none;}}
+
+/* One shared selection surface, with the checked radio as the no-JS fallback. */
+body[data-scene-page='contact'] .desk-routes {position:relative;isolation:isolate;margin-bottom:24px;}
+body[data-scene-page='contact'] .desk-routes legend {margin-bottom:16px;}
+body[data-scene-page='contact'] .desk-route {z-index:auto;}
+body[data-scene-page='contact'] .desk-route + .desk-route {margin-top:6px;}
+body[data-scene-page='contact'] .desk-route-face {padding:16px 14px;min-height:82px;gap:10px;}
+body[data-scene-page='contact'] .desk-route-face strong {font-size:14px;line-height:1.4;}
+body[data-scene-page='contact'] .desk-route-face small {font-size:12px;line-height:1.5;margin-top:4px;}
+body[data-scene-page='contact'] .desk-route-face > span {position:relative;z-index:2;}
+body[data-scene-page='contact'] .desk-route-number {font-size:11px;font-variant-numeric:tabular-nums;}
+body[data-scene-page='contact'] .desk-route-indicator {
+  display:none;
+  position:absolute;
+  z-index:1;
+  left:0;
+  top:0;
+  width:var(--route-width,0px);
+  height:var(--route-height,0px);
+  transform:translate(var(--route-x,0px),var(--route-y,0px));
+  border:1px solid #94e9ff70;
+  border-radius:9px;
+  background:linear-gradient(110deg,#12384afc,#0a2b3efa);
+  box-shadow:inset 3px 0 #94e9ff;
+  pointer-events:none;
+  transition:transform .28s cubic-bezier(.22,.7,.25,1),width .28s,height .28s;
+}
+body[data-scene-page='contact'] .desk-routes[data-topic-enhanced='true'] .desk-route-indicator {display:block;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-routes[data-topic-enhanced='true'] .desk-route-face {background:#001222e6;border-color:#94e9ff24;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-routes[data-topic-enhanced='true'] .desk-route input:checked + .desk-route-face {background:#001222e6;border-color:transparent;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-routes .desk-route-face:hover {border-color:#94e9ff58;}
+
+/* The two notes share a quiet surface instead of sitting over bright ridges. */
+body[data-scene-page='contact'] .desk-side-note {
+  padding:22px 20px;
+  border:1px solid var(--desk-line);
+  background:linear-gradient(115deg,#03192df7,#03192dec);
+}
+body[data-scene-page='contact'] .desk-routes + .desk-side-note {border-radius:12px 12px 0 0;border-bottom:0;}
+body[data-scene-page='contact'] .desk-side-note + .desk-side-note {border-radius:0 0 12px 12px;}
+body[data-scene-page='contact'] .desk-side-note h3 {font-size:14px;line-height:1.5;letter-spacing:-.01em;}
+body[data-scene-page='contact'] .desk-side-note p {font-size:13px;line-height:1.75;}
+body[data-scene-page='contact'] .desk-side-note a {font-size:13px;line-height:1.6;min-height:32px;display:inline-flex;align-items:center;}
+body[data-scene-page='contact'] .desk-channel {font-size:12px;line-height:1.6;}
+
+/* Dark blue surfaces preserve the scene while shielding the form from detail. */
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-panel {
+  background:linear-gradient(145deg,#061e31f5,#031525f5)!important;
+  border-color:#94e9ff3a!important;
+  box-shadow:0 22px 65px #00000030;
+}
+body[data-scene-page='contact'] .desk-panel-header {padding:22px 30px;min-height:70px;flex-wrap:wrap;gap:8px 18px;}
+body[data-scene-page='contact'] .desk-panel-header > span {font-size:11px;line-height:1.5;letter-spacing:.12em;}
+body[data-scene-page='contact'] .desk-panel-header strong {font-size:13px;font-weight:500;line-height:1.5;}
+body[data-scene-page='contact'] .desk-form {padding:28px 30px 30px;}
+body[data-scene-page='contact'] .desk-form h2 {font-size:28px;line-height:1.25;letter-spacing:-.025em;margin-bottom:10px;}
+body[data-scene-page='contact'] .desk-form-intro {font-size:14px;line-height:1.7;max-width:58ch;margin-bottom:26px;text-wrap:pretty;}
+body[data-scene-page='contact'] .desk-fields {gap:20px;}
+body[data-scene-page='contact'] .desk-field {gap:9px;margin-bottom:22px;}
+body[data-scene-page='contact'] .desk-field label {font-size:13px;font-weight:500;line-height:1.5;}
+body[data-scene-page='contact'] .desk-field label span {font-size:12px;font-weight:400;margin-left:6px;}
+body[data-scene-page='contact'] .desk-field input,
+body[data-scene-page='contact'] .desk-field textarea {font-size:15px;line-height:1.6;min-height:50px;padding:13px 14px;}
+body[data-scene-page='contact'] .desk-field textarea {min-height:170px;}
+body[data-scene-page='contact'] .desk-input-wrap {position:relative;min-width:0;}
+body[data-scene-page='contact'] .desk-input-icon {position:absolute;left:14px;top:50%;width:19px;height:19px;transform:translateY(-50%);color:#98bace;pointer-events:none;}
+body[data-scene-page='contact'] .desk-input-wrap input {padding-left:43px;}
+body[data-scene-page='contact'] .desk-message-meta {font-size:12px;line-height:1.6;align-items:baseline;gap:12px;}
+body[data-scene-page='contact'] #desk-count {font-variant-numeric:tabular-nums;white-space:nowrap;min-width:10ch;text-align:right;}
+body[data-scene-page='contact'] .desk-form-footer {gap:20px;margin-top:4px;align-items:center;}
+body[data-scene-page='contact'] .desk-form-footer p {font-size:13px;line-height:1.65;max-width:240px;}
+body[data-scene-page='contact'] .desk-primary {min-height:50px;font-size:14px;line-height:1.5;padding:13px 19px;gap:20px;flex-shrink:0;}
+body[data-scene-page='contact'] .desk-primary [data-prepare-label] {font-size:14px;}
+body[data-scene-page='contact'] .desk-primary-mark {font-size:19px;line-height:1;display:grid;place-items:center;min-width:18px;}
+body[data-scene-page='contact'] .desk-primary:disabled {cursor:progress;}
+
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] :is(.desk-hero p,.desk-form-intro,.desk-side-note p,.desk-form-footer p,.desk-draft p,.desk-faq details p) {color:var(--desk-copy)!important;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] :is(.desk-message-meta,.desk-field label span,.desk-channel) {color:var(--desk-meta);}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] :is(.desk-field input,.desk-field textarea) {background:#000d1bf5!important;border-color:#94e9ff3d!important;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] :is(.desk-field input,.desk-field textarea)::placeholder {color:#9cb5c7!important;opacity:1;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] :is(.desk-field input,.desk-field textarea):focus {border-color:#94e9ffb3!important;box-shadow:0 0 0 3px #94e9ff14!important;}
+body[data-scene-page='contact'] .contact-desk :is(button,a,summary):focus-visible {outline:2px solid #a8efff;outline-offset:4px;}
+
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-draft {background:#061d2cf5!important;border-color:#87b9b366!important;}
+body[data-scene-page='contact'] .desk-draft {margin:0 30px 30px;padding:22px;}
+body[data-scene-page='contact'] .desk-draft h3 {font-size:19px;line-height:1.4;}
+body[data-scene-page='contact'] .desk-draft p {font-size:13px;line-height:1.7;}
+body[data-scene-page='contact'] .desk-draft textarea {font-size:14px;line-height:1.7;}
+body[data-scene-page='contact'] .desk-draft-status {display:inline-flex;align-items:center;gap:8px;font-size:11px;line-height:1.5;letter-spacing:.07em;text-transform:uppercase;color:#bbdfd3;margin-bottom:12px;}
+body[data-scene-page='contact'] .desk-draft-status::before {content:'';width:6px;height:6px;border-radius:50%;background:#a0cdbb;}
+body[data-scene-page='contact'] .desk-secondary {font-size:13px;line-height:1.5;min-height:44px;padding:11px 15px;}
+body[data-scene-page='contact'] .desk-feedback:empty {display:none;}
+
+body[data-scene-page='contact'] .desk-faq {margin-top:40px;scroll-margin-top:110px;align-items:start;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-faq {background:#001222f5;border-color:#94e9ff30;}
+body[data-scene-page='contact'] .desk-faq h2 {font-size:28px;line-height:1.2;}
+body[data-scene-page='contact'] .desk-faq > div {min-width:0;}
+body[data-scene-page='contact'] .desk-faq details {padding:0 12px 10px;margin:0 0 10px;border:1px solid transparent;border-bottom-color:#94e9ff24;border-radius:8px;transition:background .2s,border-color .2s;}
+body[data-scene-page='contact'] .desk-faq details:last-child {margin-bottom:0;}
+body[data-scene-page='contact'] .desk-faq summary {min-height:46px;font-size:15px;line-height:1.6;padding:7px 0;gap:18px;}
+body[data-scene-page='contact'] .desk-faq summary::after {font-size:22px;line-height:1;flex:0 0 16px;text-align:center;}
+body[data-scene-page='contact'] .desk-faq details p {font-size:14px;line-height:1.8;max-width:60ch;margin:0;padding:5px 0 10px;}
+body[data-scene-page='contact'] .desk-answer {overflow:hidden;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-faq details {border-color:transparent;border-bottom-color:#94e9ff24;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-faq details[open]:not([data-accordion-enhanced='true']),
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .desk-faq details[data-expanded='true'] {background:#94e9ff07;border-color:#94e9ff35;}
+body[data-scene-page='contact'] .desk-faq details[data-accordion-enhanced='true'][data-expanded='false'] summary::after {content:'+';}
+body[data-scene-page='contact'] .desk-faq details[data-expanded='true'] summary::after {content:'−';}
+
+@media(max-width:1000px) {
+  body[data-scene-page='contact'] .desk-layout,
+  body[data-scene-page='contact'] .desk-faq {grid-template-columns:240px minmax(0,1fr);gap:24px;}
+  body[data-scene-page='contact'] .desk-route-face {grid-template-columns:22px 1fr 16px;padding:15px 11px;gap:8px;}
+  body[data-scene-page='contact'] .desk-side-note {padding:20px 16px;}
+  body[data-scene-page='contact'] .desk-panel-header {padding:20px 24px;}
+  body[data-scene-page='contact'] .desk-form {padding:24px;}
+  body[data-scene-page='contact'] .desk-fields {grid-template-columns:1fr;gap:0;}
+  body[data-scene-page='contact'] .desk-form-footer {align-items:stretch;gap:16px;}
+  body[data-scene-page='contact'] .desk-form-footer p {max-width:none;}
+  body[data-scene-page='contact'] .desk-draft {margin:0 24px 24px;padding:20px;}
+  body[data-scene-page='contact'] .desk-faq {padding:24px;}
+}
+
+@media(max-width:700px) {
+  body[data-scene-page='contact'] .contact-desk {width:calc(100% - 36px);padding-bottom:48px;}
+  body[data-scene-page='contact'] .desk-hero {margin-bottom:28px;}
+  body[data-scene-page='contact'] .desk-hero h1 {font-size:clamp(43px,11.8vw,60px);letter-spacing:-.05em;}
+  body[data-scene-page='contact'] .desk-hero p {font-size:15px;line-height:1.7;}
+  body[data-scene-page='contact'] .desk-layout,
+  body[data-scene-page='contact'] .desk-faq {grid-template-columns:1fr;gap:20px;}
+  body[data-scene-page='contact'] .desk-routes {gap:8px;margin-bottom:0;}
+  body[data-scene-page='contact'] .desk-routes legend {margin-bottom:14px;}
+  body[data-scene-page='contact'] .desk-route + .desk-route {margin-top:0;}
+  body[data-scene-page='contact'] .desk-route-face {grid-template-columns:1fr 14px;min-height:92px;padding:13px 11px;gap:7px;}
+  body[data-scene-page='contact'] .desk-route-face strong {font-size:13px;}
+  body[data-scene-page='contact'] .desk-route-face small {font-size:11px;}
+  body[data-scene-page='contact'] .desk-panel-header {padding:18px 20px;min-height:68px;}
+  body[data-scene-page='contact'] .desk-panel-header > span {font-size:10px;letter-spacing:.1em;}
+  body[data-scene-page='contact'] .desk-panel-header strong {font-size:12px;}
+  body[data-scene-page='contact'] .desk-form {padding:24px 20px;}
+  body[data-scene-page='contact'] .desk-form h2 {font-size:26px;}
+  body[data-scene-page='contact'] .desk-form-intro {font-size:14px;margin-bottom:24px;}
+  body[data-scene-page='contact'] .desk-field input,
+  body[data-scene-page='contact'] .desk-field textarea {font-size:16px;}
+  body[data-scene-page='contact'] .desk-field textarea {min-height:180px;}
+  body[data-scene-page='contact'] .desk-message-meta {align-items:flex-start;flex-direction:column;gap:5px;}
+  body[data-scene-page='contact'] #desk-count {align-self:flex-end;}
+  body[data-scene-page='contact'] .desk-form-footer {align-items:stretch;gap:17px;}
+  body[data-scene-page='contact'] .desk-primary {width:100%;justify-content:space-between;}
+  body[data-scene-page='contact'] .desk-draft {margin:0 20px 24px;padding:18px;}
+  body[data-scene-page='contact'] .desk-draft textarea {font-size:16px;}
+  body[data-scene-page='contact'] .desk-draft-actions {gap:10px;}
+  body[data-scene-page='contact'] .desk-secondary {flex:1;}
+  body[data-scene-page='contact'] .desk-faq {margin-top:30px;padding:23px 16px;gap:18px;}
+  body[data-scene-page='contact'] .desk-faq h2 {font-size:26px;}
+  body[data-scene-page='contact'] .desk-faq details {padding-left:8px;padding-right:8px;}
+  body[data-scene-page='contact'] .desk-faq summary {font-size:14px;}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  body[data-scene-page='contact'] .desk-route-indicator,
+  body[data-scene-page='contact'] .desk-faq details {transition:none!important;}
+}
+
+@media(forced-colors:active) {
+  body[data-scene-page='contact'] .desk-route-indicator {display:none!important;}
+  body[data-scene-page='contact'] .desk-route input:checked + .desk-route-face {outline:2px solid Highlight;outline-offset:-3px;}
+  body[data-scene-page='contact'] .desk-draft-status::before {background:CanvasText;}
+}

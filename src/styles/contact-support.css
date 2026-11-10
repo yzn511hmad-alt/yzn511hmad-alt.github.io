@@ -1,0 +1,292 @@
+/* Snowy support — an open lunar observatory, aligned with the signature footer. */
+body[data-scene-page='contact'] .support-luxe {
+ --support-rule:#a9dcec35;--support-ink:#e8f6fa;--support-muted:#afc5d2;
+ width:min(1440px,calc(100% - 96px));padding:166px 0 90px;
+}
+.support-luxe :is(h1,h2,h3,p) {margin:0;}
+.support-luxe p {color:var(--support-muted);line-height:1.8;}
+.support-luxe .support-hero {position:relative;min-height:420px;padding-bottom:70px;}
+.support-luxe .support-eyebrow {display:flex;align-items:center;gap:12px;font-size:10px;font-weight:500;letter-spacing:.23em;color:#b5d9e6;margin-bottom:32px;}
+.support-eyebrow span {font-size:22px;color:#a7d8e7;}
+.support-luxe #support-title {font-size:clamp(88px,12.7vw,184px);font-weight:450;line-height:.95;letter-spacing:-.075em;text-transform:none;background:linear-gradient(155deg,#f4ffff 12%,#d3e8f0 48%,#7199b0 100%);background-clip:text;-webkit-text-fill-color:transparent;}
+.support-luxe .support-hero>p:last-child {max-width:430px;font-size:16px;line-height:1.8;margin-top:34px;}
+.support-luxe .support-email {display:grid;grid-template-columns:44px 1fr auto;gap:20px;align-items:center;padding:25px 0;border-top:1px solid var(--support-rule);border-bottom:1px solid var(--support-rule);}
+.support-email-icon {color:#b2d8e5;font-size:27px;display:grid;place-items:center;}
+.support-luxe #email-title {font-size:10px;letter-spacing:.19em;font-weight:500;margin-bottom:4px;color:#a7d8e7;}
+.support-email p {font-size:13px;max-width:560px;}
+.support-luxe .support-email .support-button {font-size:16px;letter-spacing:-.01em;padding:12px 0 12px 22px;gap:30px;background:transparent;color:var(--support-ink);border:0;border-radius:0;min-height:48px;white-space:nowrap;}
+.support-email .support-button::after {content:'↗';font-size:25px;color:#9dd7e8;transition:transform .25s;}
+.support-email .support-button:hover::after {transform:translate(3px,-3px);}
+.support-luxe .support-community {position:relative;display:grid;grid-template-columns:1.1fr 1fr;gap:0 70px;padding:104px 0 0;}
+.support-luxe .support-community::before {content:'';position:absolute;inset:65px -42px -20px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 70% 80% at 40% 40%,#061a28bf,transparent 85%);}
+.support-luxe .support-label {font-size:10px;letter-spacing:.22em;color:#a7d8e7;margin-bottom:24px;display:flex;align-items:center;gap:16px;}
+.support-label::before {content:'1';font-size:10px;letter-spacing:0;color:#7999aa;border:1px solid var(--support-rule);border-radius:50%;width:30px;height:30px;display:grid;place-items:center;}
+.support-luxe #community-title {font-size:clamp(44px,5.4vw,78px);font-weight:450;line-height:1.02;letter-spacing:-.055em;margin-bottom:28px;}
+.support-community-copy>p:not(.support-label) {font-size:15px;max-width:440px;}
+.support-luxe .support-button {display:inline-flex;align-items:center;justify-content:center;min-height:52px;font-size:13px;font-weight:550;padding:14px 24px;border-radius:40px;border:1px solid #b3dce8;background:#c6e7f2;color:#092435;gap:20px;text-decoration:none;}
+.support-community .support-button {margin-top:32px;box-shadow:inset 0 1px 0 #fff7,0 5px 28px #0002;}
+.support-community .support-button::after {content:'↗';font-size:20px;}
+.support-button:disabled {cursor:default;}
+.support-luxe .support-beacon {display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0;}
+.support-beacon-art {width:min(100%,440px);aspect-ratio:440/360;position:relative;display:grid;place-items:center;}
+.support-beacon-art::before {content:'';position:absolute;inset:4%;background:radial-gradient(ellipse,#a2d9ed0c,transparent 65%);}
+.support-orbit {position:absolute;inset:0;width:100%;height:100%;stroke:#a7d6e13d;stroke-width:.8;overflow:visible;}
+.support-orbit circle {fill:#c0ebf4;stroke:none;}
+.support-beacon-core {position:relative;width:51%;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;border:1px solid #bde6f22e;background:radial-gradient(circle at 35% 22%,#658b9c21,#071a2788 65%);box-shadow:inset 0 0 35px #a1d8e509;}
+.support-beacon-core::after {content:'';position:absolute;inset:12px;border-radius:50%;border:1px solid #c9eef00b;}
+.support-luxe .support-discord-icon {width:37%;height:auto;color:#c3e5f0;}
+.support-luxe .support-members {display:flex;align-items:center;justify-content:center;gap:12px;font-size:11px;letter-spacing:.02em;color:#adc6d4;}
+.support-members i {width:5px;height:5px;background:#9fd0d8;border-radius:50%;}
+.support-members span+span {padding-left:14px;border-left:1px solid var(--support-rule);}
+.support-luxe .support-steps {grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;counter-reset:step;margin:64px 0 0;padding:0;border-top:1px solid var(--support-rule);}
+.support-luxe .support-steps li {position:relative;padding:38px 32px 34px 0;counter-increment:step;}
+.support-steps li::before {content:counter(step);position:absolute;top:-13px;left:0;background:#0a1c29;color:#9cbccb;border:1px solid #98c8dc45;border-radius:50%;width:26px;height:26px;font-size:9px;display:grid;place-items:center;}
+.support-luxe .support-steps h3 {font-size:17px;font-weight:450;text-transform:none;letter-spacing:-.02em;margin-bottom:8px;}
+.support-steps p {font-size:13px;max-width:250px;}
+.support-luxe .support-faq {position:relative;display:grid;grid-template-columns:1fr 1.8fr;gap:90px;padding:86px 0 50px;margin-top:48px;border-top:1px solid var(--support-rule);}
+.support-faq::before {content:'';position:absolute;width:8px;height:8px;top:-4px;left:50%;background:#91bacd;transform:rotate(45deg);}
+.support-luxe #faq-title {font-size:clamp(42px,4.3vw,64px);font-weight:450;line-height:1.02;letter-spacing:-.055em;margin:20px 0 24px;}
+.support-faq>div>p {font-size:14px;max-width:220px;}
+.support-questions {background:linear-gradient(110deg,#071927d9,#071927a8);padding:0 28px;border-radius:4px;}
+.support-questions details {border-bottom:1px solid #a2c9db26;}
+.support-questions details:last-child {border:0;}
+.support-luxe .support-questions summary {padding:26px 0;display:flex;align-items:center;justify-content:space-between;gap:22px;list-style:none;font-size:15px;line-height:1.6;font-weight:450;cursor:pointer;color:#d3e4ed;}
+.support-questions summary::-webkit-details-marker {display:none;}
+.support-questions summary::after {content:'+';font-size:21px;font-weight:300;color:#9fbccb;}
+.support-questions details[open] summary::after {content:'−';}
+.support-questions details[open] summary {color:#f1fcff;}
+.support-questions details p {font-size:14px;padding:0 32px 27px 0;line-height:1.9;color:#afc4d2;}
+.support-luxe :is(a,button,summary):focus-visible {outline:2px solid #aee2f0;outline-offset:6px;}
+@media(min-width:1700px){.support-luxe .support-hero{min-height:490px}.support-luxe #support-title{font-size:200px}}
+@media(max-width:1050px){body[data-scene-page='contact'] .support-luxe{width:calc(100% - 72px)}.support-luxe .support-community{gap:0 34px}.support-luxe .support-email{grid-template-columns:34px 1fr}.support-email .support-button{grid-column:2;justify-self:start}.support-luxe .support-email .support-button{padding:0;min-height:36px}.support-luxe .support-faq{gap:40px}}
+@media(max-width:700px){body[data-scene-page='contact'] .support-luxe{width:calc(100% - 40px);padding:128px 0 45px}.support-luxe .support-hero{min-height:370px;padding-bottom:46px}.support-luxe #support-title{font-size:clamp(61px,14.5vw,100px);letter-spacing:-.07em}.support-luxe .support-eyebrow{font-size:9px;margin-bottom:30px}.support-luxe .support-hero>p:last-child{font-size:14px;max-width:255px;margin-top:28px}.support-luxe .support-email{padding:23px 0;gap:12px 16px}.support-email p{font-size:12px}.support-luxe .support-email .support-button{font-size:15px;gap:24px}.support-luxe .support-community{grid-template-columns:1fr;padding-top:64px}.support-luxe #community-title{font-size:52px}.support-community-copy>p:not(.support-label){font-size:14px;max-width:330px}.support-luxe .support-community::before{inset:40px -16px 0}.support-beacon{margin:20px 0 0}.support-beacon-art{width:300px;max-width:100%}.support-luxe .support-steps{grid-template-columns:1fr;margin-top:42px;border-top:0}.support-luxe .support-steps li{padding:0 0 30px 45px;border-left:1px solid var(--support-rule);margin-left:13px;min-height:106px}.support-steps li::before{top:0;left:-14px}.support-luxe .support-steps li:last-child{border-left-color:transparent;padding-bottom:0;min-height:80px}.support-steps p{max-width:none}.support-luxe .support-faq{grid-template-columns:1fr;gap:28px;padding-top:44px;margin-top:24px}.support-luxe #faq-title{font-size:46px;margin:0 0 18px}.support-faq>div>p{max-width:none}.support-questions{padding:0 18px;margin:0 -4px}.support-luxe .support-questions summary{font-size:14px;padding:24px 0}.support-questions details p{font-size:13px;padding-right:0}}
+@media(prefers-reduced-motion:reduce){.support-luxe *{transition:none!important}}
+/* Explicit surface resets also keep the isolated preview independent of old cards. */
+.support-luxe .support-hero{max-width:none;isolation:isolate;}
+.support-luxe .support-email{background:none;border-left:0;border-right:0;border-radius:0;margin:0;}
+.support-luxe .support-community{border:0;border-radius:0;background:none;}
+.support-luxe .support-steps li{background:none;border:0;border-radius:0;min-height:0;}
+.support-luxe .support-faq{border:0;border-top:1px solid var(--support-rule);border-radius:0;background:none;}
+.support-luxe .support-discord-icon{padding:0;border:0;border-radius:0;background:none;margin:0;}
+.support-luxe .support-members{margin:0;}
+.support-ice-lines{position:absolute;width:72%;height:190px;left:-2%;top:128px;z-index:-1;pointer-events:none;fill:none;stroke:#96d0e3;stroke-width:.65;opacity:.2;}
+@media(max-width:700px){.support-ice-lines{width:100%;height:130px;top:65px}.support-luxe .support-steps li{border-left:1px solid var(--support-rule);min-height:106px}.support-luxe .support-steps li:last-child{border-left-color:transparent;min-height:80px}}
+
+/* Compact glacial composition. The photograph spans all content, outside footer. */
+.support-scene{position:relative;isolation:isolate;overflow:hidden;}
+body[data-scene-page='contact'] .support-scene .polar-atmosphere{position:absolute;inset:0;z-index:-1;}
+html[data-theme-preset='polar-night'] body[data-scene-page='contact'] .site-footer.snowy-signoff{background:#07111d!important;}
+body[data-scene-page='contact'] .support-luxe{width:min(1280px,calc(100% - 96px));padding:140px 0 56px;}
+.support-luxe .support-hero{min-height:0;padding-bottom:26px;}
+.support-luxe .support-eyebrow{margin-bottom:20px;}
+.support-luxe #support-title{font-size:clamp(76px,10vw,140px);font-weight:550;letter-spacing:-.07em;background-image:linear-gradient(165deg,#f2ffff 15%,#cde9f4 46%,#78a5bf 70%,#c6e6f1 100%);}
+.support-luxe .support-hero>p:last-child{margin-top:20px;max-width:455px;font-size:15px;}
+.support-ice-lines{top:70px;width:59%;opacity:.16;}
+.support-luxe .support-email{padding:20px 0;margin-bottom:32px;}
+.support-luxe .support-community{padding:32px 36px 0;gap:0 34px;border:1px solid #a5daef42;border-radius:24px 6px 24px 6px;background:linear-gradient(125deg,#10354ad9,#061b2cc7 60%,#0a2336a8);box-shadow:inset 0 1px 0 #d7f6ff20,0 18px 50px #0002;}
+.support-luxe .support-community::before{inset:0;border-radius:inherit;background:radial-gradient(ellipse at 90% 10%,#b4ecff12,transparent 55%);}
+.support-luxe .support-label{margin-bottom:20px;}
+.support-luxe #community-title{font-size:clamp(40px,4.8vw,62px);font-weight:550;margin-bottom:18px;}
+.support-community-copy>p:not(.support-label){font-size:14px;line-height:1.75;}
+.support-community .support-button{margin-top:24px;min-height:48px;border-radius:12px 3px 12px 3px;background:linear-gradient(140deg,#e0f6ff,#92c6e0);box-shadow:inset 0 1px 0 #fff9,0 4px 20px #0003;}
+.support-beacon-art{width:280px;max-width:100%;}
+.support-luxe .support-orbit{stroke:#addff2;stroke-width:1;}
+.support-beacon-core{width:43%;background:none;border:0;box-shadow:none;}
+.support-beacon-core::after{display:none;}
+.support-luxe .support-discord-icon{width:62%;}
+.support-luxe .support-members{font-size:10px;gap:8px;margin-top:4px;}
+.support-luxe .support-steps{margin-top:32px;border-top-color:#b7e9ff40;}
+.support-luxe .support-steps li{padding:28px 24px 22px 0;}
+.support-luxe .support-steps h3{font-size:16px;margin-bottom:4px;}
+.support-steps p{font-size:12px;line-height:1.65;}
+.support-luxe .support-faq{margin-top:32px;padding:32px 0 0;gap:50px;grid-template-columns:.8fr 1.8fr;}
+.support-luxe #faq-title{font-size:46px;margin:16px 0 18px;}
+.support-questions{background:linear-gradient(115deg,#061a2bec,#092239df);border:1px solid #9ecfe833;border-radius:12px 3px 12px 3px;padding:0 24px;}
+.support-luxe .support-questions summary{padding:19px 0;font-size:14px;}
+.support-questions details p{font-size:13px;line-height:1.8;padding-bottom:20px;}
+@media(min-width:1700px){.support-luxe .support-hero{min-height:0}.support-luxe #support-title{font-size:154px}}
+@media(max-width:1050px){.support-luxe .support-community{gap:0 20px;padding:28px 26px 0}.support-beacon-art{width:245px}.support-luxe .support-faq{gap:30px}}
+@media(max-width:700px){body[data-scene-page='contact'] .support-luxe{width:calc(100% - 36px);padding:118px 0 38px}.support-luxe .support-hero{min-height:0;padding-bottom:24px}.support-luxe #support-title{font-size:clamp(62px,15vw,100px)}.support-luxe .support-eyebrow{margin-bottom:22px}.support-luxe .support-hero>p:last-child{max-width:290px;margin-top:20px;font-size:14px}.support-luxe .support-email{padding:18px 0;margin-bottom:24px}.support-luxe .support-community{padding:24px 22px 0;grid-template-columns:1fr;gap:0}.support-luxe .support-label{font-size:9px;letter-spacing:.14em}.support-luxe #community-title{font-size:44px}.support-luxe .support-beacon{margin:12px 0 0}.support-beacon-art{width:210px}.support-luxe .support-members{font-size:10px;margin-top:-6px}.support-luxe .support-steps{margin-top:28px}.support-luxe .support-steps li{min-height:88px;padding:0 0 22px 33px}.support-luxe .support-steps li:last-child{min-height:72px}.support-luxe .support-faq{margin-top:26px;padding-top:26px;gap:22px;grid-template-columns:1fr}.support-luxe #faq-title{font-size:38px;margin:0 0 12px}.support-faq>div>p{font-size:13px}.support-questions{padding:0 16px;margin:0}.support-luxe .support-questions summary{padding:20px 0;font-size:13px}.support-questions details p{font-size:13px}.support-ice-lines{top:48px;width:100%;height:120px}}
+@media(max-width:700px) and (orientation:portrait){.support-scene .polar-layer--sky{background-position-y:calc(100% + 64px);}}
+.support-scene .polar-layer--sky{top:-18%;}
+
+/* Moonlight transmitted through the crystal's outer facets, with a matte glyph. */
+.support-luxe .support-discord-icon {color:#d3e6ee;filter:none;}
+.support-beacon-core::before {content:none;}
+.support-luxe .support-crystal {stroke:none;filter:none;}
+/* Distinct email contact surface, readable over both stars and clouds. */
+.support-luxe .support-email {
+ padding:20px 24px;gap:20px;
+ border:1px solid #b6e6f36b;border-left:3px solid #bdeaf7;
+ border-radius:12px 3px 12px 3px;
+ background:linear-gradient(115deg,#14384ce8,#071d2fee);
+ box-shadow:inset 0 1px 0 #e9faff16,0 8px 24px #0002;
+}
+.support-luxe .support-email-icon {
+ width:46px;height:46px;border:1px solid #b5e4f34d;border-radius:9px;
+ color:#dbf4fc;background:#addff012;font-size:28px;
+}
+.support-luxe #email-title {font-size:11px;font-weight:650;letter-spacing:.17em;color:#c2eaf6;}
+.support-luxe .support-email p {font-size:14px;color:#c1d6e2;}
+.support-luxe .support-email .support-button {
+ background:#afd9eb12;color:#e7f8ff;border:1px solid #b7e1f061;
+ border-radius:7px;padding:11px 17px;min-height:48px;font-size:15px;gap:24px;
+ transition:background .2s,border-color .2s;
+}
+.support-luxe .support-email .support-button:hover {background:#b7e8fa24;border-color:#c9effa;}
+@media(max-width:1050px) {
+ .support-luxe .support-email {grid-template-columns:46px 1fr;gap:10px 18px;}
+ .support-luxe .support-email .support-button {grid-column:2;min-height:46px;padding:9px 14px;justify-self:start;}
+}
+@media(max-width:700px) {
+ .support-luxe .support-email {padding:18px 16px;grid-template-columns:38px minmax(0,1fr);gap:12px;}
+ .support-luxe .support-email-icon {width:38px;height:38px;font-size:24px;}
+ .support-luxe #email-title {font-size:10px;}
+ .support-luxe .support-email p {font-size:12px;line-height:1.8;}
+ .support-luxe .support-email .support-button {grid-column:1/-1;justify-self:stretch;justify-content:space-between;font-size:14px;min-height:46px;}
+}
+@media(max-width:700px){.support-luxe .support-members{margin-top:8px;}}
+/* Bright lunar source: reuse the original craters, illuminate from behind. */
+.support-luxe .support-beacon-art {isolation:isolate;}
+.support-luxe .support-beacon-art::before {
+ content:'';position:absolute;inset:auto;left:50%;top:50%;translate:-50% -50%;
+ width:var(--moon-diameter,0px);height:var(--moon-diameter,0px);border-radius:50%;
+ background-image:var(--moon-texture);background-repeat:no-repeat;
+ background-size:var(--moon-texture-size);background-position:var(--moon-texture-position);
+ filter:brightness(1.20) contrast(.93) saturate(.65);z-index:1;pointer-events:none;
+ box-shadow:0 0 12px 3px #e9f7ff8c,0 0 36px 8px #a9dcff59,0 0 78px 20px #80beed2e;
+}
+.support-luxe .support-beacon-art::after {
+ content:'';position:absolute;left:50%;top:50%;translate:-50% -50%;
+ width:calc(var(--moon-diameter,0px) * 2.3);aspect-ratio:1;border-radius:50%;z-index:0;pointer-events:none;
+ background:radial-gradient(circle,#e4f5ff33 0%,#c1e5ff26 23%,#8ccaff14 43%,transparent 69%);
+}
+.support-luxe .support-crystal {z-index:2;}
+.support-luxe .support-beacon-core {z-index:3;background:radial-gradient(circle,#102a3c40,transparent 70%);}
+.support-luxe .support-discord-icon {color:#f5fcff;filter:drop-shadow(0 1px 2px #142e43b3);}
+/* Silver detailing follows the lunar palette without competing with its source. */
+.lunar-clouds {position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.lunar-cloud-band {position:absolute;left:0;width:100%;height:clamp(200px,30vw,440px);}
+.lunar-cloud-band--far {top:5%;opacity:.34;}
+.lunar-cloud-band--near {top:31%;opacity:.22;}
+.lunar-cloud-strip {position:absolute;inset:0 auto 0 0;width:200%;background:url('/assets/atmosphere/lunar-cloud-tile-v1.webp') 0 0/50% 100% repeat-x;}
+.lunar-clouds[data-motion='running'] .lunar-cloud-strip {will-change:transform;}
+@media(max-width:700px) {.lunar-cloud-band {height:230px;}.lunar-cloud-band--far {top:9%;opacity:.30;}.lunar-cloud-band--near {top:39%;opacity:.20;}}
+@media(forced-colors:active),print {.lunar-clouds {display:none;}}
+.support-luxe .support-community {
+ border-color:#b7d9eb57;border-radius:24px 5px 24px 5px;
+ background:radial-gradient(ellipse at 79% 24%,#7cabc51a,transparent 48%),linear-gradient(120deg,#123449ed,#071a2ade 57%,#0c2639bd);
+ box-shadow:inset 0 1px 0 #edfaff36,inset 0 -1px 0 #9dc6dd16,0 22px 54px #010a133b;
+}
+.support-luxe .support-community::before {
+ inset:10px;border:1px solid #c1e5f212;border-radius:17px 2px 17px 2px;
+ background:linear-gradient(125deg,#d3effa06,transparent 38%);pointer-events:none;
+}
+.support-luxe #community-title {
+ color:#e7f5fb;background:linear-gradient(155deg,#f7fcff 12%,#dbf1fa 52%,#96bcd1 100%);
+ background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+ text-shadow:0 8px 26px #030d191f;
+}
+.support-luxe .support-label {color:#b9d6e4;letter-spacing:.20em;}
+.support-label::before {border-radius:7px 2px 7px 2px;color:#dbedf6;background:linear-gradient(140deg,#cae9f51c,#071b2b);box-shadow:inset 0 1px 0 #e6f7ff1c;}
+.support-community .support-button {border-color:#e2f5ffab;background:linear-gradient(125deg,#ecfaff,#b4daeb 60%,#88b5cf);box-shadow:inset 0 1px 0 #fff,0 6px 22px #0003;}
+.support-luxe .support-steps {border-top-color:#b8daec38;gap:24px;}
+.support-luxe .support-steps li {padding-top:30px;}
+.support-steps li::before {width:28px;height:28px;top:-15px;border-radius:8px 2px 8px 2px;background:linear-gradient(140deg,#28495e,#0a2031);border-color:#aacfe16b;color:#e4f4fc;font-size:11px;box-shadow:inset 0 1px 0 #e4f5ff30,0 3px 10px #0002;}
+.support-luxe .support-steps h3 {color:#e0edf5;letter-spacing:-.015em;}
+.support-luxe .support-email {background:linear-gradient(115deg,#183c51ed,#091e30ed);box-shadow:inset 0 1px 0 #e9faff29,0 10px 28px #0108122e;}
+@media(max-width:700px) {
+ .support-luxe .support-steps {gap:0;}
+ .support-luxe .support-steps li {padding-top:0;}
+ .support-steps li::before {top:0;}
+ .support-luxe .support-community::before {inset:7px;}
+ .support-luxe .support-label {letter-spacing:.14em;}
+}
+
+.support-luxe #support-title {position:relative;background:none;color:#eefaff;-webkit-text-fill-color:currentColor;}
+.support-title-text {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}
+.support-title-art {display:block;width:min(84%,610px);height:auto;}
+@media(forced-colors:active) {.support-title-art {fill:CanvasText;}}
+
+.support-luxe :is(.support-community,.support-faq) {isolation:isolate;}
+.lunar-clouds--section {
+ z-index:-1;
+ left:50%;
+ right:auto;
+ width:100vw;
+ transform:translateX(-50%);
+}
+.lunar-clouds--section .lunar-cloud-band {top:8%;height:82%;opacity:.41;}
+.support-faq .lunar-clouds--section .lunar-cloud-band {top:0;height:100%;opacity:.88;}
+.support-luxe .support-faq .support-questions {
+ background:linear-gradient(115deg,#061a2bb8,#092239a6);
+}
+
+.contact-star-field {
+ inset:-6% -5% -8%;
+ overflow:hidden;
+ pointer-events:none;
+ mix-blend-mode:screen;
+ filter:drop-shadow(0 0 2px rgba(220, 245, 255, 0.95)) drop-shadow(0 0 7px rgba(150, 220, 255, 0.50));
+}
+.contact-star-field svg {display:block;width:100%;height:100%;}
+.contact-star-pulse {
+ animation:contact-star-twinkle-a 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite running;
+}
+.contact-star-pulse:nth-child(2) {
+ animation:contact-star-twinkle-b 6.2s cubic-bezier(0.4, 0, 0.2, 1) -1.8s infinite running;
+}
+.contact-star-pulse:nth-child(3) {
+ animation:contact-star-twinkle-c 5.4s cubic-bezier(0.4, 0, 0.2, 1) -3.2s infinite running;
+}
+.contact-star-pulse:nth-child(4) {
+ animation:contact-star-twinkle-d 7.1s cubic-bezier(0.4, 0, 0.2, 1) -2.4s infinite running;
+}
+.polar-layer--stars, .contact-star-field {
+ transform: none !important;
+}
+@keyframes contact-star-twinkle-a {
+ 0%,100% {opacity:.35;}
+ 32% {opacity:.98;}
+ 48% {opacity:.50;}
+ 76% {opacity:.88;}
+}
+@keyframes contact-star-twinkle-b {
+ 0%,100% {opacity:.40;}
+ 24% {opacity:.70;}
+ 58% {opacity:1.0;}
+ 82% {opacity:.45;}
+}
+@keyframes contact-star-twinkle-c {
+ 0%,100% {opacity:.42;}
+ 38% {opacity:.95;}
+ 62% {opacity:.30;}
+ 86% {opacity:.82;}
+}
+@keyframes contact-star-twinkle-d {
+ 0%,100% {opacity:.32;}
+ 18% {opacity:.90;}
+ 50% {opacity:.40;}
+ 68% {opacity:1.0;}
+}
+@media(prefers-reduced-motion:reduce),(update:slow) {
+ .contact-star-pulse {animation:none;opacity:.65;}
+}
+.support-faq > div:has(> #faq-title) {position:relative;isolation:isolate;}
+.support-faq > div:has(> #faq-title)::before {
+ content:'';
+ position:absolute;
+ inset:-18px -16px auto -24px;
+ height:210px;
+ z-index:-1;
+ pointer-events:none;
+ mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent);
+ background:radial-gradient(ellipse at 28% 48%,#04132178 8%,#04132151 48%,transparent 76%);
+}
+@media(max-width:700px) {
+ .support-faq > div:has(> #faq-title)::before {
+  inset:-20px -18px -20px;
+  height:auto;
+  background:radial-gradient(ellipse at 26% 53%,#0413218c 10%,#04132159 51%,transparent 80%);
+ }
+}

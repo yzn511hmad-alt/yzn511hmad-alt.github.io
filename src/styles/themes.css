@@ -1,0 +1,1690 @@
+html[data-theme-preset="arctic-snow"] {
+  --bg-base: #f8fafc;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f0f5fa;
+  --surface-card: #ffffff;
+  --surface-raised: #f4f8fc;
+  --surface-pill: #e6f2fb;
+  --surface-glass: rgba(255, 255, 255, 0.88);
+  --surface-glass-border: 1px solid rgba(56, 189, 248, 0.30);
+  --surface-glass-border-hover: 1px solid rgba(2, 132, 199, 0.60);
+
+  --border-subtle: rgba(14, 165, 233, 0.12);
+  --border-dim: rgba(14, 165, 233, 0.20);
+  --border-default: rgba(56, 189, 248, 0.30);
+  --border-active: rgba(2, 132, 199, 0.65);
+
+  --text-primary: #0c1524;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+  --text-on-accent: #ffffff;
+
+  --accent-ice: #0ea5e9;
+  --accent-cyan: #0284c7;
+  --accent-cyan-glow: 0 0 24px rgba(14, 165, 233, 0.35);
+  --accent-frost: #e0f2fe;
+  --accent-primary: #0284c7;
+  --accent-primary-dim: #0369a1;
+  --accent-secondary: #38bdf8;
+
+  --polar-base: #ffffff;
+  --polar-blue: 14, 165, 233;
+  --polar-cyan: 56, 189, 248;
+}
+
+html[data-theme-preset="arctic-snow"] body,
+html[data-theme-preset="arctic-snow"] .snowy-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #ffffff 0%, #f0f5fa 45%, #e2ecf7 100%) fixed !important;
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .polar-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #ffffff 0%, #f0f5fa 45%, #e2ecf7 100%) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .polar-atmosphere__light {
+  background:
+    radial-gradient(ellipse 60% 55% at 20% 15%, rgba(56, 189, 248, 0.18), transparent 75%),
+    radial-gradient(ellipse 65% 60% at 85% 50%, rgba(14, 165, 233, 0.15), transparent 75%),
+    radial-gradient(ellipse 60% 60% at 30% 85%, rgba(56, 189, 248, 0.14), transparent 70%) !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(
+  .how-it-works-section,
+  .section-pricing-band,
+  .cta-banner-wrapper,
+  .access-studio,
+  .desk-layout,
+  .scripts-section,
+  .faq-section,
+  .page-hero-header,
+  .pricing-hero,
+  .pricing-plan-section,
+  .pricing-reassurance
+) {
+  background-color: transparent !important;
+}
+
+html[data-theme-preset="arctic-snow"] .hero-section {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Typography & Headings */
+html[data-theme-preset="arctic-snow"] :is(
+  h1, h2, h3, h4, h5, h6,
+  .hero-editorial-h1, .total-control-title, .brand-logo,
+  .access-name, .pricing-card-title, .stepper-title, .catalog-card-title,
+  .key-step-title, .generator-box h3, .metric-val, .desk-panel-header, #desk-form-title,
+  .signoff-title, .signoff-nav h3
+) {
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .hero-hl-italic {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 40%, #00c4e6 75%, #38bdf8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 25px rgba(14, 165, 233, 0.30)) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .sub-white {
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .sub-ice {
+  color: #0284c7 !important;
+  text-shadow: 0 0 16px rgba(2, 132, 199, 0.25) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .accent-title-blue {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(
+  p, .hero-editorial-hook, .hero-editorial-microlabel,
+  .access-description, .access-billing, .pricing-card-description,
+  .stepper-desc, .metric-label, .desk-form-intro, .desk-side-note p,
+  .access-features li, .plan-benefits li, .pricing-plan-lead p,
+  .signoff-nav a, .signoff-art-caption, .signoff-bottom p, .signoff-bottom-actions a
+) {
+  color: #475569 !important;
+}
+
+/* Surfaces & Cards */
+html[data-theme-preset="arctic-snow"] :is(
+  .pricing-card, .stepper-step, .code-card-wrapper,
+  .faq-accordion-item, .accordion-item, .cta-banner-card,
+  .catalog-card, .catalog-card-inner, .game-inspect-modal,
+  .access-pass, .access-pass--lifetime,
+  .free-key-card, .key-step-card, .generator-card, .generator-box,
+  .desk-panel, .desk-draft, .metric-card
+) {
+  background: #ffffff !important;
+  border: 1px solid rgba(56, 189, 248, 0.28) !important;
+  box-shadow: 0 10px 30px rgba(12, 36, 72, 0.07), 0 2px 6px rgba(14, 165, 233, 0.04), inset 0 1px 0 #ffffff !important;
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .access-cost {
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .access-seal {
+  background: rgba(14, 165, 233, 0.12) !important;
+  color: #0284c7 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .access-features li svg {
+  stroke: #0284c7 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .pricing-card.lifetime {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(2, 132, 199, 0.50) !important;
+  box-shadow: 0 12px 35px rgba(14, 165, 233, 0.14), inset 0 1px 0 #ffffff !important;
+}
+
+html[data-theme-preset="arctic-snow"] .pricing-price {
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .pricing-plan-name {
+  color: #0284c7 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .catalog-card-tag {
+  background: #f0f7ff !important;
+  color: #0284c7 !important;
+  border: 1px solid rgba(56, 189, 248, 0.30) !important;
+}
+
+/* Inputs, Textareas, Search Bars */
+html[data-theme-preset="arctic-snow"] :is(
+  .catalog-search-bar, .search-input-wrapper input, .scripts-search-input,
+  .key-output-wrapper, .key-output-code, .timer-pill,
+  .desk-field input, .desk-field textarea, .desk-draft textarea,
+  .desk-route-face
+) {
+  background: #f8fafc !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  color: #0c1524 !important;
+  box-shadow: inset 0 1px 3px rgba(12, 36, 72, 0.04) !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(
+  .catalog-search-bar input::placeholder,
+  .scripts-search-input::placeholder,
+  .desk-field input::placeholder,
+  .desk-field textarea::placeholder
+) {
+  color: #94a3b8 !important;
+}
+
+/* Primary CTA & Interactive Buttons */
+html[data-theme-preset="arctic-snow"] :is(
+  .btn-cyan, .access-action, .catalog-btn-run, .catalog-btn-copy, .desk-primary, .btn-generate-key
+) {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(2, 132, 199, 0.40) !important;
+  box-shadow: 0 4px 18px rgba(14, 165, 233, 0.35) !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(
+  .btn-cyan:hover, .access-action:hover, .catalog-btn-run:hover, .catalog-btn-copy:hover, .desk-primary:hover, .btn-generate-key:hover
+) {
+  background: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #0ea5e9 100%) !important;
+  box-shadow: 0 6px 22px rgba(14, 165, 233, 0.45) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .btn-glass {
+  background: rgba(255, 255, 255, 0.90) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  color: #0c1524 !important;
+  box-shadow: 0 2px 10px rgba(12, 36, 72, 0.05) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .btn-glass:hover {
+  background: #ffffff !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+
+/* Navigation Pill */
+html[data-theme-preset="arctic-snow"] .nav-pill {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(56, 189, 248, 0.30) !important;
+  box-shadow: 0 4px 20px rgba(15, 35, 65, 0.08) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .nav-link {
+  color: #334155 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .nav-link:hover {
+  color: #0284c7 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .nav-link.active {
+  background: rgba(14, 165, 233, 0.12) !important;
+  color: #0284c7 !important;
+  font-weight: 600 !important;
+}
+
+/* Section Components & Eyebrows */
+html[data-theme-preset="arctic-snow"] .section-eyebrow-tag {
+  color: #0284c7 !important;
+  background: rgba(14, 165, 233, 0.08) !important;
+  border: 1px solid rgba(14, 165, 233, 0.22) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .comparison-switch-dock {
+  background: #f1f5fa !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .comparison-switch-btn {
+  color: #475569 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .comparison-switch-btn.active {
+  background: #ffffff !important;
+  color: #0284c7 !important;
+  box-shadow: 0 2px 10px rgba(14, 165, 233, 0.18) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .site-footer {
+  background: #f0f5fa !important;
+  border-top: 1px solid rgba(56, 189, 248, 0.25) !important;
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .signoff-word {
+  color: rgba(14, 165, 233, 0.08) !important;
+}
+
+/* Presets Switcher Dock */
+html[data-theme-preset="arctic-snow"] .theme-presets-dock {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 10px 40px rgba(12, 36, 72, 0.14), 0 0 20px rgba(56, 189, 248, 0.20) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .theme-preset-btn {
+  color: #334155 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .theme-preset-btn:hover {
+  color: #0284c7 !important;
+  background: rgba(14, 165, 233, 0.08) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .theme-preset-btn.active {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 2px 14px rgba(2, 132, 199, 0.40) !important;
+}
+
+/* Section Horizon Dividers */
+html[data-theme-preset="arctic-snow"] .section-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(14, 165, 233, 0.15) 15%,
+    rgba(2, 132, 199, 0.38) 50%,
+    rgba(14, 165, 233, 0.15) 85%,
+    transparent 100%
+  ) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .section-divider::after {
+  background: radial-gradient(ellipse 160px 4px at center, rgba(2, 132, 199, 0.65) 0%, transparent 100%) !important;
+}
+
+/* Editorial Typography System */
+html[data-theme-preset="arctic-snow"] .section-editorial-title .title-solid {
+  color: #0c1524 !important;
+}
+
+html[data-theme-preset="arctic-snow"] .section-editorial-title .title-italic {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+html[data-theme-preset="arctic-snow"] .section-editorial-desc {
+  color: #475569 !important;
+}
+
+/* Stepper & Loader Steps */
+html[data-theme-preset="arctic-snow"] :is(.stepper-step, .loader-step) {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(14, 165, 233, 0.20) !important;
+  box-shadow: 0 4px 16px rgba(12, 36, 72, 0.05), inset 0 1px 0 #ffffff !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(.stepper-step:hover, .loader-step:hover) {
+  background: #ffffff !important;
+  border-color: rgba(2, 132, 199, 0.45) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.12), inset 0 1px 0 #ffffff !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(.stepper-step.active-step, .loader-step.active-step) {
+  background: #ffffff !important;
+  border: 1.5px solid #0284c7 !important;
+  box-shadow: 0 6px 22px rgba(14, 165, 233, 0.18), inset 0 1px 0 #ffffff !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(.loader-step-badge, .stepper-badge) {
+  background: #f0f7ff !important;
+  color: #0284c7 !important;
+  border: 1px solid rgba(14, 165, 233, 0.30) !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(.loader-step.active-step .loader-step-badge, .stepper-step.active-step .stepper-badge) {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(2, 132, 199, 0.40) !important;
+}
+
+html[data-theme-preset="arctic-snow"] .stepper-telemetry-pill {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(14, 165, 233, 0.25) !important;
+  box-shadow: 0 4px 16px rgba(12, 36, 72, 0.06) !important;
+}
+
+/* Primary Nordic Buttons */
+html[data-theme-preset="arctic-snow"] :is(.btn-cta-primary, .btn-primary) {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(2, 132, 199, 0.50) !important;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.30) !important;
+}
+
+html[data-theme-preset="arctic-snow"] :is(.btn-cta-primary:hover, .btn-primary:hover) {
+  background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.40) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* CTA Banner Card */
+html[data-theme-preset="arctic-snow"] .cta-banner-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%) !important;
+  border: 1.5px solid rgba(14, 165, 233, 0.35) !important;
+  box-shadow: 0 18px 50px rgba(12, 36, 72, 0.10), inset 0 1px 0 #ffffff !important;
+}
+
+/* Header & Nav */
+html[data-theme-preset="arctic-snow"] :is(.site-header, .site-nav) {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.18) !important;
+  box-shadow: 0 4px 20px rgba(12, 36, 72, 0.05) !important;
+}
+
+/* =============================================================================
+   1. PRESET 1: CYBERPUNK GLACIER (نمط داكن عالي التباين بإضاءات نيون ثلجية حادة)
+   ============================================================================= */
+html[data-theme-preset="cyber-glacial"] {
+  --bg-base: #010308;
+  --bg-primary: #030712;
+  --bg-secondary: #060e20;
+  --surface-card: rgba(4, 10, 22, 0.68);
+  --surface-raised: rgba(6, 16, 34, 0.78);
+  --surface-pill: rgba(8, 22, 46, 0.88);
+  --surface-glass: rgba(3, 8, 18, 0.78);
+  --surface-glass-border: 1px solid rgba(0, 240, 255, 0.35);
+  --surface-glass-border-hover: 1px solid rgba(0, 240, 255, 0.80);
+
+  --border-subtle: rgba(0, 240, 255, 0.14);
+  --border-dim: rgba(0, 240, 255, 0.25);
+  --border-default: rgba(0, 240, 255, 0.38);
+  --border-active: rgba(0, 240, 255, 0.85);
+
+  --text-primary: #ffffff;
+  --text-secondary: #94d8ff;
+  --text-muted: #4d94cc;
+  --text-disabled: #275680;
+
+  --accent-ice: #00f0ff;
+  --accent-cyan: #00f0ff;
+  --accent-cyan-glow: 0 0 32px rgba(0, 240, 255, 0.70);
+  --accent-frost: #e0faff;
+  --accent-primary: #00f0ff;
+  --accent-primary-dim: #00a8cc;
+  --accent-secondary: #38bdf8;
+
+  --polar-base: #030712;
+  --polar-blue: 0, 140, 255;
+  --polar-cyan: 0, 240, 255;
+}
+
+html[data-theme-preset="cyber-glacial"] body,
+html[data-theme-preset="cyber-glacial"] .snowy-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #081a33 0%, #030712 45%, #010206 100%) fixed !important;
+  background-color: #030712 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .polar-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #081a33 0%, #030712 45%, #010206 100%) !important;
+  background-color: #030712 !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .polar-atmosphere__light {
+  background:
+    radial-gradient(ellipse 55% 55% at 20% 15%, rgba(0, 240, 255, 0.22), transparent 75%),
+    radial-gradient(ellipse 65% 60% at 85% 50%, rgba(0, 140, 255, 0.18), transparent 75%),
+    radial-gradient(ellipse 60% 60% at 30% 85%, rgba(0, 240, 255, 0.20), transparent 70%) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .polar-atmosphere__aurora {
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(0, 140, 255, 0.10) 46%, rgba(0, 240, 255, 0.28) 54%, rgba(56, 189, 248, 0.14) 64%, transparent 72%) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .polar-atmosphere__aurora--far {
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(0, 240, 255, 0.12) 46%, rgba(0, 140, 255, 0.24) 54%, rgba(56, 189, 248, 0.14) 64%, transparent 72%) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .section-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 140, 255, 0.20) 15%,
+    rgba(0, 240, 255, 0.85) 50%,
+    rgba(0, 140, 255, 0.20) 85%,
+    transparent 100%
+  ) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .section-divider::after {
+  background: radial-gradient(ellipse 200px 4px at center, rgba(0, 240, 255, 1.0) 0%, rgba(0, 140, 255, 0.50) 65%, transparent 100%) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .section-editorial-title .title-solid {
+  color: #ffffff !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .section-editorial-title .title-italic {
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 30%, #00f0ff 70%, #00ffa3 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 32px rgba(0, 240, 255, 0.70)) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .hero-hl-italic {
+  background: linear-gradient(135deg, #ffffff 0%, #70e1ff 30%, #00f0ff 65%, #00ffa3 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 38px rgba(0, 240, 255, 0.80)) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .sub-white {
+  color: #ffffff !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .sub-ice {
+  color: #00f0ff !important;
+  text-shadow: 0 0 22px rgba(0, 240, 255, 0.75), 0 0 45px rgba(0, 140, 255, 0.45) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .section-eyebrow-tag {
+  color: #00f0ff !important;
+  text-shadow: 0 0 16px rgba(0, 240, 255, 0.50) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] :is(.micro-badge-cyan, .switch-pill-badge.pro) {
+  background: rgba(0, 240, 255, 0.12) !important;
+  color: #00f0ff !important;
+  border-color: rgba(0, 240, 255, 0.50) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .micro-badge-cyan .micro-badge-svg {
+  color: #00f0ff !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .comparison-switch-btn.active {
+  background: rgba(0, 240, 255, 0.20) !important;
+  border-color: rgba(0, 240, 255, 0.80) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 22px rgba(0, 240, 255, 0.45) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .comparison-switch-btn.active .switch-icon {
+  color: #00f0ff !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .loader-step.active-step .loader-step-badge,
+html[data-theme-preset="cyber-glacial"] .stepper-step.active-step .stepper-badge {
+  background: linear-gradient(135deg, #00f0ff 0%, #0099ff 100%) !important;
+  color: #020712 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.75) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .stepper-telemetry-pill {
+  border-color: rgba(0, 240, 255, 0.35) !important;
+}
+
+/* High-Contrast Frosted Cyber Glass Cards */
+html[data-theme-preset="cyber-glacial"] :is(
+  .pricing-card, .stepper-step, .loader-step, .comparison-switch-dock, .code-card-wrapper,
+  .loader-terminal-card, .faq-accordion-item, .accordion-item, .cta-banner-card,
+  .catalog-card, .catalog-card-inner, .game-inspect-modal,
+  .access-pass, .access-pass--lifetime,
+  .free-key-card, .key-step-card, .generator-card, .generator-box,
+  .desk-panel, .desk-draft, .metric-card
+) {
+  background: rgba(4, 10, 22, 0.68) !important;
+  backdrop-filter: blur(20px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
+  border: 1px solid rgba(0, 240, 255, 0.32) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 22px 0 rgba(0, 240, 255, 0.06),
+    0 16px 44px -8px rgba(0, 0, 0, 0.80),
+    0 0 20px 0 rgba(0, 240, 255, 0.12) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] :is(
+  .pricing-card:hover, .stepper-step:hover, .loader-step:hover,
+  .catalog-card:hover, .free-key-card:hover, .key-step-card:hover,
+  .faq-accordion-item:hover, .accordion-item:hover, .metric-card:hover
+) {
+  background: rgba(7, 18, 38, 0.82) !important;
+  border-color: rgba(0, 240, 255, 0.80) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.50),
+    inset 0 0 30px 0 rgba(0, 240, 255, 0.22),
+    0 20px 54px -6px rgba(0, 0, 0, 0.85),
+    0 0 36px 0 rgba(0, 240, 255, 0.40) !important;
+  transform: translateY(-3px) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] :is(.stepper-step.active-step, .loader-step.active-step) {
+  background: rgba(8, 20, 42, 0.85) !important;
+  border-color: rgba(0, 240, 255, 0.85) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.55),
+    inset 0 0 32px 0 rgba(0, 240, 255, 0.25),
+    0 16px 44px rgba(0, 0, 0, 0.65),
+    0 0 30px rgba(0, 240, 255, 0.45) !important;
+}
+
+/* Razor-Sharp Neon Cyber Glacial Buttons */
+html[data-theme-preset="cyber-glacial"] :is(
+  .btn-cta-primary, .btn-primary, .btn-cyan, .access-action,
+  .catalog-btn-run, .catalog-btn-copy, .desk-primary, .btn-generate-key
+) {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.40) 0%, rgba(0, 140, 255, 0.28) 100%) !important;
+  backdrop-filter: blur(16px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(200%) !important;
+  border: 1px solid rgba(0, 240, 255, 0.80) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 16px rgba(0, 240, 255, 0.85) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.70),
+    0 6px 24px rgba(0, 0, 0, 0.65),
+    0 0 28px rgba(0, 240, 255, 0.55) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] :is(
+  .btn-cta-primary:hover, .btn-primary:hover, .btn-cyan:hover, .access-action:hover,
+  .catalog-btn-run:hover, .catalog-btn-copy:hover, .desk-primary:hover, .btn-generate-key:hover
+) {
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.60) 0%, rgba(0, 160, 255, 0.45) 100%) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px 0 #ffffff,
+    0 10px 36px rgba(0, 0, 0, 0.75),
+    0 0 44px rgba(0, 240, 255, 0.85) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Terminal & Copy Button */
+html[data-theme-preset="cyber-glacial"] .loader-terminal-card {
+  background: linear-gradient(180deg, rgba(4, 10, 22, 0.78) 0%, rgba(2, 5, 12, 0.90) 100%) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+  border: 1px solid rgba(0, 240, 255, 0.40) !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.28),
+    inset 0 0 28px rgba(0, 240, 255, 0.12),
+    0 24px 54px -12px rgba(0, 0, 0, 0.85),
+    0 0 35px rgba(0, 240, 255, 0.25) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .loader-terminal-header {
+  background: rgba(8, 18, 38, 0.55) !important;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.22) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .loader-terminal-footer {
+  border-top: 1px solid rgba(0, 240, 255, 0.22) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .btn-copy-loadstring {
+  background: rgba(0, 240, 255, 0.15) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.60) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.40),
+    0 4px 18px rgba(0, 0, 0, 0.50),
+    0 0 22px rgba(0, 240, 255, 0.30) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .btn-copy-loadstring:hover {
+  background: rgba(0, 240, 255, 0.30) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.70),
+    0 6px 24px rgba(0, 0, 0, 0.60),
+    0 0 35px rgba(0, 240, 255, 0.60) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Grand CTA Banner */
+html[data-theme-preset="cyber-glacial"] .cta-banner-card {
+  background: linear-gradient(135deg, rgba(7, 18, 38, 0.72) 0%, rgba(2, 6, 15, 0.85) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1px solid rgba(0, 240, 255, 0.55) !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.45),
+    inset 0 0 42px rgba(0, 240, 255, 0.20),
+    0 28px 72px -12px rgba(0, 0, 0, 0.85),
+    0 0 48px rgba(0, 240, 255, 0.40) !important;
+}
+
+/* Inputs & Modals */
+html[data-theme-preset="cyber-glacial"] :is(
+  .catalog-search-bar, .search-input-wrapper input, .scripts-search-input,
+  .key-output-wrapper, .key-output-code, .timer-pill,
+  .desk-field input, .desk-field textarea, .desk-draft textarea,
+  .desk-route-face
+) {
+  background: rgba(3, 8, 18, 0.72) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.35) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.65) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] :is(
+  .catalog-search-bar:focus-within, .search-input-wrapper input:focus, .scripts-search-input:focus,
+  .desk-field input:focus, .desk-field textarea:focus, .desk-draft textarea:focus
+) {
+  border-color: rgba(0, 240, 255, 0.90) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50), 0 0 24px rgba(0, 240, 255, 0.50) !important;
+}
+
+/* Site Navigation Header */
+html[data-theme-preset="cyber-glacial"] :is(.site-header, .site-nav) {
+  background: rgba(2, 6, 15, 0.75) !important;
+  backdrop-filter: blur(20px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.28) !important;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.65), inset 0 -1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+html[data-theme-preset="cyber-glacial"] .theme-preset-btn.active {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.45) 0%, rgba(0, 140, 255, 0.45) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  color: #ffffff !important;
+  border-color: rgba(0, 240, 255, 0.90) !important;
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.70) !important;
+}
+
+/* =============================================================================
+   2. PRESET 2: FROSTED STERLING ICE (النمط الثلجي الفضي الهادئ)
+   ============================================================================= */
+html[data-theme-preset="sterling-ice"] {
+  --bg-base: #090e18;
+  --bg-primary: #0c121e;
+  --bg-secondary: #101726;
+  --surface-card: #151f32;
+  --surface-raised: #1b263e;
+  --surface-pill: #212f4c;
+  --surface-glass: rgba(16, 23, 38, 0.85);
+  --surface-glass-border: 1px solid rgba(189, 212, 239, 0.16);
+  --surface-glass-border-hover: 1px solid rgba(189, 212, 239, 0.35);
+
+  --border-subtle: rgba(189, 212, 239, 0.08);
+  --border-dim: rgba(189, 212, 239, 0.14);
+  --border-default: rgba(189, 212, 239, 0.20);
+  --border-active: rgba(189, 212, 239, 0.35);
+
+  --text-primary: #edf2f9;
+  --text-secondary: #8d9eb4;
+  --text-muted: #5e6f85;
+
+  --accent-ice: #bdd4ef;
+  --accent-cyan: #bdd4ef;
+  --accent-cyan-glow: none;
+  --accent-frost: #e6eef8;
+  --accent-primary: #bdd4ef;
+  --accent-primary-dim: #a8c3e4;
+  --accent-secondary: #7a94b8;
+
+  --polar-base: #0c121e;
+  --polar-blue: 60, 90, 140;
+  --polar-cyan: 120, 160, 210;
+}
+
+html[data-theme-preset="sterling-ice"] body,
+html[data-theme-preset="sterling-ice"] .snowy-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #152238 0%, #0c121e 50%, #06090f 100%) fixed !important;
+  background-color: #0c121e !important;
+  color: #edf2f9 !important;
+}
+
+html[data-theme-preset="sterling-ice"] .polar-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #152238 0%, #0c121e 50%, #06090f 100%) !important;
+  background-color: #0c121e !important;
+}
+
+html[data-theme-preset="sterling-ice"] .polar-atmosphere__light {
+  background:
+    radial-gradient(ellipse 55% 55% at 20% 15%, rgba(189, 212, 239, 0.18), transparent 75%),
+    radial-gradient(ellipse 65% 60% at 85% 50%, rgba(120, 160, 210, 0.16), transparent 75%),
+    radial-gradient(ellipse 60% 60% at 30% 85%, rgba(189, 212, 239, 0.14), transparent 70%) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .section-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(189, 212, 239, 0.15) 15%,
+    rgba(237, 242, 249, 0.50) 50%,
+    rgba(189, 212, 239, 0.15) 85%,
+    transparent 100%
+  ) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .section-divider::after {
+  background: radial-gradient(ellipse 160px 4px at center, rgba(189, 212, 239, 0.65) 0%, transparent 100%) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .section-editorial-title .title-italic {
+  color: #bdd4ef !important;
+  text-shadow: 0 0 24px rgba(189, 212, 239, 0.40) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .section-eyebrow-tag {
+  color: #bdd4ef !important;
+}
+
+html[data-theme-preset="sterling-ice"] :is(.micro-badge-cyan, .switch-pill-badge.pro) {
+  background: rgba(189, 212, 239, 0.12) !important;
+  color: #bdd4ef !important;
+  border-color: rgba(189, 212, 239, 0.35) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .micro-badge-cyan .micro-badge-svg {
+  color: #bdd4ef !important;
+}
+
+html[data-theme-preset="sterling-ice"] .comparison-switch-btn.active {
+  background: rgba(189, 212, 239, 0.16) !important;
+  border-color: rgba(189, 212, 239, 0.45) !important;
+  color: #edf2f9 !important;
+}
+
+html[data-theme-preset="sterling-ice"] .comparison-switch-btn.active .switch-icon {
+  color: #bdd4ef !important;
+}
+
+/* =============================================================================
+   FROSTED GLASS (GLASSMORPHISM) ARCHITECTURE — STERLING ICE / PLATINUM
+   Translucent frosted glass with multi-layered refractive blur & luminous glacial borders
+   ============================================================================= */
+
+/* 1. Frosted Glass Cards, Panels & Modals */
+html[data-theme-preset="sterling-ice"] :is(
+  .pricing-card, .stepper-step, .loader-step, .comparison-switch-dock, .code-card-wrapper,
+  .loader-terminal-card, .faq-accordion-item, .accordion-item, .cta-banner-card,
+  .catalog-card, .catalog-card-inner, .game-inspect-modal,
+  .access-pass, .access-pass--lifetime,
+  .free-key-card, .key-step-card, .generator-card, .generator-box,
+  .desk-panel, .desk-draft, .metric-card
+) {
+  background: rgba(18, 28, 48, 0.52) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(189, 212, 239, 0.28) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 0 16px 0 rgba(189, 212, 239, 0.06),
+    0 12px 36px -6px rgba(0, 0, 0, 0.45),
+    0 0 16px 0 rgba(189, 212, 239, 0.08) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Card Hover States: Amplified Glacial Luminescence & Elevation */
+html[data-theme-preset="sterling-ice"] :is(
+  .pricing-card:hover, .stepper-step:hover, .loader-step:hover,
+  .catalog-card:hover, .free-key-card:hover, .key-step-card:hover,
+  .faq-accordion-item:hover, .accordion-item:hover, .metric-card:hover
+) {
+  background: rgba(24, 38, 66, 0.68) !important;
+  border-color: rgba(220, 238, 255, 0.60) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 24px 0 rgba(189, 212, 239, 0.16),
+    0 18px 48px -4px rgba(0, 0, 0, 0.60),
+    0 0 28px 0 rgba(189, 212, 239, 0.25) !important;
+}
+
+/* Active State for Steps */
+html[data-theme-preset="sterling-ice"] :is(.stepper-step.active-step, .loader-step.active-step) {
+  background: rgba(26, 42, 72, 0.72) !important;
+  border-color: rgba(220, 238, 255, 0.65) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.38),
+    inset 0 0 28px 0 rgba(189, 212, 239, 0.20),
+    0 14px 40px rgba(0, 0, 0, 0.50),
+    0 0 24px rgba(189, 212, 239, 0.28) !important;
+}
+
+/* 2. Frosted Glass Buttons (Glassmorphism + Luminous Edge) */
+html[data-theme-preset="sterling-ice"] :is(
+  .btn-cta-primary, .btn-primary, .btn-cyan, .access-action,
+  .catalog-btn-run, .catalog-btn-copy, .desk-primary, .btn-generate-key
+) {
+  background: linear-gradient(135deg, rgba(200, 225, 255, 0.28) 0%, rgba(130, 165, 210, 0.16) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(225, 240, 255, 0.50) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 14px rgba(189, 212, 239, 0.45) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 12px 0 rgba(189, 212, 239, 0.15),
+    0 6px 22px rgba(0, 0, 0, 0.35),
+    0 0 22px rgba(189, 212, 239, 0.25) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html[data-theme-preset="sterling-ice"] :is(
+  .btn-cta-primary:hover, .btn-primary:hover, .btn-cyan:hover, .access-action:hover,
+  .catalog-btn-run:hover, .catalog-btn-copy:hover, .desk-primary:hover, .btn-generate-key:hover
+) {
+  background: linear-gradient(135deg, rgba(235, 245, 255, 0.42) 0%, rgba(155, 190, 235, 0.26) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.70),
+    inset 0 0 20px 0 rgba(189, 212, 239, 0.28),
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 0 36px rgba(189, 212, 239, 0.55) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 3. Terminal Card & Copy Button in Frosted Glass */
+html[data-theme-preset="sterling-ice"] .loader-terminal-card {
+  background: linear-gradient(180deg, rgba(16, 25, 44, 0.70) 0%, rgba(9, 15, 28, 0.82) 100%) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(189, 212, 239, 0.32) !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 0 24px rgba(189, 212, 239, 0.10),
+    0 20px 48px -12px rgba(0, 0, 0, 0.70),
+    0 0 32px rgba(189, 212, 239, 0.18) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .loader-terminal-header {
+  background: rgba(24, 36, 60, 0.45) !important;
+  border-bottom: 1px solid rgba(189, 212, 239, 0.15) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .loader-terminal-footer {
+  border-top: 1px solid rgba(189, 212, 239, 0.15) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .btn-copy-loadstring {
+  background: rgba(189, 212, 239, 0.14) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(220, 238, 255, 0.40) !important;
+  color: #edf2f9 !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.30),
+    0 4px 16px rgba(0, 0, 0, 0.30),
+    0 0 18px rgba(189, 212, 239, 0.18) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .btn-copy-loadstring:hover {
+  background: rgba(220, 238, 255, 0.28) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.55),
+    0 6px 22px rgba(0, 0, 0, 0.40),
+    0 0 28px rgba(189, 212, 239, 0.40) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 4. Grand CTA Banner in Frosted Glass */
+html[data-theme-preset="sterling-ice"] .cta-banner-card {
+  background: linear-gradient(135deg, rgba(22, 36, 64, 0.60) 0%, rgba(12, 20, 36, 0.72) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1px solid rgba(220, 238, 255, 0.45) !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    inset 0 0 36px rgba(189, 212, 239, 0.14),
+    0 24px 64px -12px rgba(0, 0, 0, 0.65),
+    0 0 40px rgba(189, 212, 239, 0.28) !important;
+}
+
+/* 5. Inputs, Search Bars & Modals in Frosted Glass */
+html[data-theme-preset="sterling-ice"] :is(
+  .catalog-search-bar, .search-input-wrapper input, .scripts-search-input,
+  .key-output-wrapper, .key-output-code, .timer-pill,
+  .desk-field input, .desk-field textarea, .desk-draft textarea,
+  .desk-route-face
+) {
+  background: rgba(16, 24, 40, 0.60) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(189, 212, 239, 0.25) !important;
+  color: #edf2f9 !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45) !important;
+}
+
+html[data-theme-preset="sterling-ice"] :is(
+  .catalog-search-bar:focus-within, .search-input-wrapper input:focus, .scripts-search-input:focus,
+  .desk-field input:focus, .desk-field textarea:focus, .desk-draft textarea:focus
+) {
+  border-color: rgba(220, 238, 255, 0.65) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 20px rgba(189, 212, 239, 0.30) !important;
+}
+
+/* 6. Site Navigation Header Floating Frosted Bar */
+html[data-theme-preset="sterling-ice"] :is(.site-header, .site-nav) {
+  background: rgba(12, 18, 30, 0.62) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(189, 212, 239, 0.20) !important;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.40), inset 0 -1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+html[data-theme-preset="sterling-ice"] .theme-preset-btn.active {
+  background: rgba(220, 238, 255, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.70) !important;
+  box-shadow: 0 0 20px rgba(189, 212, 239, 0.50) !important;
+}
+
+/* =============================================================================
+   3. PRESET 3: HIGH-CONTRAST BLIZZARD DARK (خلفية مظلمة باردة مع أزرق كهربائي ثلجي متوهج)
+   ============================================================================= */
+html[data-theme-preset="deep-midnight"] {
+  --bg-base: #010307;
+  --bg-primary: #03060d;
+  --bg-secondary: #050a16;
+  --surface-card: rgba(4, 9, 18, 0.65);
+  --surface-raised: rgba(6, 14, 28, 0.75);
+  --surface-pill: rgba(8, 20, 38, 0.85);
+  --surface-glass: rgba(3, 7, 15, 0.75);
+  --surface-glass-border: 1px solid rgba(0, 210, 255, 0.30);
+  --surface-glass-border-hover: 1px solid rgba(0, 240, 255, 0.65);
+
+  --border-subtle: rgba(0, 210, 255, 0.12);
+  --border-dim: rgba(0, 210, 255, 0.22);
+  --border-default: rgba(0, 210, 255, 0.35);
+  --border-active: rgba(0, 240, 255, 0.75);
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0d8ff;
+  --text-muted: #5692c8;
+  --text-disabled: #2d5a84;
+
+  --accent-ice: #00d2ff;
+  --accent-cyan: #00f0ff;
+  --accent-cyan-glow: 0 0 28px rgba(0, 210, 255, 0.65);
+  --accent-frost: #e0f7ff;
+  --accent-primary: #00d2ff;
+  --accent-primary-dim: #0099dd;
+  --accent-secondary: #38bdf8;
+
+  --polar-base: #03060d;
+  --polar-blue: 0, 140, 255;
+  --polar-cyan: 0, 210, 255;
+}
+
+html[data-theme-preset="deep-midnight"] body,
+html[data-theme-preset="deep-midnight"] .snowy-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #061122 0%, #02050b 50%, #000205 100%) fixed !important;
+  background-color: #02050b !important;
+  color: #ffffff !important;
+}
+
+html[data-theme-preset="deep-midnight"] .polar-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #061122 0%, #02050b 50%, #000205 100%) !important;
+  background-color: #02050b !important;
+}
+
+html[data-theme-preset="deep-midnight"] .polar-atmosphere__light {
+  background:
+    radial-gradient(ellipse 55% 55% at 20% 15%, rgba(0, 210, 255, 0.20), transparent 75%),
+    radial-gradient(ellipse 65% 60% at 85% 50%, rgba(0, 136, 255, 0.16), transparent 75%),
+    radial-gradient(ellipse 60% 60% at 30% 85%, rgba(0, 240, 255, 0.18), transparent 70%) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .polar-atmosphere__aurora {
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 136, 255, 0.08) 48%, rgba(0, 210, 255, 0.24) 54%, rgba(0, 240, 255, 0.12) 64%, transparent 72%) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .polar-atmosphere__aurora--far {
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 210, 255, 0.10) 48%, rgba(0, 136, 255, 0.22) 54%, rgba(56, 189, 248, 0.12) 64%, transparent 72%) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .section-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 136, 255, 0.20) 15%,
+    rgba(0, 210, 255, 0.70) 50%,
+    rgba(0, 136, 255, 0.20) 85%,
+    transparent 100%
+  ) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .section-divider::after {
+  background: radial-gradient(ellipse 180px 4px at center, rgba(0, 220, 255, 0.95) 0%, rgba(0, 136, 255, 0.40) 65%, transparent 100%) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .section-editorial-title .title-italic {
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 45%, #00d2ff 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 32px rgba(0, 210, 255, 0.65)) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .hero-hl-italic {
+  background: linear-gradient(135deg, #ffffff 0%, #70e1ff 35%, #00d2ff 75%, #0088ff 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 38px rgba(0, 210, 255, 0.75)) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .sub-ice {
+  color: #00d2ff !important;
+  text-shadow: 0 0 22px rgba(0, 210, 255, 0.65), 0 0 45px rgba(0, 136, 255, 0.45) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .section-eyebrow-tag {
+  color: #00d2ff !important;
+  text-shadow: 0 0 16px rgba(0, 210, 255, 0.45) !important;
+}
+
+html[data-theme-preset="deep-midnight"] :is(.micro-badge-cyan, .switch-pill-badge.pro) {
+  background: rgba(0, 210, 255, 0.12) !important;
+  color: #00d2ff !important;
+  border-color: rgba(0, 210, 255, 0.45) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .micro-badge-cyan .micro-badge-svg {
+  color: #00f0ff !important;
+}
+
+html[data-theme-preset="deep-midnight"] .comparison-switch-btn.active {
+  background: rgba(0, 210, 255, 0.18) !important;
+  border-color: rgba(0, 210, 255, 0.65) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.35) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .comparison-switch-btn.active .switch-icon {
+  color: #00d2ff !important;
+}
+
+html[data-theme-preset="deep-midnight"] .loader-step.active-step .loader-step-badge,
+html[data-theme-preset="deep-midnight"] .stepper-step.active-step .stepper-badge {
+  background: linear-gradient(135deg, #00d2ff 0%, #0088ff 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 22px rgba(0, 210, 255, 0.65) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .stepper-telemetry-pill {
+  border-color: rgba(0, 210, 255, 0.30) !important;
+}
+
+/* High-Contrast Frosted Glass Cards */
+html[data-theme-preset="deep-midnight"] :is(
+  .pricing-card, .stepper-step, .loader-step, .comparison-switch-dock, .code-card-wrapper,
+  .loader-terminal-card, .faq-accordion-item, .accordion-item, .cta-banner-card,
+  .catalog-card, .catalog-card-inner, .game-inspect-modal,
+  .access-pass, .access-pass--lifetime,
+  .free-key-card, .key-step-card, .generator-card, .generator-box,
+  .desk-panel, .desk-draft, .metric-card
+) {
+  background: rgba(4, 9, 18, 0.66) !important;
+  backdrop-filter: blur(20px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  border: 1px solid rgba(0, 210, 255, 0.28) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 0 22px 0 rgba(0, 210, 255, 0.06),
+    0 16px 44px -8px rgba(0, 0, 0, 0.75),
+    0 0 18px 0 rgba(0, 210, 255, 0.10) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html[data-theme-preset="deep-midnight"] :is(
+  .pricing-card:hover, .stepper-step:hover, .loader-step:hover,
+  .catalog-card:hover, .free-key-card:hover, .key-step-card:hover,
+  .faq-accordion-item:hover, .accordion-item:hover, .metric-card:hover
+) {
+  background: rgba(6, 15, 30, 0.80) !important;
+  border-color: rgba(0, 220, 255, 0.65) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.40),
+    inset 0 0 30px 0 rgba(0, 210, 255, 0.18),
+    0 20px 52px -6px rgba(0, 0, 0, 0.85),
+    0 0 32px 0 rgba(0, 210, 255, 0.35) !important;
+}
+
+html[data-theme-preset="deep-midnight"] :is(.stepper-step.active-step, .loader-step.active-step) {
+  background: rgba(7, 18, 36, 0.82) !important;
+  border-color: rgba(0, 225, 255, 0.75) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 32px 0 rgba(0, 210, 255, 0.22),
+    0 16px 44px rgba(0, 0, 0, 0.60),
+    0 0 28px rgba(0, 210, 255, 0.38) !important;
+}
+
+/* Electric Blizzard Glowing Buttons */
+html[data-theme-preset="deep-midnight"] :is(
+  .btn-cta-primary, .btn-primary, .btn-cyan, .access-action,
+  .catalog-btn-run, .catalog-btn-copy, .desk-primary, .btn-generate-key
+) {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.35) 0%, rgba(0, 136, 255, 0.25) 100%) !important;
+  backdrop-filter: blur(16px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(200%) !important;
+  border: 1px solid rgba(0, 225, 255, 0.65) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 210, 255, 0.70) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.60),
+    0 6px 24px rgba(0, 0, 0, 0.60),
+    0 0 28px rgba(0, 210, 255, 0.45) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html[data-theme-preset="deep-midnight"] :is(
+  .btn-cta-primary:hover, .btn-primary:hover, .btn-cyan:hover, .access-action:hover,
+  .catalog-btn-run:hover, .catalog-btn-copy:hover, .desk-primary:hover, .btn-generate-key:hover
+) {
+  background: linear-gradient(135deg, rgba(0, 230, 255, 0.50) 0%, rgba(0, 150, 255, 0.40) 100%) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px 0 #ffffff,
+    0 10px 36px rgba(0, 0, 0, 0.70),
+    0 0 42px rgba(0, 210, 255, 0.75) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Terminal & Copy Button */
+html[data-theme-preset="deep-midnight"] .loader-terminal-card {
+  background: linear-gradient(180deg, rgba(4, 9, 18, 0.78) 0%, rgba(2, 4, 10, 0.88) 100%) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  border: 1px solid rgba(0, 210, 255, 0.35) !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 0 28px rgba(0, 210, 255, 0.12),
+    0 24px 54px -12px rgba(0, 0, 0, 0.85),
+    0 0 35px rgba(0, 210, 255, 0.20) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .loader-terminal-header {
+  background: rgba(8, 16, 32, 0.55) !important;
+  border-bottom: 1px solid rgba(0, 210, 255, 0.20) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .loader-terminal-footer {
+  border-top: 1px solid rgba(0, 210, 255, 0.20) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .btn-copy-loadstring {
+  background: rgba(0, 210, 255, 0.14) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(0, 210, 255, 0.50) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    0 4px 18px rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(0, 210, 255, 0.25) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .btn-copy-loadstring:hover {
+  background: rgba(0, 210, 255, 0.28) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.65),
+    0 6px 24px rgba(0, 0, 0, 0.55),
+    0 0 32px rgba(0, 210, 255, 0.50) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Grand CTA Banner */
+html[data-theme-preset="deep-midnight"] .cta-banner-card {
+  background: linear-gradient(135deg, rgba(6, 14, 28, 0.68) 0%, rgba(2, 5, 12, 0.82) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1px solid rgba(0, 210, 255, 0.48) !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.40),
+    inset 0 0 42px rgba(0, 210, 255, 0.18),
+    0 28px 72px -12px rgba(0, 0, 0, 0.85),
+    0 0 48px rgba(0, 210, 255, 0.35) !important;
+}
+
+/* Inputs & Modals */
+html[data-theme-preset="deep-midnight"] :is(
+  .catalog-search-bar, .search-input-wrapper input, .scripts-search-input,
+  .key-output-wrapper, .key-output-code, .timer-pill,
+  .desk-field input, .desk-field textarea, .desk-draft textarea,
+  .desk-route-face
+) {
+  background: rgba(3, 7, 15, 0.70) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(0, 210, 255, 0.30) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.60) !important;
+}
+
+html[data-theme-preset="deep-midnight"] :is(
+  .catalog-search-bar:focus-within, .search-input-wrapper input:focus, .scripts-search-input:focus,
+  .desk-field input:focus, .desk-field textarea:focus, .desk-draft textarea:focus
+) {
+  border-color: rgba(0, 230, 255, 0.80) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 24px rgba(0, 210, 255, 0.45) !important;
+}
+
+/* Site Navigation Header */
+html[data-theme-preset="deep-midnight"] :is(.site-header, .site-nav) {
+  background: rgba(2, 5, 12, 0.72) !important;
+  backdrop-filter: blur(20px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  border-bottom: 1px solid rgba(0, 210, 255, 0.25) !important;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.60), inset 0 -1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+html[data-theme-preset="deep-midnight"] .theme-preset-btn.active {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.40) 0%, rgba(0, 136, 255, 0.40) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  color: #ffffff !important;
+  border-color: rgba(0, 230, 255, 0.80) !important;
+  box-shadow: 0 0 24px rgba(0, 210, 255, 0.65) !important;
+}
+
+/* =============================================================================
+   4. PRESET 4: AURORA BOREALIS (نمط الشفق القطبي الملون)
+   ============================================================================= */
+/* =============================================================================
+   4. PRESET 4: AURORA BOREALIS (تدرجات الشفق القطبي: أزرق جليدي، تركواز، ولمسات خضراء باردة)
+   ============================================================================= */
+html[data-theme-preset="aurora-borealis"] {
+  --bg-base: #030d14;
+  --bg-primary: #05131d;
+  --bg-secondary: #081d2a;
+  --surface-card: rgba(8, 26, 38, 0.55);
+  --surface-raised: rgba(12, 36, 52, 0.65);
+  --surface-pill: rgba(16, 46, 66, 0.75);
+  --surface-glass: rgba(6, 20, 30, 0.65);
+  --surface-glass-border: 1px solid rgba(34, 211, 238, 0.28);
+  --surface-glass-border-hover: 1px solid rgba(52, 211, 153, 0.55);
+
+  --border-subtle: rgba(34, 211, 238, 0.12);
+  --border-dim: rgba(34, 211, 238, 0.20);
+  --border-default: rgba(34, 211, 238, 0.30);
+  --border-active: rgba(52, 211, 153, 0.60);
+
+  --text-primary: #f0fdfa;
+  --text-secondary: #99f6e4;
+  --text-muted: #5eead4;
+  --text-disabled: #2dd4bf;
+
+  --accent-ice: #38bdf8;
+  --accent-cyan: #22d3ee;
+  --accent-cyan-glow: 0 0 24px rgba(34, 211, 238, 0.50);
+  --accent-frost: #ccfbf1;
+  --accent-primary: #22d3ee;
+  --accent-primary-dim: #0891b2;
+  --accent-secondary: #34d399;
+
+  --polar-base: #05131d;
+  --polar-blue: 30, 115, 230;
+  --polar-cyan: 34, 211, 238;
+  --polar-emerald: 52, 211, 153;
+}
+
+html[data-theme-preset="aurora-borealis"] body,
+html[data-theme-preset="aurora-borealis"] .snowy-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #0a2d3b 0%, #05141e 50%, #02080d 100%) fixed !important;
+  background-color: #05141e !important;
+  color: #f0fdfa !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .polar-atmosphere {
+  background: radial-gradient(ellipse 120% 100% at 50% 0%, #0a2d3b 0%, #05141e 50%, #02080d 100%) !important;
+  background-color: #05141e !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .polar-atmosphere__light {
+  background:
+    radial-gradient(ellipse 55% 55% at 20% 15%, rgba(34, 211, 238, 0.22), transparent 75%),
+    radial-gradient(ellipse 65% 60% at 85% 50%, rgba(52, 211, 153, 0.18), transparent 75%),
+    radial-gradient(ellipse 60% 60% at 30% 85%, rgba(56, 189, 248, 0.20), transparent 70%) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .polar-atmosphere__aurora {
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(52, 211, 153, 0.08) 46%, rgba(34, 211, 238, 0.22) 54%, rgba(56, 189, 248, 0.12) 64%, transparent 72%) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .polar-atmosphere__aurora--far {
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(56, 189, 248, 0.10) 46%, rgba(52, 211, 153, 0.20) 54%, rgba(34, 211, 238, 0.14) 64%, transparent 72%) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .section-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.20) 15%,
+    rgba(34, 211, 238, 0.60) 35%,
+    rgba(52, 211, 153, 0.80) 50%,
+    rgba(34, 211, 238, 0.60) 65%,
+    rgba(56, 189, 248, 0.20) 85%,
+    transparent 100%
+  ) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .section-divider::after {
+  background: radial-gradient(ellipse 180px 4px at center, rgba(52, 211, 153, 0.85) 0%, rgba(34, 211, 238, 0.40) 60%, transparent 100%) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .section-editorial-title .title-italic {
+  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 45%, #34d399 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 28px rgba(34, 211, 238, 0.45)) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .hero-hl-italic {
+  background: linear-gradient(135deg, #ffffff 0%, #67e8f9 35%, #22d3ee 70%, #34d399 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 35px rgba(34, 211, 238, 0.60)) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .sub-ice {
+  color: #22d3ee !important;
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.50), 0 0 35px rgba(52, 211, 153, 0.35) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .section-eyebrow-tag {
+  color: #22d3ee !important;
+}
+
+html[data-theme-preset="aurora-borealis"] :is(.micro-badge-cyan, .switch-pill-badge.pro) {
+  background: rgba(34, 211, 238, 0.12) !important;
+  color: #22d3ee !important;
+  border-color: rgba(52, 211, 153, 0.35) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .micro-badge-cyan .micro-badge-svg {
+  color: #34d399 !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .comparison-switch-btn.active {
+  background: rgba(34, 211, 238, 0.18) !important;
+  border-color: rgba(52, 211, 153, 0.50) !important;
+  color: #f0fdfa !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .comparison-switch-btn.active .switch-icon {
+  color: #34d399 !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .loader-step.active-step .loader-step-badge,
+html[data-theme-preset="aurora-borealis"] .stepper-step.active-step .stepper-badge {
+  background: linear-gradient(135deg, #22d3ee 0%, #34d399 100%) !important;
+  color: #041018 !important;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.50) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .stepper-telemetry-pill {
+  border-color: rgba(34, 211, 238, 0.28) !important;
+}
+
+/* Frosted Glass Cards (Glassmorphism for Aurora Borealis) */
+html[data-theme-preset="aurora-borealis"] :is(
+  .pricing-card, .stepper-step, .loader-step, .comparison-switch-dock, .code-card-wrapper,
+  .loader-terminal-card, .faq-accordion-item, .accordion-item, .cta-banner-card,
+  .catalog-card, .catalog-card-inner, .game-inspect-modal,
+  .access-pass, .access-pass--lifetime,
+  .free-key-card, .key-step-card, .generator-card, .generator-box,
+  .desk-panel, .desk-draft, .metric-card
+) {
+  background: rgba(7, 24, 36, 0.54) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(34, 211, 238, 0.26) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 0 20px 0 rgba(52, 211, 153, 0.06),
+    0 12px 36px -6px rgba(0, 0, 0, 0.50),
+    0 0 18px 0 rgba(34, 211, 238, 0.10) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] :is(
+  .pricing-card:hover, .stepper-step:hover, .loader-step:hover,
+  .catalog-card:hover, .free-key-card:hover, .key-step-card:hover,
+  .faq-accordion-item:hover, .accordion-item:hover, .metric-card:hover
+) {
+  background: rgba(12, 36, 52, 0.70) !important;
+  border-color: rgba(52, 211, 153, 0.60) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 28px 0 rgba(34, 211, 238, 0.18),
+    0 18px 48px -4px rgba(0, 0, 0, 0.60),
+    0 0 32px 0 rgba(52, 211, 153, 0.28) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] :is(.stepper-step.active-step, .loader-step.active-step) {
+  background: rgba(14, 40, 58, 0.75) !important;
+  border-color: rgba(52, 211, 153, 0.65) !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.38),
+    inset 0 0 28px 0 rgba(34, 211, 238, 0.22),
+    0 14px 40px rgba(0, 0, 0, 0.50),
+    0 0 26px rgba(52, 211, 153, 0.30) !important;
+}
+
+/* Frosted Aurora Buttons */
+html[data-theme-preset="aurora-borealis"] :is(
+  .btn-cta-primary, .btn-primary, .btn-cyan, .access-action,
+  .catalog-btn-run, .catalog-btn-copy, .desk-primary, .btn-generate-key
+) {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.35) 0%, rgba(34, 211, 238, 0.25) 50%, rgba(52, 211, 153, 0.25) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.55) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 14px rgba(34, 211, 238, 0.50) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+    0 6px 22px rgba(0, 0, 0, 0.35),
+    0 0 24px rgba(52, 211, 153, 0.25) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] :is(
+  .btn-cta-primary:hover, .btn-primary:hover, .btn-cyan:hover, .access-action:hover,
+  .catalog-btn-run:hover, .catalog-btn-copy:hover, .desk-primary:hover, .btn-generate-key:hover
+) {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.48) 0%, rgba(34, 211, 238, 0.38) 50%, rgba(52, 211, 153, 0.38) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.70),
+    0 10px 32px rgba(0, 0, 0, 0.45),
+    0 0 36px rgba(52, 211, 153, 0.45) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Terminal & Copy Button */
+html[data-theme-preset="aurora-borealis"] .loader-terminal-card {
+  background: linear-gradient(180deg, rgba(7, 24, 36, 0.72) 0%, rgba(3, 12, 20, 0.84) 100%) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(34, 211, 238, 0.32) !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 0 24px rgba(52, 211, 153, 0.10),
+    0 20px 48px -12px rgba(0, 0, 0, 0.70),
+    0 0 32px rgba(34, 211, 238, 0.18) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .loader-terminal-header {
+  background: rgba(12, 32, 48, 0.50) !important;
+  border-bottom: 1px solid rgba(34, 211, 238, 0.18) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .loader-terminal-footer {
+  border-top: 1px solid rgba(34, 211, 238, 0.18) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .btn-copy-loadstring {
+  background: rgba(34, 211, 238, 0.14) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(52, 211, 153, 0.45) !important;
+  color: #f0fdfa !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.30),
+    0 4px 16px rgba(0, 0, 0, 0.30),
+    0 0 18px rgba(52, 211, 153, 0.20) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .btn-copy-loadstring:hover {
+  background: rgba(52, 211, 153, 0.26) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.55),
+    0 6px 22px rgba(0, 0, 0, 0.40),
+    0 0 28px rgba(34, 211, 238, 0.40) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Grand CTA Banner */
+html[data-theme-preset="aurora-borealis"] .cta-banner-card {
+  background: linear-gradient(135deg, rgba(10, 32, 48, 0.62) 0%, rgba(4, 16, 26, 0.75) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.45) !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    inset 0 0 36px rgba(34, 211, 238, 0.16),
+    0 24px 64px -12px rgba(0, 0, 0, 0.65),
+    0 0 42px rgba(52, 211, 153, 0.30) !important;
+}
+
+/* Inputs & Modals */
+html[data-theme-preset="aurora-borealis"] :is(
+  .catalog-search-bar, .search-input-wrapper input, .scripts-search-input,
+  .key-output-wrapper, .key-output-code, .timer-pill,
+  .desk-field input, .desk-field textarea, .desk-draft textarea,
+  .desk-route-face
+) {
+  background: rgba(6, 20, 32, 0.62) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(34, 211, 238, 0.25) !important;
+  color: #f0fdfa !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] :is(
+  .catalog-search-bar:focus-within, .search-input-wrapper input:focus, .scripts-search-input:focus,
+  .desk-field input:focus, .desk-field textarea:focus, .desk-draft textarea:focus
+) {
+  border-color: rgba(52, 211, 153, 0.65) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 20px rgba(34, 211, 238, 0.30) !important;
+}
+
+/* Site Navigation Header */
+html[data-theme-preset="aurora-borealis"] :is(.site-header, .site-nav) {
+  background: rgba(4, 15, 24, 0.64) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(34, 211, 238, 0.22) !important;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.40), inset 0 -1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+html[data-theme-preset="aurora-borealis"] .theme-preset-btn.active {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.35) 0%, rgba(52, 211, 153, 0.35) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  color: #ffffff !important;
+  border-color: rgba(52, 211, 153, 0.70) !important;
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.50) !important;
+}
+
+/* =============================================================================
+   SHARED NAVBAR PILL & BASE SURFACES ACROSS ALL PAGES
+   ============================================================================= */
+.nav-pill {
+  background: rgba(11, 30, 58, 0.78) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--border-default) !important;
+}
+
+.nav-link.active {
+  background: rgba(56, 189, 248, 0.16) !important;
+  color: var(--text-primary) !important;
+}
+
+.brand-snowflake-icon {
+  stroke: var(--accent-cyan) !important;
+  color: var(--accent-cyan) !important;
+}
+
+/* =============================================================================
+   FLOATING THEME SWITCHER DOCK (شريط تجربة الألوان في أسفل الشاشة)
+   ============================================================================= */
+.theme-presets-dock {
+  display: none !important;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(6, 12, 24, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.60), 0 0 25px rgba(56, 189, 248, 0.25);
+  transition: all 0.3s ease;
+}
+
+.theme-preset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  color: #9ec5eb;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.theme-preset-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.theme-preset-btn.active {
+  color: #050e1c;
+  background: #38bdf8;
+  border-color: #38bdf8;
+  box-shadow: 0 2px 14px rgba(56, 189, 248, 0.55);
+  font-weight: 700;
+}

@@ -1,0 +1,242 @@
+/* Polar Night: one coordinated palette for the current dark-only site. */
+html[data-theme-preset='polar-night'] {
+  color-scheme: dark;
+  --bg-base: #07111d;
+  --bg-primary: #07111d;
+  --bg-secondary: #0c1b29;
+  --surface-card: #102335;
+  --surface-raised: #152b3a;
+  --surface-pill: #152b3a;
+  --surface-glass: rgba(12, 28, 41, .86);
+  --surface-glass-border: 1px solid #8ed8ef24;
+  --surface-glass-border-hover: 1px solid #8ed8ef66;
+  --border-subtle: #8ed8ef18;
+  --border-dim: #8ed8ef26;
+  --border-default: #8ed8ef33;
+  --border-active: #8ed8ef77;
+  --text-primary: #dfeaf1;
+  --text-secondary: #9bafbf;
+  --text-muted: #8299aa;
+  --text-disabled: #657d8e;
+  --text-on-accent: #071a25;
+  --accent-ice: #8ed8ef;
+  --accent-cyan: #8ed8ef;
+  --accent-frost: #dceef5;
+  --accent-primary: #8ed8ef;
+  --accent-primary-dim: #65a7be;
+  --accent-secondary: #83aea9;
+  --accent-purple: #83aea9;
+  --accent-yellow: #c9b58a;
+  --accent-cyan-glow: 0 0 24px #8ed8ef19;
+  --accent-purple-glow: 0 0 24px #83aea914;
+  --persistent-dark-bg: #0c1b29;
+  --persistent-dark-surface: #102335;
+  --persistent-dark-border: #8ed8ef24;
+  --persistent-dark-text: #dfeaf1;
+  --persistent-dark-subtext: #9bafbf;
+  --polar-base: #07111d;
+  --polar-blue: 64, 106, 142;
+  --polar-cyan: 142, 216, 239;
+  --polar-violet: 131, 174, 169;
+  --polar-edge: 142, 216, 239;
+  background-color: #07111d !important;
+  color: #dfeaf1;
+}
+
+html[data-theme-preset='polar-night'] body {
+  background: transparent !important;
+  color: var(--text-primary) !important;
+}
+html[data-theme-preset='polar-night'] ::selection { background: #8ed8ef44; color: #f1f8fc; }
+html[data-theme-preset='polar-night'] ::-webkit-scrollbar-track { background: #07111d; }
+html[data-theme-preset='polar-night'] ::-webkit-scrollbar-thumb { background: #637d8d77; }
+html[data-theme-preset='polar-night'] :is(h1,h2,h3,h4,h5,h6) { color: var(--text-primary); }
+
+/* Keep the landscape visible between content, rather than painting large slabs. */
+html[data-theme-preset='polar-night'] :is(
+  .section-wrapper,.hero-section,.how-it-works-section,.section-pricing-band,
+  .section-pricing-band .section-wrapper,.scripts-section,.faq-section,
+  .page-hero-header,.pricing-hero,.pricing-plan-section,.pricing-reassurance,
+  .access-studio,.desk-layout,.contact-desk,.cta-banner-wrapper,.site-footer
+) { background: transparent !important; }
+html[data-theme-preset='polar-night'] :is(.section-divider,.section-pricing-band,.site-footer) { border-color: #8ed8ef18; }
+html[data-theme-preset='polar-night'] :is(.section-geom-bg,.pricing-atmosphere) { display: none !important; }
+html[data-theme-preset='polar-night'] :is(.pricing-hero,.pricing-plan-section)::before,
+html[data-theme-preset='polar-night'] .pricing-hero::after { content: none !important; }
+
+/* Navigation stays distinct over every depth layer. */
+html[data-theme-preset='polar-night'] :is(.site-header,.site-nav,.pricing-nav-header) {
+  background: #07111de6 !important;
+  border-color: #8ed8ef22 !important;
+  box-shadow: 0 8px 28px #00000021 !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+html[data-theme-preset='polar-night'] .nav-pill { background: #102335bd !important; border-color: #8ed8ef29 !important; box-shadow: none !important; }
+html[data-theme-preset='polar-night'] :is(.nav-link,.pricing-nav-link) { color: #9bafbf !important; }
+html[data-theme-preset='polar-night'] :is(.nav-link,.pricing-nav-link):hover { color: #dfeaf1 !important; }
+html[data-theme-preset='polar-night'] :is(.nav-link,.pricing-nav-link).active { background: #8ed8ef12 !important; color: #b4e3f1 !important; }
+html[data-theme-preset='polar-night'] :is(.mobile-menu-toggle,#vault-menu-toggle) { color: #c2dbe6; }
+html[data-theme-preset='polar-night'] :is(#mobile-site-menu,.vault-mobile-nav,.mobile-site-menu) { background: #0c1b29f5; border-color: #8ed8ef33; color: #dfeaf1; }
+html[data-theme-preset='polar-night'] :is(#mobile-site-menu,.vault-mobile-nav,.mobile-site-menu) a { color: #c0d3df; }
+
+/* Light buttons are intentional accents; their labels remain dark. */
+html[data-theme-preset='polar-night'] :is(.btn-cyan,.btn-primary,.btn-cta-primary,.btn-start-gen,.btn-copy-key,.btn-card-copy,.btn-inspect-copy,.btn-upsell-primary,.desk-primary,.pricing-btn-get,.hub-2d-btn) {
+  background: #8ed8ef !important; border-color: #8ed8ef !important;
+  color: #071a25 !important; box-shadow: 0 4px 18px #04101c26 !important;
+}
+html[data-theme-preset='polar-night'] :is(.btn-cyan,.btn-primary,.btn-cta-primary,.btn-start-gen,.btn-copy-key,.btn-card-copy,.btn-inspect-copy,.btn-upsell-primary,.desk-primary,.pricing-btn-get,.hub-2d-btn):hover {
+  background: #b4e5f3 !important; border-color: #b4e5f3 !important;
+}
+html[data-theme-preset='polar-night'] .btn-discord { background: #152b3a !important; border: 1px solid #8ed8ef33 !important; color: #dfeaf1 !important; }
+html[data-theme-preset='polar-night'] .btn-discord svg { fill: currentColor !important; }
+html[data-theme-preset='polar-night'] :is(.btn-glass,.btn-dark-pill,.btn-secondary,.btn-cta-secondary,.btn-card-inspect,.btn-upsell-secondary,.desk-secondary,.btn-inspect-prem,.btn-unlock-lifetime) {
+  background: #102335cc !important; border-color: #8ed8ef3d !important;
+  color: #c7dfe9 !important; box-shadow: none !important;
+}
+html[data-theme-preset='polar-night'] :is(.btn-glass,.btn-dark-pill,.btn-secondary,.btn-cta-secondary,.btn-card-inspect,.btn-upsell-secondary,.desk-secondary,.btn-inspect-prem,.btn-unlock-lifetime):hover { background: #152b3a !important; border-color: #8ed8ef77 !important; }
+html[data-theme-preset='polar-night'] :is(a,button,input,textarea,select,summary):focus-visible { outline-color: #8ed8ef; }
+
+/* Editorial color hierarchy, without neon glows on running text. */
+html[data-theme-preset='polar-night'] :is(.sub-white,.hero-hl-solid,.title-solid,.total-control-title,.card-game-title,.inspect-game-title,.access-name,.metric-val,.pricing-price,.access-cost,.signoff-title) { color: #dfeaf1 !important; }
+html[data-theme-preset='polar-night'] :is(.sub-ice,.desk-hero h1 span,.signoff-title span,.results-count-highlight,.inspect-metric-val,.telemetry-val.accent,.hub-2d-cat-icon) { color: #8ed8ef !important; text-shadow: none; }
+html[data-theme-preset='polar-night'] .pricing-hero h1 em { color: #8ed8ef; text-shadow: none; }
+html[data-theme-preset='polar-night'] :is(.page-hero-header h1,.hero-hl-italic,.accent-title-blue,.section-editorial-title .title-italic,.total-control-title em) {
+  color: #a5dbe9; background: linear-gradient(120deg,#dceef5 5%,#8ed8ef 60%,#83aea9 100%) !important;
+  background-clip: text !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
+  filter: none !important; text-shadow: none !important;
+}
+html[data-theme-preset='polar-night'] :is(
+  .hero-editorial-hook,.hero-editorial-microlabel,.section-editorial-desc,.pricing-desc,.pricing-intro,
+  .pricing-plan-lead p,.pricing-plan-desc,.pricing-headline-wrap p,.access-description,.access-billing,
+  .access-intro>p,.access-checkout-note,.card-game-subgenre,.catalog-results-bar,
+  .upsell-desc,.inspect-feature-text,.inspect-metric-label,.generator-main-desc,
+  .desk-hero p,.desk-form-intro,.desk-side-note p,.desk-form-footer p,.desk-draft p,.desk-faq details p,
+  .stepper-content p,.accordion-inner-text,.cta-subcopy,.hub-2d-subtitle,.hub-2d-cat-desc,
+  .signoff-policy,.signoff-policy-note,.signoff-copyright,.signoff-bottom-actions a,.signoff-art-caption
+) { color: #9bafbf !important; }
+html[data-theme-preset='polar-night'] :is(.section-eyebrow-tag,.hero-eyebrow-label,.access-kicker,.desk-kicker,.desk-section-label,.upsell-eyebrow,.pricing-kicker,.cta-eyebrow) { color: #9fc9d6 !important; }
+html[data-theme-preset='polar-night'] .hero-editorial-microlabel { opacity: .85; }
+html[data-theme-preset='polar-night'] .hero-rive-pill { color: #c1dce8; }
+html[data-theme-preset='polar-night'] .metric-label { color: #9bafbf; }
+html[data-theme-preset='polar-night'] .metric-icon-wrap { color: #bad2df; background: #8ed8ef0b; border-color: #8ed8ef26; }
+html[data-theme-preset='polar-night'] .metric-badge-live { color: #a0c9bd; background: #83aea912; border-color: #83aea944; }
+
+/* Home: quiet translucent cards, readable terminals and a native dark hub. */
+html[data-theme-preset='polar-night'] :is(
+  .stepper-step,.loader-step,.pricing-card,.accordion-item,.faq-accordion-item,
+  .cta-banner-card,.comparison-switch-dock,.stepper-telemetry-pill,.hero-rive-pill,
+  .metric-card,.code-card-wrapper,.loader-terminal-card,.loader-terminal-window,.terminal-window,.game-card
+) {
+  background: #102335d6 !important; border-color: #8ed8ef26 !important;
+  box-shadow: 0 12px 36px #00000020 !important;
+}
+html[data-theme-preset='polar-night'] :is(.stepper-step,.loader-step,.pricing-card,.accordion-item,.metric-card,.game-card):hover { background: #152b3ae8 !important; border-color: #8ed8ef52 !important; }
+html[data-theme-preset='polar-night'] :is(.stepper-step.active-step,.loader-step.active-step,.accordion-item.active) { background: #173344e8 !important; border-color: #8ed8ef77 !important; }
+html[data-theme-preset='polar-night'] :is(.stepper-badge,.loader-step-number,.micro-badge-cyan,.hero-pill-badge,.switch-pill-badge.pro) { color: #aedfeb; background: #8ed8ef0d; border-color: #8ed8ef33; box-shadow: none; }
+html[data-theme-preset='polar-night'] .stepper-step.active-step .stepper-badge { background: #8ed8ef; color: #071a25; border-color: #8ed8ef; box-shadow: none; }
+html[data-theme-preset='polar-night'] .comparison-switch-btn.active:is([data-mode='snowy'],[data-compare='snowy']) { background: #1d4354; border-color: #8ed8ef66; color: #dfeaf1; box-shadow: none; }
+html[data-theme-preset='polar-night'] .switch-pill-badge.pro { color: #a0c9bd; border-color: #83aea944; background: #83aea915; }
+html[data-theme-preset='polar-night'] :is(.terminal-header,.loader-terminal-header,.loader-terminal-footer) { background: #071522; border-color: #8ed8ef1e; }
+html[data-theme-preset='polar-night'] .loader-terminal-body { background: #071522b3; }
+html[data-theme-preset='polar-night'] :is(.terminal-prompt,.terminal-dot) { color: #8ed8ef; }
+html[data-theme-preset='polar-night'] .terminal-dot { background: #8ed8ef; }
+html[data-theme-preset='polar-night'] .btn-copy-loadstring { background: #8ed8ef10; color: #dfeaf1; border-color: #8ed8ef44; box-shadow: none; }
+html[data-theme-preset='polar-night'] .btn-copy-loadstring:hover { background: #8ed8ef1c; border-color: #8ed8ef77; box-shadow: none; }
+html[data-theme-preset='polar-night'] .btn-copy-loadstring.copied { color: #9bc8ba; background: #83aea917; border-color: #83aea955; }
+html[data-theme-preset='polar-night'] .pricing-popular-badge { background: #c9b58a; color: #17242a; box-shadow: none; }
+html[data-theme-preset='polar-night'] :is(.terminal-code-snippet,.inspect-code-content,.code-content) { color: #bad8e3; }
+html[data-theme-preset='polar-night'] :is(.terminal-status-pill,.telemetry-mode-snowy .telemetry-val,.card-status-badge) { color: #9bc8ba; }
+html[data-theme-preset='polar-night'] :is(.telemetry-dot.pulse-cyan,.terminal-status-dot,.pulse-dot) { background: #83aea9; box-shadow: none; }
+html[data-theme-preset='polar-night'] .carousel-viewport::before,
+html[data-theme-preset='polar-night'] .carousel-viewport::after { background: none; }
+
+html[data-theme-preset='polar-night'] :is(.hub-2d-window,.hub-2d-sidebar) { background: #0a1724f2; border-color: #8ed8ef2b; box-shadow: 0 20px 55px #00000055; }
+html[data-theme-preset='polar-night'] :is(.hub-2d-card,.hub-2d-select,.hub-2d-brand-icon,.hub-2d-cat-icon) { background: #102335; border-color: #8ed8ef24; }
+html[data-theme-preset='polar-night'] :is(.hub-2d-title,.hub-2d-cat-title,.hub-2d-subhead,.hub-2d-label-wrap,.hub-2d-slider-val) { color: #dfeaf1; }
+html[data-theme-preset='polar-night'] .hub-2d-tab-btn { color: #8299aa; }
+html[data-theme-preset='polar-night'] .hub-2d-tab-btn.active { color: #8ed8ef; background: #183646; border-color: #8ed8ef45; box-shadow: none; }
+html[data-theme-preset='polar-night'] .hub-2d-tab-btn.active::before { background: #8ed8ef; box-shadow: none; }
+html[data-theme-preset='polar-night'] .hub-2d-toggle { background: #2a4151; }
+html[data-theme-preset='polar-night'] .hub-2d-toggle.active { background: #6dacae; box-shadow: none; }
+html[data-theme-preset='polar-night'] .hub-2d-toggle::after { background: #dfeaf1; }
+html[data-theme-preset='polar-night'] .hub-2d-slider { background: #2a4151; }
+html[data-theme-preset='polar-night'] .hub-2d-btn.saved { background: #83aea9 !important; color: #071a25 !important; }
+
+/* Catalog: images keep their authored color; frames and inspection UI share the palette. */
+html[data-theme-preset='polar-night'] :is(.tilt-card-inner,.inspect-modal-container,.scripts-upsell-card) { background: #0c1b29eb !important; border-color: #8ed8ef2e !important; box-shadow: 0 18px 48px #00000035 !important; }
+html[data-theme-preset='polar-night'] .tilt-card-inner { backdrop-filter: none; -webkit-backdrop-filter: none; }
+html[data-theme-preset='polar-night'] .tilt-card-inner::before { background: linear-gradient(135deg,#8ed8ef66,#83aea944); }
+html[data-theme-preset='polar-night'] .card-banner-gradient { background: linear-gradient(180deg,transparent 36%,#0c1b29f5); }
+html[data-theme-preset='polar-night'] :is(.feature-chip,.category-pill-btn,.card-cat-badge,.inspect-metric-item,.inspect-section-col,.inspect-feature-item,.inspect-code-box) { background: #102335c9; border-color: #8ed8ef24; color: #bed3df; }
+html[data-theme-preset='polar-night'] .category-pill-btn.active { background: #8ed8ef; color: #071a25; border-color: #8ed8ef; box-shadow: none; }
+html[data-theme-preset='polar-night'] .feature-chip.more { color: #8ed8ef; background: #8ed8ef12; }
+html[data-theme-preset='polar-night'] .inspect-modal-backdrop { background: #030b14d9; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+html[data-theme-preset='polar-night'] .inspect-banner-box { background: #102335; border-color: #8ed8ef26; }
+html[data-theme-preset='polar-night'] :is(.inspect-section-col.prem-col,.inspect-feature-item.prem-item:hover) { border-color: #c9b58a44; }
+html[data-theme-preset='polar-night'] :is(.inspect-col-title-badge.prem,.inspect-metric-val.purple,.inspect-feature-text.is-premium) { color: #c9b58a; background: #c9b58a0b; border-color: #c9b58a33; }
+html[data-theme-preset='polar-night'] .inspect-col-title-badge.free { color: #8ed8ef; background: #8ed8ef0d; border-color: #8ed8ef33; }
+html[data-theme-preset='polar-night'] .card-status-badge { background: #102d2ae8; color: #a8cfbf; border-color: #83aea944; }
+html[data-theme-preset='polar-night'] .shield-micro-icon { fill: #83aea9; filter: none; }
+html[data-theme-preset='polar-night'] .copy-toast { background: #152b3af5; color: #dfeaf1; border-color: #8ed8ef44; }
+html[data-theme-preset='polar-night'] .scripts-upsell-card::after { background: radial-gradient(ellipse,#83aea916,transparent 70%); }
+
+/* Forms and search share readable surfaces, even when the landscape is bright. */
+html[data-theme-preset='polar-night'] :is(.scripts-search-input,.desk-field input,.desk-field textarea,.desk-draft textarea,select) {
+  background: #071724e8 !important; border-color: #8ed8ef33 !important;
+  color: #dfeaf1 !important; box-shadow: none;
+}
+html[data-theme-preset='polar-night'] :is(.scripts-search-input,.desk-field input,.desk-field textarea,.desk-draft textarea)::placeholder { color: #8299aa !important; opacity: 1; }
+html[data-theme-preset='polar-night'] :is(.scripts-search-input,.desk-field input,.desk-field textarea):focus { border-color: #8ed8ef88 !important; box-shadow: 0 0 0 3px #8ed8ef0e; }
+html[data-theme-preset='polar-night'] :is(.scripts-search-icon,.scripts-search-clear) { color: #9bafbf; }
+html[data-theme-preset='polar-night'] :is(.desk-panel,.desk-draft) { background: #102335e6 !important; border-color: #8ed8ef30 !important; box-shadow: 0 20px 55px #00000020; }
+html[data-theme-preset='polar-night'] :is(.desk-panel-header,.desk-panel-header strong,.desk-field label,.desk-route-face strong,.desk-draft h3) { color: #c6dce7; }
+html[data-theme-preset='polar-night'] :is(.desk-panel-header span,.desk-message-meta,.desk-field label span,.desk-route-number,.desk-channel) { color: #91a9b9; }
+html[data-theme-preset='polar-night'] .desk-route-face { background: #0d203082; border-color: #8ed8ef12; }
+html[data-theme-preset='polar-night'] .desk-route input:checked+.desk-route-face { background: #173344e6; border-color: #8ed8ef5c; }
+html[data-theme-preset='polar-night'] .desk-route input:checked+.desk-route-face :is(.desk-route-number,.desk-route-arrow) { color: #8ed8ef; }
+html[data-theme-preset='polar-night'] :is(.desk-panel-header,.desk-side-note,.desk-faq details) { border-color: #8ed8ef20; }
+html[data-theme-preset='polar-night'] .desk-symbol svg { color: #a1d6e8; filter: none; }
+html[data-theme-preset='polar-night'] .desk-symbol-label { color: #91a9b9; }
+
+/* Access passes: muted brass distinguishes lifetime without a separate palette. */
+html[data-theme-preset='polar-night'] :is(.access-pass,.pricing-plan) { background: #102335df !important; border-color: #8ed8ef29 !important; box-shadow: 0 20px 50px #00000026 !important; }
+html[data-theme-preset='polar-night'] :is(.access-pass--lifetime,.pricing-card.lifetime,.pricing-featured) { --pass-accent: #c9b58a; background: linear-gradient(145deg,#18323de0,#102335ed) !important; border-color: #c9b58a66 !important; }
+html[data-theme-preset='polar-night'] :is(.access-pass-visual,.access-seal,.access-features,.access-checkout) { border-color: #8ed8ef24; }
+html[data-theme-preset='polar-night'] :is(.access-pass-top,.access-pass-code span:last-child,.access-features li) { color: #c0d6e2; }
+html[data-theme-preset='polar-night'] :is(.access-badge,.pricing-value-badge) { color: #cfbe98; background: #c9b58a0b; border-color: #c9b58a44; }
+html[data-theme-preset='polar-night'] :is(.access-pass-code span:first-child,.access-pass-code span:last-child b,.access-pass-foot,.pricing-fee-note) { color: #91a9b9; }
+html[data-theme-preset='polar-night'] .access-action { background: #152b3aa1; color: #d3e5ed; border-color: #8ed8ef33; }
+html[data-theme-preset='polar-night'] .access-pass--lifetime .access-action { background: #c9b58a; color: #19252a; border-color: #c9b58a; box-shadow: none; }
+html[data-theme-preset='polar-night'] .access-pass--lifetime .access-action:hover { background: #d9c79e; }
+html[data-theme-preset='polar-night'] :is(.access-permanent,.access-benefit svg) { color: #9bc8ba; stroke: #9bc8ba; }
+html[data-theme-preset='polar-night'] .access-permanent::before { background: #83aea9; }
+
+/* Footer and support chrome remain part of the same landscape. */
+html[data-theme-preset='polar-night'] :is(.signoff-nav a,.signoff-cta,.signoff-backtop span) { color: #d0e1eb; }
+html[data-theme-preset='polar-night'] :is(.signoff-eyebrow i,.signoff-orbit::after) { background: #8ed8ef; box-shadow: none; }
+html[data-theme-preset='polar-night'] .signoff-word { background-image: linear-gradient(174deg,#dfeaf1 12%,#b4d0dd 43%,#5b8399 51%,#bfdbe7 54%,#7095a8 73%,#355568 100%); }
+html[data-theme-preset='polar-night'] .signoff-crystal { color: #8ed8ef; filter: none; }
+html[data-theme-preset='polar-night'] :is(.signoff-orbit,.signoff-orbit::before,.signoff-bottom) { border-color: #8ed8ef22; }
+
+@media (max-width: 700px) {
+  html[data-theme-preset='polar-night'] .site-header { backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
+  html[data-theme-preset='polar-night'] :is(.stepper-step,.loader-step,.comparison-switch-dock,.stepper-telemetry-pill) { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+@media (forced-colors: active) {
+  html[data-theme-preset='polar-night'] :is(.page-hero-header h1,.hero-hl-italic,.accent-title-blue,.section-editorial-title .title-italic,.total-control-title em,.signoff-word) { background: none !important; -webkit-text-fill-color: CanvasText !important; color: CanvasText !important; }
+}
+
+@media(min-width:961px) { html[data-theme-preset='polar-night'] .mobile-menu-toggle { display:none!important; } }
+@media(max-width:960px) { html[data-theme-preset='polar-night'] .mobile-menu-toggle { display:inline-flex; align-items:center; gap:7px; } }
+html[data-theme-preset='polar-night'] .loader-step-badge { color:#aedfeb; background:#8ed8ef0d; border-color:#8ed8ef33; }
+html[data-theme-preset='polar-night'] .loader-step.active-step .loader-step-badge { color:#071a25; background:#8ed8ef; border-color:#8ed8ef; box-shadow:none; }
+html[data-theme-preset='polar-night'] .accordion-indicator { color:#8ed8ef; background:#8ed8ef0d; border-color:#8ed8ef33; }
+html[data-theme-preset='polar-night'] .accordion-item.active .accordion-indicator { color:#071a25; background:#8ed8ef; border-color:#8ed8ef; }
+@media(max-width:960px) { html[data-theme-preset='polar-night'] .mobile-menu-toggle { white-space:nowrap; font-size:12px; padding:8px 5px; } }
+
+html[data-theme-preset='polar-night'] :is(a,button,input,textarea,select,summary):focus-visible { outline:2px solid #8ed8ef; outline-offset:4px; }
+
+/* The aurora belongs to Contact / Free Key content, never the sign-off. */
+html[data-theme-preset='polar-night'] body:not(.has-polar-world) { background:radial-gradient(ellipse 90% 70% at 18% 0%,#102a3b80,transparent 75%),#07111d!important; }
+html[data-theme-preset='polar-night'] body.snowy-atmosphere footer.site-footer.snowy-signoff { background:#07111d!important; isolation:isolate; }

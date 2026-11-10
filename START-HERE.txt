@@ -1,0 +1,27 @@
+SNOWY — PROJECT SHARING COPY
+
+1. Extract the ZIP into a normal folder.
+2. Install Node.js 22.12+ (a supported recent LTS version is recommended).
+3. In the extracted Snowy folder, run:
+   npm ci
+   npm run dev
+4. Open http://localhost:5173/free-key.html for Free Key,
+   or http://localhost:5173/contact.html for the Contact page,
+   or http://localhost:5173/ for the home page.
+
+Production build: npm run build
+Local build preview: npm run preview
+
+For step-by-step integration and architecture details, refer to:
+  INTEGRATION_GUIDE.md
+
+Included: source, all public assets, scripts, package-lock.json, configs and project docs.
+Excluded: node_modules, generated dist/deploy folders, private environment/key files,
+          local experiments/work folders, editor metadata and old ZIPs.
+Full-quality public assets are preserved.
+
+RECENT UPDATES:
+- Free Key Page: Seamless snow plate (v5) under chest & ice cube, background campfire glow eliminated, sub-second load time.
+- Contact Page: Cloud drift speed tuned (+5%), realistic stationary polar star shimmer & twinkle (spatial motion completely eliminated).
+
+SHA256-MANIFEST.json lists every original included file for integrity checking.

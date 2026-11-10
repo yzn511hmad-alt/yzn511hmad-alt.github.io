@@ -1,0 +1,74 @@
+================================================================================
+SNOWY STUDIOS (getsnowy.net) — PRODUCTION LANDING PAGE
+================================================================================
+
+1. QUICK START
+--------------------------------------------------------------------------------
+Development Mode:
+   npm run dev
+   -> Open http://localhost:5173
+
+Production Build:
+   npm run build
+   npm run preview
+
+2. TECH STACK IMPLEMENTATION
+--------------------------------------------------------------------------------
+- Core: Vite + TypeScript (Strict Mode) + Semantic HTML5 + Custom CSS (Design Tokens)
+- Animation & Motion: GSAP + ScrollTrigger + Lenis smooth scroll & velocity tracking
+- 3D / WebGL: Three.js + Custom GLSL Shaders (Glacial Mist & Snow Particles)
+- Responsive Quality Tiers: DPR capped at min(window.devicePixelRatio, 2.0),
+  mobile tiering & IntersectionObserver tab suspension
+- Dual-Theme Engine: Dark Mode (Default) & Light Mode with persistent dark surfaces:
+  * loader.lua terminal card in Section 02
+  * 04 / CHOOSE YOUR ACCESS pricing band
+  * READY TO LOAD IN? CTA banner
+
+3. SECTIONS IMPLEMENTED
+--------------------------------------------------------------------------------
+1. Sticky Navigation Bar:
+   - Snowy Studios snowflake emblem
+   - Links: Scripts, Free, Pricing, Contact
+   - Sun/Moon theme toggle button
+   - Dark pill button "Get Snowy →"
+   - Purple Discord button "Login"
+
+2. Section 01: Hero & Wavy Feature Marquee:
+   - 01 / THE ULTIMATE ROBLOX SCRIPT HUB vertical label
+   - Glacial landscape shader backdrop with mist and falling snow particles
+   - "ONE LOADER. / EVERY / ADVANTAGE." headline
+   - "Explore scripts →" and "Get free access" buttons
+   - Stats glass bar (25+ supported games, Daily script updates, 24/7 live support)
+   - Continuous sine-wave marquee with 9 glowing feature nodes
+
+3. Section 02: Overview:
+   - 02 / OVERVIEW label
+   - "Pure performance. Zero limits." editorial headline
+   - Tactile Snowy Apex vs. Free Scripts architecture comparison
+   - 3-step vertical card stepper
+
+4. Section 03: Script Library:
+   - 03 / SCRIPT LIBRARY label
+   - "One clean loader. Total control." editorial headline
+   - 3-step loader execution workflow (Copy loader, Paste into executor, Execute & play)
+   - loader.lua persistent dark terminal card with one-click copy loadstring button
+
+5. Section 04: Pricing:
+   - 04 / CHOOSE YOUR ACCESS vertical label
+   - Persistent dark #07101e section band in both light & dark themes
+   - "START YOUR SNOWY ACCESS." headline
+   - Monthly ($9.99) & Lifetime ($19.99 with glowing purple border)
+
+6. Section 05: FAQ:
+   - 05 / QUESTIONS, ANSWERED vertical label
+   - Clean typography layout (NO robot mascot)
+   - "Talk to support →" pill button
+   - 4-item GSAP accordion with Item 01 open by default
+
+7. Bottom CTA Banner & Footer:
+   - "READY TO LOAD IN?" banner (Persistent dark #07101e)
+   - "EXPERIENCE SUPREMACY." header
+   - Product & Legal navigation columns
+   - Massive glowing SNOWY wordmark with diamond cutout inside the O
+   - Snowy Studios © 2026 copyright and social icons (Discord, Web, YouTube)
+================================================================================

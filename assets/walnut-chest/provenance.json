@@ -1,0 +1,83 @@
+{
+  "asset": "Walnut Veneer 02",
+  "author": "Jenelle van Heerden",
+  "source": "https://polyhaven.com/a/walnut_veneer_02",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "api": "https://api.polyhaven.com/files/walnut_veneer_02",
+  "sourceMaps": [
+    {
+      "filename": "Diffuse-2k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/walnut_veneer_02/walnut_veneer_02_diff_2k.jpg",
+      "md5": "893d9703ec5b152a9a67fe45e11749c7",
+      "size": 2429894
+    },
+    {
+      "filename": "nor_gl-2k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/walnut_veneer_02/walnut_veneer_02_nor_gl_2k.jpg",
+      "md5": "8e8cc0500f7b1a9ae03942b87eb52438",
+      "size": 1759588
+    },
+    {
+      "filename": "Rough-2k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/walnut_veneer_02/walnut_veneer_02_rough_2k.jpg",
+      "md5": "ed2c75c283b26c5ed003fd0050df07df",
+      "size": 3083152
+    }
+  ],
+  "processing": "Only Lanczos resampling and WebP compression. No recolor, painted detail, de-lighting or synthetic grain. Source diffuse is already horizontal. Normal map is OpenGL tangent-space.",
+  "variants": [
+    {
+      "file": "walnut-color.webp",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 474758,
+      "sha256": "a2a824c4d197df5f2e29aa548f17d172264be19c68bc2fbbcb45c111c2b5744a",
+      "colorSpace": "srgb"
+    },
+    {
+      "file": "walnut-color-mobile.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 86832,
+      "sha256": "6a63eb352205499bbdb8f3bd0817d7ec4fc52ff1b04fc122564e2a65b0a0090f",
+      "colorSpace": "srgb"
+    },
+    {
+      "file": "walnut-normal.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 844338,
+      "sha256": "3e88e07d7963ad26f863021ad948fa282f455b98ba895844e461c8d2244f957f",
+      "colorSpace": "none"
+    },
+    {
+      "file": "walnut-normal-mobile.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 194128,
+      "sha256": "e3a421acd347722eb718eb818a5a391da4ed934f1caf61e93614281f2c0df566",
+      "colorSpace": "none"
+    },
+    {
+      "file": "walnut-roughness.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 302188,
+      "sha256": "41671389ab0f109b0819638322b5fe1609deb9f4c18701dfd81b16ea4fbfd8bd",
+      "colorSpace": "none"
+    },
+    {
+      "file": "walnut-roughness-mobile.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 51778,
+      "sha256": "d244b73c848ee3e135a7516082c89f78e7420847f28a1e8561f0f42bd79b9148",
+      "colorSpace": "none"
+    }
+  ],
+  "originalDimensions": [
+    1000,
+    1000
+  ]
+}

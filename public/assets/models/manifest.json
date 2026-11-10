@@ -1,0 +1,38 @@
+{
+  "sourceBytes": 3063132,
+  "variants": [
+    {
+      "filename": "snowy_hub.draco.glb",
+      "bytes": 68636,
+      "extensions": [
+        "KHR_draco_mesh_compression",
+        "KHR_materials_clearcoat",
+        "KHR_materials_emissive_strength",
+        "KHR_materials_unlit",
+        "KHR_texture_basisu"
+      ],
+      "scenes": 1,
+      "meshes": 4,
+      "images": [
+        "image/ktx2"
+      ]
+    },
+    {
+      "filename": "snowy_hub.meshopt.glb",
+      "bytes": 51616,
+      "extensions": [
+        "EXT_meshopt_compression",
+        "KHR_materials_clearcoat",
+        "KHR_materials_emissive_strength",
+        "KHR_materials_unlit",
+        "KHR_mesh_quantization",
+        "KHR_texture_basisu"
+      ],
+      "scenes": 1,
+      "meshes": 4,
+      "images": [
+        "image/ktx2"
+      ]
+    }
+  ]
+}

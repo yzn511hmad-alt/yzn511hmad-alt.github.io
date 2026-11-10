@@ -1,0 +1,13 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{stripTypeScriptTypes}=require('node:module');
+const root=path.resolve(__dirname,'../src/components'),compile=n=>stripTypeScriptTypes(fs.readFileSync(path.join(root,n),'utf8')),data=s=>'data:text/javascript;base64,'+Buffer.from(s).toString('base64');
+(async()=>{const vault=data(compile('VaultState.ts')),state=await import(data(compile('MeltKeyState.ts').replace("'./VaultState'",JSON.stringify(vault))));
+const {prepareMeltRun,beginMeltRun,restoreMeltRun,meltSnapshot,collectMeltKey,startMeltRun}=state,t=100000;
+const p=prepareMeltRun(t);assert.equal(meltSnapshot(p,t+600000).remaining,30);assert.equal(meltSnapshot(p,t+600000).progress,0);assert.equal(collectMeltKey(p,t+600000),p);
+const restored=restoreMeltRun(JSON.stringify(p),t+600000,true);assert.equal(restored.pending,true);assert.equal(meltSnapshot(restored,t+600000).remaining,30);
+const r=beginMeltRun(restored,t+600000);assert.equal(r.pending,undefined);assert.equal(r.startedAt,t+600000);assert.equal(beginMeltRun(r,t+610000),r);
+assert.equal(meltSnapshot(r,r.startedAt+29999).remaining,1);assert.equal(meltSnapshot(r,r.startedAt+30000).phase,'available');
+const old=startMeltRun(t);assert.deepEqual(restoreMeltRun(JSON.stringify(old),t+12000,true),old);assert.equal(meltSnapshot(old,t+12000).remaining,18);
+for(const raw of [null,'broken',JSON.stringify({...p,startedAt:t+1}),JSON.stringify({...p,pending:false}),JSON.stringify({...p,key:'invalid'})])assert.equal(restoreMeltRun(raw,t,true).pending,true);
+const pass=collectMeltKey(r,r.startedAt+30000,()=> 'SNOWY-FREE-ABCD-EFGH-2026');assert.equal(meltSnapshot(pass,r.startedAt+30001).phase,'ready');assert.equal(restoreMeltRun(JSON.stringify(pass),pass.unlockedAt+86400000,true).pending,true);
+console.log('PASS: deferred fresh/reload, no early collection, idempotent first presentation, exact30s, legacy resume, invalid/expired reset.');
+})().catch(e=>{console.error(e);process.exitCode=1});

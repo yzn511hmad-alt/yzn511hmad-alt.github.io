@@ -1,0 +1,56 @@
+/* One coherent night exposure; the input camera moves the depth planes. */
+html[data-theme-preset='polar-night'],html[data-theme-preset='polar-night'] body { background:#07111d!important; }
+body.snowy-atmosphere { isolation:isolate; }
+.polar-atmosphere { filter:contrast(1.12) brightness(1.03);position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;user-select:none;contain:strict;background:#07111d!important; }
+.polar-layer { position:absolute;pointer-events:none;backface-visibility:hidden; }
+.polar-atmosphere.is-moving .polar-layer { will-change:transform; }
+.polar-layer--sky { inset:-6% -5% -8%;background:url('/assets/atmosphere/moonlit-clear-landscape-v1.webp') right center/cover no-repeat; }
+/* Intentionally empty until the owner's SVG is supplied. Behind range/ground. */
+.polar-layer--future-art { inset:-6% -5% -8%; }
+.polar-layer--future-art > svg { display:block;width:100%;height:100%; }
+.polar-layer--haze { inset:-7%;background:radial-gradient(ellipse 50% 45% at 84% 54%,#c2def70b,transparent 80%),radial-gradient(ellipse 70% 28% at 50% 86%,#88adca12,transparent 80%); }
+.polar-layer--range { inset:-6% -5% -8%;background:url('/assets/atmosphere/moonlit-far-range.webp') right center/cover no-repeat; }
+.polar-layer--foreground { left:-7%;right:-7%;bottom:-11%;height:64%;background:url('/assets/atmosphere/polar-night-ridge.webp') center bottom/100% 100% no-repeat;opacity:.76; }
+.polar-layer--foreground::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 48% 31% at 56% 73%,#a7e4ff45,transparent 76%),radial-gradient(ellipse 31% 38% at 89% 65%,#d4eaff32,transparent 76%);mask:url('/assets/atmosphere/polar-night-ridge.webp') center bottom/100% 100% no-repeat;mask-mode:luminance; }
+.polar-layer--stars { inset:-6% -5% -8%;background:url('/assets/atmosphere/polar-stars.svg') center/cover no-repeat;opacity:.52; }
+.polar-world-veil { position:absolute;inset:0;background:linear-gradient(90deg,#04101b30,#04101b18 34%,transparent 64%),linear-gradient(transparent 60%,#04101b18); }
+.app-wrapper { position:relative;z-index:1; }
+body.snowy-atmosphere :is(.hero-section,.section-wrapper,.how-it-works-section,.section-pricing-band,.site-footer,.page-hero-header,.pricing-hero,.pricing-plan-section,.pricing-reassurance,.scripts-section,.faq-section,.access-studio,.desk-layout,.container,.cta-banner-wrapper) { background-color:transparent!important;background-image:none; }
+body.snowy-atmosphere :is(.section-geom-bg,.pricing-atmosphere,.polar-atmosphere--local) { display:none!important; }
+body.snowy-atmosphere .snowy-core { background:#07111dcc; }
+body.snowy-atmosphere .snowy-core::before { content:none; }
+body.snowy-atmosphere .snowy-core :is(.core-grid,.core-dust) { display:none; }
+body.has-polar-world :is(.desk-hero h1,.key-page-intro h1) { text-shadow:0 2px 14px #020a13d9,0 1px 2px #020a13; }
+body.has-polar-world :is(.desk-kicker,.key-page-eyebrow) { color:#e7f7fc!important;font-weight:600;text-shadow:0 1px 4px #020a13,0 0 8px #020a13; }
+/* Keep live copy in the quiet sky, and give controls their own dark surface. */
+body.has-polar-world .key-page-intro { display:block; }
+body.has-polar-world .key-page-intro>div { max-width:min(100%,clamp(330px,43vw,560px)); }
+body.has-polar-world .key-page-intro>p { max-width:430px;margin-top:20px;color:#c0d2dd;text-shadow:0 1px 3px #04101b,0 0 12px #04101b99; }
+body.has-polar-world .desk-symbol { display:none; }
+body.has-polar-world .desk-routes .desk-route-face { background:#0b1d2bf0;border-color:#8dc6e52b; }
+body.has-polar-world .desk-routes .desk-route input:checked+.desk-route-face { background:#163343f5;border-color:#85cfff70; }
+body.has-polar-world .key-details { padding:24px;background:#07111dc9;border:1px solid #8ed8ef20;border-radius:14px; }
+body.has-polar-world .key-premium-note { text-shadow:0 1px 4px #04101b,0 0 8px #04101b; }
+body.has-polar-world .desk-faq { padding:28px;background:#0b1d2bf0;border:1px solid #8ed8ef25;border-radius:18px; }
+@media(max-width:700px) {
+ .polar-layer--foreground { height:48%;left:-15%;right:-15%;bottom:-8%;opacity:.61; }
+
+ .polar-world-veil { background:linear-gradient(90deg,#04101b36,#04101b12 65%,transparent),linear-gradient(transparent 70%,#04101b18); }
+ body[data-scene-page='contact'] .desk-hero { min-height:320px;align-items:flex-start; }
+ body[data-scene-page='contact'] .desk-hero p { max-width:calc(100% - 88px); }
+ body[data-scene-page='free-key'] .key-page-intro>p { max-width:none;padding-right:84px;margin-top:24px; }
+ body.has-polar-world .key-details { padding:22px 18px; }
+ body.has-polar-world .desk-faq { padding:23px 20px; }
+}
+@media(prefers-reduced-motion:reduce),(update:slow) { .polar-layer { transform:none!important;will-change:auto!important; } }
+@media(forced-colors:active),print { .polar-atmosphere { display:none!important; } }
+
+@media(orientation:portrait) {
+ .polar-layer--sky { background-image:url('/assets/atmosphere/moonlit-clear-portrait-v1.webp');background-position:right bottom; }
+ .polar-layer--range { background-image:url('/assets/atmosphere/moonlit-far-range-portrait.webp');background-position:right bottom; }
+}
+
+/* Low, broken valley haze separates the far range from the nearer snow.
+   It shares the input camera only: no independent animation or blurred surface. */
+.polar-layer--valley-mist { left:-10%;right:-10%;bottom:4%;height:29%;background:radial-gradient(ellipse 37% 13% at 29% 37%,#99c9e225,transparent 77%),radial-gradient(ellipse 46% 16% at 65% 52%,#9fcbe32b,transparent 78%),radial-gradient(ellipse 29% 12% at 84% 31%,#bedbe517,transparent 80%);opacity:.72; }
+@media(max-width:700px) { .polar-layer--valley-mist { bottom:2%;height:24%;opacity:.48; } }

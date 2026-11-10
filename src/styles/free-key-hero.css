@@ -1,0 +1,52 @@
+.vault-hero {position:relative;isolation:isolate;min-height:780px;background:#041522;overflow:hidden;}
+.vault-hero-art {position:absolute;inset:0;z-index:-2;}
+.vault-hero-art img {display:block;width:100%;height:100%;object-fit:cover;object-position:center 10%;}
+.vault-hero::before {content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#03132199,transparent 65%);pointer-events:none;}
+.vault-hero-inner {max-width:1600px;margin:auto;padding:86px clamp(32px,6.8vw,112px) 245px;}
+.vault-hero-journey {position:absolute;left:6.8%;right:6.8%;bottom:82px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px;list-style:none;padding:0;margin:0;}
+.vault-hero-journey li {padding-top:15px;border-top:1px solid #c6ecf650;}
+.vault-hero-journey li>span {display:block;font-size:9px;letter-spacing:.18em;color:#b6d5e4;}
+.vault-hero-journey strong {display:block;margin-top:9px;font-size:22px;font-weight:500;letter-spacing:-.025em;color:#edf9ff;}
+.vault-hero-eyebrow {display:flex;align-items:center;gap:17px;margin:0 0 23px;font-size:11px;font-weight:600;letter-spacing:.25em;color:#e7f5fc;}
+.vault-hero-eyebrow::before {content:'';width:38px;height:1px;background:#c7e6ec;}
+html[data-theme-preset='polar-night'] body.ice-access-page .vault-hero h1 {max-width:740px;margin:0;font-size:clamp(52px,5.15vw,82px);font-weight:650;line-height:1.03;letter-spacing:-.055em;text-transform:none;color:#f3f9fc;text-shadow:0 2px 12px #00142020;}
+#main-content .vault-hero h1 em {display:block;margin-top:2px;font-family:Georgia,'Times New Roman',serif!important;font-weight:400;font-size:1.21em;line-height:1.02;letter-spacing:-.065em;}
+.vault-hero-description {max-width:560px;margin:22px 0 0;font-size:18px;line-height:1.6;color:#dfedf5;text-wrap:pretty;}
+.vault-hero-actions {display:flex;align-items:center;flex-wrap:wrap;gap:28px;margin-top:24px;}
+.vault-hero-primary {display:inline-flex;align-items:center;justify-content:space-between;gap:34px;min-height:58px;padding:14px 22px;color:#092e40;background:linear-gradient(110deg,#c5f5fa,#a1d8e5);border:1px solid #d9faff;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);font-size:17px;font-weight:700;text-decoration:none;box-shadow:inset 0 0 0 2px #f4ffff33;}
+.vault-hero-primary svg {width:23px;height:23px;flex-shrink:0;}
+.vault-hero-secondary {display:inline-flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #b5dcebb0;color:#f1f8fd;font-size:16px;text-decoration:none;}
+.vault-hero-secondary span {font-size:24px;line-height:1;}
+.vault-hero-primary:hover {background:#d3f7fb;}.vault-hero-secondary:hover {color:#b7efff;}
+.vault-hero a:focus-visible {outline:3px solid #fff;outline-offset:5px;}
+.vault-hero .vault-hero-primary:focus-visible {outline:none;box-shadow:inset 0 0 0 3px #0b3d50,inset 0 0 0 5px #eaffff;}
+.vault-hero-note {display:flex;gap:15px;align-items:center;margin:20px 0 0;color:#d4e7f1;font-size:12px;}
+.vault-hero-note i {width:3px;height:3px;background:currentColor;border-radius:50%;}
+.vault-hero-art-label {position:absolute;right:6.8%;top:25%;font-size:9px;letter-spacing:.22em;color:#e0edf5;}
+.vault-hero-divider {position:absolute;left:6.8%;right:6.8%;bottom:22px;display:flex;align-items:center;gap:24px;color:#d7eaf5;text-decoration:none;font-size:10px;letter-spacing:.35em;white-space:nowrap;}
+.vault-hero-divider::before,.vault-hero-divider::after {content:'';flex:1;height:1px;background:linear-gradient(90deg,#accbd233,#d5eaf4aa);}
+.vault-hero-divider::after {transform:rotate(180deg);}.vault-hero-divider span {font-size:22px;letter-spacing:0;}
+#key-access {scroll-margin-top:84px;}
+@media(min-width:700px) and (max-width:1100px) {
+ .vault-hero {min-height:930px;}.vault-hero-inner {padding:64px 5.5% 470px;}
+ .vault-hero-art {inset:auto 0 110px;height:600px;mask-image:linear-gradient(180deg,transparent,#000 18%,#000 100%);}
+ .vault-hero::before {background:linear-gradient(90deg,#041522d9,#04152288 38%,transparent 70%);}
+ html[data-theme-preset='polar-night'] body.ice-access-page .vault-hero h1 {max-width:450px;font-size:62px;}
+ .vault-hero-art img {object-position:64% center;}.vault-hero-description {max-width:430px;font-size:16px;}
+ .vault-hero-actions {gap:22px;}.vault-hero-art-label {top:23%;right:5%;}
+}
+@media(max-width:699px) {
+ .vault-hero {min-height:900px;}
+ .vault-hero-inner {padding:40px 24px 475px;}
+ .vault-hero-art {inset:auto 0 110px;height:420px;mask-image:linear-gradient(180deg,transparent,#000 13%,#000 100%);}
+ .vault-hero-art img {object-fit:cover;object-position:90% center;}
+ .vault-hero::before {background:linear-gradient(180deg,#041522 43%,transparent 65%);}
+ .vault-hero-eyebrow {font-size:9px;letter-spacing:.2em;gap:12px;margin-bottom:20px;}.vault-hero-eyebrow::before {width:26px;}
+ html[data-theme-preset='polar-night'] body.ice-access-page .vault-hero h1 {font-size:clamp(43px,12vw,66px);max-width:460px;line-height:1.02;}
+ .vault-hero-description {font-size:14px;max-width:340px;margin-top:18px;line-height:1.65;}
+ .vault-hero-actions {gap:16px 24px;margin-top:22px;}.vault-hero-primary {min-height:54px;font-size:16px;width:min(100%,320px);padding:13px 18px;}
+ .vault-hero-secondary {font-size:14px;}.vault-hero-note {font-size:10px;gap:11px;margin-top:16px;}
+ .vault-hero-art-label {display:none;}.vault-hero-divider {left:24px;right:24px;gap:15px;bottom:15px;font-size:8px;letter-spacing:.2em;}
+ .vault-hero-journey {left:24px;right:24px;bottom:69px;gap:12px;}.vault-hero-journey li{padding-top:10px;}.vault-hero-journey li>span{font-size:6px;letter-spacing:.07em;}.vault-hero-journey strong{font-size:13px;margin-top:7px;}
+}
+@media(prefers-reduced-motion:reduce){.vault-hero *{scroll-behavior:auto;}}

@@ -1,0 +1,816 @@
+/**
+ * SNOWY STUDIOS — DUAL-SEQUENCE CINEMATIC SCROLL ARCHITECTURE
+ * Canvas 1 (intro_frames) → Iceberg Interactive Hotspots → Canvas 2 (tunnel_frames) → White Flash Exit
+ */
+
+/* Container & Canvas Layers */
+.cine-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000000;
+  z-index: 5;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cine-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* Strict High-Fidelity: raw uncompromised rendering without lossy filters */
+  image-rendering: auto;
+  /* Dedicated GPU compositor layer (Zero-overhead hardware acceleration) */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: strict;
+}
+
+#cine-canvas-intro {
+  z-index: 2;
+  opacity: 1;
+}
+
+.cine-iceberg-master {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  /* Opacity is driven solely by the GSAP scrub — no CSS transition (it would fight the tween) */
+  will-change: opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+#cine-canvas-tunnel {
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ============================================================
+   SCENE 1: Ice-Carved Header ("Welcome to Snowy")
+   Chiseled into ice: light specular ridge + deep inner dark fissure
+   ============================================================ */
+.cine-carved-title {
+  position: absolute;
+  top: clamp(140px, 24vh, 220px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  text-align: center;
+  pointer-events: none;
+  white-space: normal;
+  width: 90%;
+  max-width: 960px;
+}
+
+.cine-carved-text {
+  font-family: var(--font-ui);
+  font-size: clamp(2rem, 3.8vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+  color: #edf1f8;
+  /* Chiseled / carved into ice effect: light top ridge, deep dark bottom crease, soft cyan ambient frost */
+  text-shadow:
+    0 -2px 3px rgba(4, 16, 32, 0.95),        /* deep engraved inner crease */
+    0 2px 2px rgba(255, 255, 255, 0.85),     /* specular light-catching ridge */
+    0 5px 22px rgba(2, 10, 24, 0.98),        /* ambient depth fissure */
+    0 0 35px rgba(189, 212, 239, 0.45);      /* glacial frost ambient glow */
+}
+
+.cine-product-promise {
+  font-family: var(--font-ui);
+  font-size: clamp(0.82rem, 1.15vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin-top: 1.1rem;
+  line-height: 1.6;
+  text-transform: uppercase;
+  /* Option 2 (Darker): Deep Ice Gradient (تدرج الجليد الداكن العميق) */
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 45%, #075985 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.95));
+}
+
+/* ============================================================
+   SCENE 1: Left Editorial Telemetry HUD (Removed per user request)
+   ============================================================ */
+.cine-left-telemetry {
+  display: none !important;
+}
+
+.cine-tel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(189, 212, 239, 0.12);
+}
+
+.cine-tel-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7db89a;
+  box-shadow: 0 0 8px #7db89a;
+  animation: telPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes telPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.cine-tel-title {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #edf1f8;
+}
+
+.cine-tel-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-ui);
+}
+
+.cine-tel-label {
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: #8d9ab0;
+  text-transform: uppercase;
+}
+
+.cine-tel-value {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #edf1f8;
+}
+
+.cine-tel-value.status-good {
+  color: #7db89a;
+}
+
+.cine-tel-divider {
+  height: 1px;
+  background: rgba(189, 212, 239, 0.12);
+  margin: 0.75rem 0 0.55rem;
+}
+
+.cine-tel-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  color: #58627a;
+  letter-spacing: 0.05em;
+}
+
+.cine-tel-coords {
+  color: rgba(189, 212, 239, 0.55);
+}
+
+/* ============================================================
+   CHROME: Follow the Journey Button & Scroll Hint
+   ============================================================ */
+.cine-hint {
+  position: absolute;
+  bottom: 2.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: none;
+  text-shadow: none;
+}
+
+.btn-follow-journey {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 24px;
+  background: rgba(10, 16, 28, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  border-radius: 9999px;
+  color: #edf1f8;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  outline: none;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.4), inset 0 0 12px rgba(0, 229, 255, 0.12);
+  animation: journeyGlowPulse 2.8s ease-in-out infinite;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-follow-journey:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: rgba(14, 24, 44, 0.92);
+  border-color: rgba(0, 240, 255, 0.85);
+  color: #ffffff;
+  box-shadow: 0 0 35px rgba(0, 229, 255, 0.65), 0 0 60px rgba(0, 229, 255, 0.25), inset 0 0 16px rgba(0, 229, 255, 0.28);
+}
+
+.btn-follow-journey:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5), inset 0 0 8px rgba(0, 229, 255, 0.2);
+}
+
+.btn-follow-journey:focus-visible {
+  outline: 2px solid #00f0ff;
+  outline-offset: 3px;
+}
+
+.btn-follow-journey.is-autopiloting {
+  border-color: #00f0ff;
+  box-shadow: 0 0 35px rgba(0, 229, 255, 0.8), inset 0 0 20px rgba(0, 229, 255, 0.4);
+  background: rgba(16, 30, 56, 0.95);
+}
+
+@keyframes journeyGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(0, 229, 255, 0.35), inset 0 0 10px rgba(0, 229, 255, 0.12);
+    border-color: rgba(0, 229, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(0, 229, 255, 0.65), 0 0 50px rgba(0, 229, 255, 0.25), inset 0 0 16px rgba(0, 229, 255, 0.25);
+    border-color: rgba(0, 240, 255, 0.85);
+  }
+}
+
+.follow-journey-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 229, 255, 0.15);
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  color: #00f0ff;
+  flex-shrink: 0;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.btn-follow-journey:hover .follow-journey-icon-wrap {
+  transform: scale(1.1);
+  background: rgba(0, 229, 255, 0.32);
+  color: #ffffff;
+}
+
+.follow-journey-label {
+  letter-spacing: 0.15em;
+}
+
+.follow-journey-arrow {
+  color: #00f0ff;
+  font-size: 13px;
+  line-height: 1;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+
+.btn-follow-journey:hover .follow-journey-arrow {
+  transform: translateX(4px);
+  color: #ffffff;
+}
+
+.cine-hint-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(237, 241, 248, 0.65);
+  pointer-events: none;
+}
+
+.cine-hint-line {
+  width: 1px;
+  height: 22px;
+  background: linear-gradient(180deg, rgba(237, 241, 248, 0.75) 0%, rgba(237, 241, 248, 0) 100%);
+  animation: cinePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes cinePulse {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.7); }
+  50% { opacity: 0.9; transform: scaleY(1); }
+}
+
+@media (max-width: 768px) {
+  .cine-hint {
+    bottom: 1.5rem;
+    gap: 0.5rem;
+  }
+  .btn-follow-journey {
+    padding: 9px 18px;
+    font-size: 10px;
+    gap: 8px;
+  }
+  .follow-journey-icon-wrap {
+    width: 18px;
+    height: 18px;
+  }
+  .cine-hint-sub {
+    font-size: 0.6rem;
+  }
+  .cine-hint-line {
+    height: 16px;
+  }
+}
+
+/* ============================================================
+   PHASE 2: Interactive Pinned UI (100% Invisible Hitboxes)
+   Completely transparent hitboxes mapped over baked 3D ice elements.
+   Hover gives subtle icy aura & cursor pointer with ZERO duplicate text.
+   ============================================================ */
+.cine-overlay-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cine-overlay-box {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.cine-overlay-box.is-active {
+  opacity: 1;
+}
+
+.cine-hotspot {
+  position: absolute;
+  display: block;
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  text-decoration: none;
+  pointer-events: none;
+  outline: none;
+  transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cine-overlay-box.is-active .cine-hotspot {
+  pointer-events: auto;
+}
+
+/* Pedestal & Cave disabled per user instruction */
+.cine-hotspot-pedestal,
+.cine-hotspot-cave {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Discord Crystal Compact Login Pill Button */
+.cine-hotspot-discord {
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(189, 212, 239, 0.16);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cine-hotspot-discord:hover {
+  cursor: pointer;
+  background: rgba(56, 189, 248, 0.16) !important;
+  border-color: rgba(189, 212, 239, 0.45) !important;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.38), inset 0 0 10px rgba(189, 212, 239, 0.2) !important;
+  transform: scale(1.04);
+}
+
+.cine-hotspot-discord:active {
+  transform: scale(0.97);
+}
+
+.cine-hotspot:active {
+  transform: scale(0.97);
+}
+
+.cine-hotspot:focus-visible {
+  outline: 2px solid rgba(189, 212, 239, 0.6);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   PHASE 4: White Flash Transition
+   ============================================================ */
+.cine-flash {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  z-index: 8;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Header synchronization - Navbar remains persistent */
+.site-header {
+  transition: background var(--trans-med), border-color var(--trans-med), padding var(--trans-med);
+}
+
+/* ============================================================
+   JOURNEY CHROME & NAVIGATION CONTROLS
+   ============================================================ */
+.journey-chrome,
+.iceberg-navigation {
+  display: none !important;
+}
+
+.journey-brand {
+  display: none !important;
+}
+
+/* Skip the Intro Floating Frosted Pill */
+.journey-skip,
+.btn-skip-intro {
+  position: absolute;
+  bottom: 32px;
+  right: 36px;
+  z-index: 25;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(12, 14, 20, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(189, 212, 239, 0.22);
+  border-radius: 9999px;
+  color: #edf1f8;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(189, 212, 239, 0.05);
+  transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journey-skip:hover,
+.btn-skip-intro:hover {
+  background: rgba(20, 24, 34, 0.88);
+  border-color: rgba(56, 189, 248, 0.55);
+  color: #38bdf8;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35), inset 0 0 12px rgba(56, 189, 248, 0.15);
+  transform: translateY(-2px);
+}
+
+.journey-skip:active,
+.btn-skip-intro:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.journey-skip svg,
+.btn-skip-intro svg {
+  transition: transform 0.25s ease;
+}
+
+.journey-skip:hover svg,
+.btn-skip-intro:hover svg {
+  transform: translateX(3px);
+}
+
+@media (max-width: 768px) {
+  .journey-skip,
+  .btn-skip-intro {
+    bottom: 24px;
+    right: 20px;
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+}
+
+#journey-phase {
+  position: absolute;
+  left: 40px;
+  bottom: 28px;
+  color: #8d9ab0;
+}
+
+.journey-continue {
+  position: absolute;
+  bottom: 28px;
+  right: 40px;
+  opacity: 0;
+  font-size: 10px;
+  color: #8d9ab0;
+  letter-spacing: 0.15em;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journey-continue b {
+  font-size: 16px;
+  margin-left: 8px;
+  font-weight: 400;
+  color: #bdd4ef;
+}
+
+.journey-progress {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(189, 212, 239, 0.12);
+}
+
+.journey-progress span {
+  display: block;
+  height: 100%;
+  background: #bdd4ef;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* Reduced Journey Fallback */
+.reduced-journey .cine-canvas,
+.reduced-journey .cine-poster,
+.reduced-journey .cine-carved-title,
+.reduced-journey .cine-left-telemetry,
+.reduced-journey .cine-hint,
+.reduced-journey .journey-chrome {
+  display: none;
+}
+.reduced-journey {
+  min-height: 800px;
+}
+
+/* Login Modal */
+#login-info {
+  margin: auto;
+  padding: 40px;
+  max-width: min(480px, 90vw);
+  background: #0c0e14;
+  color: #edf1f8;
+  border: 1px solid rgba(189, 212, 239, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+#login-info::backdrop {
+  background: rgba(4, 6, 10, 0.85);
+}
+
+#login-info h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 20px 0;
+  font-family: var(--font-ui);
+}
+
+#login-info p {
+  color: #8d9ab0;
+  margin-bottom: 25px;
+}
+
+#login-info button {
+  float: right;
+  color: #edf1f8;
+  background: none;
+  border: 0;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Common UI Elements */
+.snowy-brand-mark {
+  font: 700 24px var(--font-ui);
+  letter-spacing: 0.1em;
+  color: #edf1f8;
+}
+
+.snowy-brand-mark small {
+  display: block;
+  font: 9px var(--font-ui);
+  letter-spacing: 0.32em;
+  color: #8d9ab0;
+}
+
+.hero-sub-two-line .sub-ice {
+  color: #bdd4ef;
+}
+
+.hero-editorial-hook {
+  max-width: 360px;
+  line-height: 1.7;
+  color: #8d9ab0;
+}
+
+.hero-section .scoped-topo-canvas {
+  opacity: 0.48;
+}
+
+.plan-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 22px;
+  font-size: 12px;
+  color: #8d9ab0;
+  line-height: 2.1;
+}
+
+.plan-benefits li:before {
+  content: '✓';
+  color: #bdd4ef;
+  margin-right: 9px;
+}
+
+.cine-product-promise {
+  font-size: clamp(16px, 1.5vw, 21px);
+  line-height: 1.5;
+  color: #edf1f8;
+  margin: 18px auto 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.pricing-free-link {
+  display: inline-flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 24px;
+  color: #bdd4ef;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(189, 212, 239, 0.3);
+  padding-bottom: 6px;
+}
+
+.footer-discord {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #bdd4ef;
+  margin-top: 22px;
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+/* Mobile Responsiveness */
+.cine-mobile-nav {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  #journey-phase {
+    left: 20px;
+    font-size: 9px;
+  }
+  .cine-left-telemetry {
+    display: none;
+  }
+  .cine-carved-title {
+    top: 23%;
+  }
+  .cine-carved-text {
+    font-size: 25px;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+  }
+  .cine-product-promise {
+    font-size: 15px;
+    max-width: 240px;
+  }
+  .journey-continue {
+    right: 20px;
+    font-size: 8px;
+  }
+  .cine-mobile-nav.is-active {
+    display: flex;
+    position: absolute;
+    z-index: 9;
+    bottom: 70px;
+    left: 20px;
+    right: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    background: rgba(12, 14, 20, 0.88);
+    border: 1px solid rgba(189, 212, 239, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+  .cine-mobile-nav a {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: var(--font-ui);
+    color: #edf1f8;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+  .cine-mobile-nav a:hover {
+    background: rgba(189, 212, 239, 0.12);
+    color: #bdd4ef;
+  }
+  .cine-overlay-box {
+    display: none;
+  }
+  .mobile-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: 1px solid rgba(189, 212, 239, 0.25);
+    color: #edf1f8;
+    padding: 9px 12px;
+    border-radius: 5px;
+    font: 12px var(--font-ui);
+  }
+  #mobile-site-menu:not([hidden]) {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: #0c0e14;
+    border-bottom: 1px solid rgba(189, 212, 239, 0.22);
+    padding: 16px 24px;
+    gap: 8px;
+  }
+  #mobile-site-menu a {
+    color: #edf1f8;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+  .nav-actions {
+    gap: 10px;
+  }
+
+  .nav-actions .btn-discord {
+    padding: 10px 13px;
+    font-size: 11px;
+  }
+  .snowy-brand-mark {
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cine-hint-line,
+  .cine-tel-pulse {
+    animation: none;
+  }
+}

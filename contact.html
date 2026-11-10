@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark" data-theme-preset="polar-night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>document.documentElement.classList.add('moon-layout-pending');</script>
+  <title>Snowy Studios // Contact &amp; Support</title>
+  <meta name="description" content="Get help with scripts, access, or an order. Join Discord and open a support ticket.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+<!-- Critical baseline styles & SVG/Logo constraint to prevent page-transition FOUC -->
+  <style>
+    /* Do not paint the unaligned moon while modules and fonts are loading. */
+    html.moon-layout-pending .support-scene .polar-layer--sky,
+    html.moon-layout-pending .support-beacon-art { visibility:hidden; }
+    html,body { margin:0; background:#07111d; color:#dfeaf1; color-scheme:dark; }
+    svg { max-width:100%; height:auto; }
+    .brand-logo-img { height:44px!important; width:auto!important; max-height:44px!important; max-width:150px!important; display:block; }
+    .brand-snowflake-icon { width:26px; height:26px; flex-shrink:0; }
+    .btn-discord svg { width:18px; height:18px; fill:currentColor; }
+    .nav-logo svg,.brand svg { width:22px; height:22px; }
+  </style>
+
+  <!-- Synchronous Stylesheets to Eliminate FOUC on Navigation -->
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/base.css">
+  <link rel="stylesheet" href="/src/styles/sections.css">
+  <link rel="stylesheet" href="/src/styles/themes.css">
+  <link rel="stylesheet" href="/src/styles/pages.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/glacial-atmosphere.css">
+  <link rel="stylesheet" href="/src/styles/snowy-footer.css">
+  <link rel="stylesheet" href="/src/styles/contact-desk.css">
+  <link rel="stylesheet" href="/src/styles/polar-night.css">
+  <link rel="stylesheet" href="/src/styles/reference-colors.css">
+  <link rel="stylesheet" href="/src/styles/contact-polish.css">
+  <link rel="preload" as="image" href="/assets/atmosphere/moonlit-clear-landscape-v1.webp" media="(orientation:landscape)">
+  <link rel="preload" as="image" href="/assets/atmosphere/moonlit-clear-portrait-v1.webp" media="(orientation:portrait)">
+  <link rel="stylesheet" href="/src/styles/contact-support.css">
+</head>
+<body class="snowy-atmosphere has-polar-world" data-scene-page="contact">
+  <div id="app" class="app-wrapper">
+    <!-- Sticky Navigation Bar -->
+    <header class="site-header" id="site-header" role="banner">
+      <div class="nav-container">
+        <a href="/index.html" class="brand-logo" aria-label="Snowy Studios Home">
+          <img src="/snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" />
+        </a>
+
+        <!-- Glassmorphic centered pill nav -->
+        <nav class="nav-pill" aria-label="Main Navigation">
+          <a href="/index.html"  class="nav-link">Home</a>
+          <a href="/scripts.html" class="nav-link">Scripts</a>
+          <a href="/free-key.html" class="nav-link">Free Key</a>
+          <a href="/pricing.html" class="nav-link">Pricing</a>
+          <a href="/contact.html" class="nav-link active" aria-current="page">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="contact-mobile-menu" hidden>Menu <span aria-hidden="true">☰</span></button>
+          <!-- Discord Login -->
+
+          <!-- Discord Login -->
+          <a href="https://discord.gg" target="_blank" rel="noopener noreferrer" class="btn btn-discord">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            <span>Login</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <nav id="contact-mobile-menu" class="desk-mobile-nav" aria-label="Mobile navigation" hidden><a href="/index.html">Home</a><a href="/scripts.html">Scripts</a><a href="/free-key.html">Free Key</a><a href="/pricing.html">Pricing</a><a href="/contact.html" aria-current="page">Contact</a></nav>
+
+<div class="support-scene">
+  <div class="polar-atmosphere" data-polar-world aria-hidden="true">
+    <div class="polar-layer polar-layer--sky" data-depth="0.16"></div>
+    <!-- Empty decorative layer; no aurora is mounted. -->
+    <div class="polar-layer polar-layer--future-art" data-depth="0.58" id="polar-future-art"></div>
+    <div class="polar-layer polar-layer--haze" data-depth="0.34"></div>
+    <div class="polar-layer polar-layer--range" data-depth="0.65"></div>
+    <div class="polar-layer polar-layer--valley-mist" data-depth="0.90"></div>
+    <div class="polar-layer polar-layer--foreground" data-depth="1.25"></div>
+    <div class="polar-world-veil"></div>
+    <div class="polar-layer polar-layer--stars"></div>
+    <div class="polar-layer contact-star-field">
+      <svg viewBox="0 0 1800 1100" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <filter id="star-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- Group 1: Fast brilliant twinkle (Alpha group) -->
+        <g class="contact-star-pulse" fill="#eaf6ff">
+          <!-- Polaris-style brilliant star with cross flare -->
+          <circle cx="931" cy="78" r="2.2" fill="#ffffff" filter="url(#star-glow)"/>
+          <path d="M922 78h18 M931 69v18" stroke="#ffffff" stroke-width="0.75" opacity="0.9"/>
+          <circle cx="191.4" cy="168.4" r="1.7"/>
+          <circle cx="857.8" cy="242.7" r="1.45"/>
+          <circle cx="1390" cy="307.9" r="1.85"/>
+          <circle cx="482" cy="120" r="1.5"/>
+          <circle cx="1660" cy="180" r="1.6"/>
+        </g>
+        <!-- Group 2: Luminous shimmer (Beta group) -->
+        <g class="contact-star-pulse" fill="#d8f0ff">
+          <!-- Sirius-style brilliant star with cross flare -->
+          <circle cx="1547.5" cy="86.1" r="2.4" fill="#ffffff" filter="url(#star-glow)"/>
+          <path d="M1537 86.1h21 M1547.5 75.6v21" stroke="#ffffff" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="696.8" cy="80.3" r="1.6"/>
+          <circle cx="884.1" cy="366.1" r="1.85"/>
+          <circle cx="971" cy="141" r="1.55"/>
+          <circle cx="340" cy="95" r="1.4"/>
+          <circle cx="1275" cy="145" r="1.65"/>
+        </g>
+        <!-- Group 3: Deep arctic pulse (Gamma group) -->
+        <g class="contact-star-pulse" fill="#e2f5ff">
+          <circle cx="159.1" cy="285.7" r="1.8" fill="#ffffff" filter="url(#star-glow)"/>
+          <path d="M152 285.7h14 M159.1 278.7v14" stroke="#ffffff" stroke-width="0.7" opacity="0.8"/>
+          <circle cx="830" cy="113" r="1.4"/>
+          <circle cx="1053.9" cy="86.6" r="1.5"/>
+          <circle cx="1213.1" cy="234.6" r="1.75"/>
+          <circle cx="560" cy="210" r="1.35"/>
+          <circle cx="1470" cy="260" r="1.6"/>
+        </g>
+        <!-- Group 4: Diamond flare (Delta group) -->
+        <g class="contact-star-pulse" fill="#f0f8ff">
+          <circle cx="740" cy="165" r="2.0" fill="#ffffff" filter="url(#star-glow)"/>
+          <path d="M733 165h14 M740 158v14" stroke="#ffffff" stroke-width="0.75" opacity="0.85"/>
+          <circle cx="270" cy="220" r="1.4"/>
+          <circle cx="1120" cy="175" r="1.65"/>
+          <circle cx="1620" cy="290" r="1.5"/>
+          <circle cx="410" cy="65" r="1.3"/>
+          <circle cx="1340" cy="90" r="1.7"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+    <main id="main-content" class="contact-desk support-copy support-luxe">
+<section class="support-hero" aria-labelledby="support-title">
+  <p class="support-eyebrow"><span aria-hidden="true">✳</span> SNOWY / SUPPORT</p><svg class="support-ice-lines" aria-hidden="true" viewBox="0 0 900 180" preserveAspectRatio="none"><path d="M0 96C90 30 160 155 250 96S390 41 460 103 570 154 680 91 800 40 900 88"/><path d="M0 107C92 41 162 166 252 107S392 52 462 114 572 165 682 102 802 51 900 99"/><path d="M0 119C94 53 164 178 254 119S394 64 464 126 574 177 684 114 804 63 900 111"/><path d="M0 142C92 76 162 201 252 142S392 87 462 149 572 200 682 137 802 86 900 134"/></svg><h1 id="support-title"><span class="support-title-text">SUPPORT</span><svg class="support-title-art" aria-hidden="true" viewBox="0 0 778 112" fill="url(#support-title-ice)" fill-rule="evenodd">
+  <defs><linearGradient id="support-title-ice" x2="0" y2="1"><stop stop-color="#d9f3ff"/><stop offset=".48" stop-color="#add8ec"/><stop offset="1" stop-color="#76b4d0"/></linearGradient></defs>
+  <path d="M90 0H18L0 18V49L16 65H74V100H0V112H82L94 100V61L80 47H14V24L26 12H90Z"/>
+  <path transform="translate(114)" d="M0 0H14V88L26 100H68L80 88V0H94V94L76 112H18L0 94Z"/>
+  <path id="support-letter-p" transform="translate(228)" d="M0 112V0H72L94 22V50L72 72H14V112Z M14 12V60H66L80 46V26L66 12Z"/>
+  <use href="#support-letter-p" x="114"/>
+  <path transform="translate(456)" d="M22 0H72L94 22V90L72 112H22L0 90V22Z M28 12L14 26V86L28 100H66L80 86V26L66 12Z"/>
+  <path transform="translate(570)" d="M0 112V0H72L94 22V50L72 72H67L94 112H77L50 72H14V112Z M14 12V60H66L80 46V26L66 12Z"/>
+  <path transform="translate(684)" d="M0 0H94L87 12H54V112H40V12H0Z"/>
+</svg></h1>
+  <p>Get help with scripts, access, or an order. Join Discord and open a support ticket.</p>
+</section>
+<section class="support-email" aria-labelledby="email-title">
+  <span class="support-email-icon" aria-hidden="true">✉</span>
+  <div><h2 id="email-title">EMAIL SUPPORT</h2><p>Prefer email? Send us a message and we'll direct you to the right Discord support channel.</p></div>
+  <a class="support-button" href="mailto:support@getsnowy.xyz">support@getsnowy.xyz</a>
+</section>
+<section id="support-community" class="support-community" aria-labelledby="community-title">
+  <div class="support-community-copy">
+    <p class="support-label">DISCORD SUPPORT DESK</p>
+    
+    <h2 id="community-title">JOIN THE<br>COMMUNITY</h2>
+    <p>Connect with over 582.8K members. Get instant updates, chat with other players, and participate in exclusive giveaways.</p>
+    <button type="button" class="support-button" disabled title="Official Discord invitation pending">Join Discord &amp; open a ticket</button>
+    
+  </div>
+<div class="support-beacon"><div class="support-beacon-art" aria-hidden="true"><svg class="support-orbit support-crystal" viewBox="0 0 440 360" fill="none">
+<defs>
+ <radialGradient id="lunar-facet-light" cx="220" cy="180" r="185" gradientUnits="userSpaceOnUse"><stop offset=".30" stop-color="#598197" stop-opacity=".48"/><stop offset=".65" stop-color="#bddce9" stop-opacity=".64"/><stop offset="1" stop-color="#e7f5fc" stop-opacity=".86"/></radialGradient>
+ <linearGradient id="lunar-facet-sheen" x1="110" y1="45" x2="330" y2="320" gradientUnits="userSpaceOnUse"><stop stop-color="#effaff" stop-opacity=".26"/><stop offset=".48" stop-color="#c4dfef" stop-opacity=".03"/><stop offset="1" stop-color="#91b7cf" stop-opacity=".15"/></linearGradient>
+ <linearGradient id="moon-edge" x1="145" y1="30" x2="310" y2="330" gradientUnits="userSpaceOnUse"><stop stop-color="#f0fbff"/><stop offset=".48" stop-color="#c2e2f0"/><stop offset="1" stop-color="#86abc1"/></linearGradient>
+</defs>
+<g class="lunar-facets" fill="url(#lunar-facet-light)">
+ <path d="M220 20 358 100 304 130 220 82Z" opacity=".82"/>
+ <path d="M220 20 220 82 136 130 82 100Z" opacity=".92"/>
+ <path d="M82 100 136 130 136 230 82 260Z" opacity=".74"/>
+ <path d="M358 100 358 260 304 230 304 130Z" opacity=".68"/>
+ <path d="M82 260 136 230 220 278 220 340Z" opacity=".63"/>
+ <path d="M358 260 220 340 220 278 304 230Z" opacity=".57"/>
+</g>
+<path d="M220 20 358 100 358 260 220 340 82 260 82 100Z M220 82 136 130 136 230 220 278 304 230 304 130Z" fill="url(#lunar-facet-sheen)" fill-rule="evenodd"/>
+<path d="M220 82 304 130 304 230 220 278 136 230 136 130Z" fill="#102a40" fill-opacity=".83"/>
+<path class="lunar-seams" d="M220 20 220 82 304 130 358 100M220 82 136 130 82 100M136 130V230L82 260M136 230 220 278 220 340M220 278 304 230 358 260M304 230V130M220 20 358 100 358 260 220 340 82 260 82 100Z M136 130 220 82 304 130 304 230 220 278 136 230Z" stroke="#173449" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M220 20 220 82 304 130 358 100M220 82 136 130 82 100M136 130V230L82 260M136 230 220 278 220 340M220 278 304 230 358 260M304 230V130M220 20 358 100 358 260 220 340 82 260 82 100Z M136 130 220 82 304 130 304 230 220 278 136 230Z" stroke="url(#moon-edge)" stroke-width="1.25" stroke-linejoin="round"/>
+<path d="M44 186h18m-9-9v18M382 174h14m-7-7v14" stroke="#badbe9" stroke-opacity=".45"/>
+</svg><div class="support-beacon-core"><svg class="support-discord-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515c-.22.39-.46.9-.69 1.46a18.27 18.27 0 0 0-5.484 0c-.23-.56-.47-1.07-.69-1.46A19.74 19.74 0 0 0 3.677 4.37C.533 9.046-.32 13.58.1 18.057a19.9 19.9 0 0 0 5.993 3.03c.46-.63.88-1.31 1.25-2.1a13.1 13.1 0 0 1-1.98-.98c.14-.1.27-.2.4-.3 3.93 1.8 8.2 1.8 12.13 0 .13.1.26.2.4.3-.64.38-1.3.7-1.98.98.37.79.79 1.47 1.25 2.1a19.84 19.84 0 0 0 6-3.03c.5-5.18-.84-9.68-3.55-13.69ZM8.02 15.33c-1.18 0-2.157-1.085-2.157-2.419s.956-2.419 2.157-2.419 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418Zm7.975 0c-1.18 0-2.157-1.085-2.157-2.419s.955-2.419 2.157-2.419 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418Z"/></svg></div></div><p class="support-members"><span>40.9K Online</span><i aria-hidden="true"></i><span>582.8K Members</span></p></div>
+  <ol class="support-steps" aria-label="Support steps">
+    <li><h3>Join Snowy</h3><p>Enter the community in one click.</p></li>
+    <li><h3>Open support</h3><p>Choose the ticket channel that fits your issue.</p></li>
+    <li><h3>Get back to playing</h3><p>Our team picks it up from there.</p></li>
+  </ol>
+</section>
+<section class="support-faq" id="desk-answers" aria-labelledby="faq-title">
+  <div><h2 id="faq-title">GOOD TO<br>KNOW.</h2><p>Quick answers before you open a ticket.</p></div>
+  <div class="support-questions">
+    <details><summary>How long does it take for a support ticket to be answered?</summary><p>Open a support ticket from the Snowy Discord and our team typically responds within 15–30 minutes during standard operating hours. Weekends and holidays can take a little longer.</p></details>
+    <details><summary>I lost access to my premium key, how do I get it back?</summary><p>Join the Snowy Discord and open a support ticket. Have your Order ID or purchase email ready so the team can verify and restore your access.</p></details>
+    <details><summary>How do I report a game patch or a broken script feature?</summary><p>Open a Discord support ticket with the game, affected feature, and any executor error codes. Screenshots help the team resolve it faster.</p></details>
+    <details><summary>Do you offer refunds?</summary><p>Because Snowy provides digital access keys that are instantly consumed upon use, we do not offer standard refunds. If you have severe technical issues our support team cannot fix within a reasonable timeframe, please reach out to management via Discord.</p></details>
+  </div>
+</section>
+
+</main>
+</div>
+
+    <!-- Footer -->
+    <footer class="site-footer snowy-signoff" role="contentinfo" aria-label="Snowy Studios footer">
+  <div class="signoff-shell">
+    <div class="signoff-heading-row">
+      <div><p class="signoff-eyebrow"><i aria-hidden="true"></i>SNOWY STUDIOS / THE NEXT CHAPTER</p>
+        <h2 class="signoff-title">Your next move.<span>Made Snowy.</span></h2>
+        <a class="signoff-cta" href="/scripts.html">Find your next script <span aria-hidden="true">↗</span></a>
+      </div>
+      <nav class="signoff-nav" aria-label="Footer navigation">
+        <div><h3>Explore</h3><ul><li><a href="/scripts.html">Script library</a></li><li><a href="/free-key.html">Free access</a></li><li><a href="/pricing.html">Premium plans</a></li><li><a href="/contact.html">Talk to us</a></li></ul></div>
+        <div><h3>The details</h3><ul><li><span class="signoff-policy">Terms of Service</span></li><li><span class="signoff-policy">Privacy Policy</span></li><li><span class="signoff-policy">Refund Policy</span></li></ul><p class="signoff-policy-note">Policy links coming soon.</p></div>
+      </nav>
+    </div>
+    <div class="signoff-art" aria-hidden="true"><div class="signoff-orbit"></div><div class="signoff-horizon"></div><p class="signoff-word">SNOWY</p><svg class="signoff-crystal" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path transform="rotate(0 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(60 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(120 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(180 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(240 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><path transform="rotate(300 40 40)" d="M40 40V7m0 10-8-6m8 6 8-6m-8 16-12-9m12 9 12-9"/><circle cx="40" cy="40" r="5"/></svg></div>
+    <div class="signoff-art-caption"><span>A little colder. A little further.</span><span>Built for your next session</span></div>
+    <div class="signoff-bottom"><p class="signoff-copyright">© 2026 Snowy Studios. All rights reserved.</p><div class="signoff-bottom-actions"><a href="/contact.html">Contact &amp; support ↗</a><a class="signoff-backtop" href="#app">Back to the surface <span aria-hidden="true">↑</span></a></div></div>
+  </div>
+</footer>
+  </div>
+
+  <script type="module" src="/src/pages/contact.ts"></script>
+  <script type="module" src="/src/components/GlacialAtmosphere.ts"></script>
+  <script type="module" src="/src/components/SnowyFooter.ts"></script>
+</body>
+</html>
+
+
+
+
