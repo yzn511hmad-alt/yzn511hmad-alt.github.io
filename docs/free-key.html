@@ -42,7 +42,7 @@
       // The real scene's base photo is useful immediately, before any WebGL.
       // It is not an obsolete screenshot of the animated scene.
       const bounds=sceneSize(),aspect=bounds.width/bounds.height,portrait=aspect<1.25;
-      const source=enhanced()&&!portrait?'/assets/quality-v3/snow-restored.webp':'/assets/realistic-winter/winter-camp-'+(portrait?'portrait-v5':'landscape-v3')+'.webp';
+      const source='/assets/realistic-winter/winter-camp-'+(portrait?'portrait-v5':'landscape-v3')+'.webp';
       const imageAspect=portrait?941/1672:1672/941,inset=portrait?0:laptop()?.12:.05;
       const rx=Math.min(1,aspect/imageAspect)*(1-inset),ry=Math.min(1,imageAspect/aspect)*(1-inset);
       const ox=(1-rx)/2-inset/2,oy=(1-ry)/2;
@@ -92,7 +92,7 @@
   <style id="winter-skeleton-critical">.ice-vault{isolation:isolate;height:calc(100svh - 84px);position:relative}.winter-skeleton{pointer-events:none;user-select:none;position:absolute;inset:0}.winter-skeleton-backdrop{z-index:0;background:var(--winter-base-image,none) var(--winter-base-position,50% 50%) / var(--winter-base-size,cover) no-repeat, radial-gradient(ellipse at 72% 22%,#103d4866,transparent 50%),linear-gradient(180deg,#06121f 0%,#102534 60%,#243a4b 61%,#132b3c 100%);position:absolute;inset:0}.winter-skeleton-object{z-index:3;background:linear-gradient(125deg,#91b6c838,#47718a26 52%,#a2ccd82b);border:1px solid #c8e6ed32;border-radius:5px;position:absolute;overflow:hidden;box-shadow:inset 0 1px #deefff26,0 8px 18px #00101f26;display:none!important}.winter-skeleton-object:after{content:"";background:linear-gradient(125deg,#0000 30%,#d2f1f410 45%,#0000 60%);position:absolute;inset:0}.winter-skeleton-chest{width:14%;height:18%;top:73%;left:46%;transform:translateY(-10%)}.winter-skeleton-chest span{border-top:1px solid #bfdbe32b;position:absolute;top:23%;left:0;right:0}.winter-skeleton-ice{background:linear-gradient(135deg,#a3d6e740,#729eb726 50%,#b0d7e638);border-radius:10px 8px 6px;width:9%;height:18%;top:74%;left:76%}.winter-skeleton-ice span{border-left:1px solid #e2f5ff2b;position:absolute;inset:8% 8% 10% 70%}[data-effects-presented=true] .winter-skeleton-backdrop,[data-phase=ready] .winter-skeleton-ice,[data-phase=available] .winter-skeleton-ice,[data-scene-presented=true] .winter-skeleton,html[data-preview-decoded=true] .winter-skeleton{display:none}@media (width<=899px),(orientation:portrait){.winter-skeleton-chest{width:35%;height:14%;top:70%;left:6%}.winter-skeleton-ice{width:29%;height:14%;top:70%;left:66%}}@media (width<=699px){.winter-skeleton-chest{width:40%;height:11%;top:77%;left:4%}.winter-skeleton-ice{width:29%;height:13%;top:75%;left:66%}}</style>
 
   <link rel="preload" as="image" href="/assets/progressive-scene/phone-waiting.webp" type="image/webp" media="(max-width: 699px)" fetchpriority="high">
-  <link rel="preload" as="image" href="/assets/progressive-scene/landscape-waiting.webp" type="image/webp" media="(min-width: 700px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/assets/progressive-scene/standard-waiting.webp" type="image/webp" media="(min-width: 700px)" fetchpriority="high">
   <link rel="preload" as="image" href="/assets/walnut-chest/walnut-color-mobile.webp" type="image/webp" crossorigin fetchpriority="high">
   <link rel="preload" as="image" href="/assets/quality-v1/fire-hd-poster.webp" type="image/webp" crossorigin fetchpriority="high">
   <link rel="preload" as="image" href="/assets/quality-v3/camp-detail.webp" type="image/webp" crossorigin fetchpriority="high">
@@ -113,7 +113,7 @@
 
   <link rel="preload" as="font" href="/fonts/ibm-plex-sans/plex-e2291e842cf5.woff2" type="font/woff2" crossorigin>
   <link href="/fonts/ibm-plex-sans/font.css" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/freeKey-Dg9rvfNW.js"></script>
+  <script type="module" crossorigin src="/assets/freeKey-CvzTi1kI.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/vendor-gsap-bXzFIbWr.js">
   <link rel="modulepreload" crossorigin href="/assets/SnowyFooter-Dy0mc3AW.js">
   <link rel="modulepreload" crossorigin href="/assets/vendor-lenis-BKII60EA.js">

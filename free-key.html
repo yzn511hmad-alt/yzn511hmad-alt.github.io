@@ -42,7 +42,7 @@
       // The real scene's base photo is useful immediately, before any WebGL.
       // It is not an obsolete screenshot of the animated scene.
       const bounds=sceneSize(),aspect=bounds.width/bounds.height,portrait=aspect<1.25;
-      const source=enhanced()&&!portrait?'/assets/quality-v3/snow-restored.webp':'/assets/realistic-winter/winter-camp-'+(portrait?'portrait-v5':'landscape-v3')+'.webp';
+      const source='/assets/realistic-winter/winter-camp-'+(portrait?'portrait-v5':'landscape-v3')+'.webp';
       const imageAspect=portrait?941/1672:1672/941,inset=portrait?0:laptop()?.12:.05;
       const rx=Math.min(1,aspect/imageAspect)*(1-inset),ry=Math.min(1,imageAspect/aspect)*(1-inset);
       const ox=(1-rx)/2-inset/2,oy=(1-ry)/2;
@@ -118,7 +118,7 @@
   </style>
 
   <link rel="preload" as="image" href="/assets/progressive-scene/phone-waiting.webp" type="image/webp" media="(max-width: 699px)" fetchpriority="high">
-  <link rel="preload" as="image" href="/assets/progressive-scene/landscape-waiting.webp" type="image/webp" media="(min-width: 700px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/assets/progressive-scene/standard-waiting.webp" type="image/webp" media="(min-width: 700px)" fetchpriority="high">
   <link rel="preload" as="image" href="/assets/walnut-chest/walnut-color-mobile.webp" type="image/webp" crossorigin fetchpriority="high">
   <link rel="preload" as="image" href="/assets/quality-v1/fire-hd-poster.webp" type="image/webp" crossorigin fetchpriority="high">
   <link rel="preload" as="image" href="/assets/quality-v3/camp-detail.webp" type="image/webp" crossorigin fetchpriority="high">

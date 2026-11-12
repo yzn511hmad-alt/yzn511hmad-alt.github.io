@@ -46,8 +46,8 @@ export function createPhotographicAurora(options:{
     },undefined,()=>{if(!disposed)options.onError?.();});
     fallback.colorSpace=THREE.NoColorSpace;fallback.generateMipmaps=false;fallback.minFilter=fallback.magFilter=THREE.LinearFilter;
   };
-  ensureMask(true);
-  ensureMask(false);
+  const isInitialPortrait = typeof window !== 'undefined' ? matchMedia('(orientation: portrait), (max-width: 699px)').matches : false;
+  ensureMask(isInitialPortrait);
   const material=new THREE.ShaderMaterial({
     transparent:true,blending:THREE.NormalBlending,depthWrite:false,depthTest:true,toneMapped:false,
     uniforms:{...lighting,uPlate:{value:null},uHasPlate:{value:0},uSkyMask:skyMask,uHasSkyMask:hasMask,uSkyGate:{value:new THREE.Vector2(...(options.skyBlueGate??[.68,.90]))},uCrop:crop},

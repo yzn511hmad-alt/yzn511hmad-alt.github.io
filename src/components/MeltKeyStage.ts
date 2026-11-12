@@ -262,7 +262,7 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
   };
   const invalidate=()=>{if(disposed||failed||invalidationFrame)return;invalidationFrame=requestAnimationFrame(()=>{invalidationFrame=0;if(disposed||failed)return;draw();wake();});};
   const loadPlate=(isPortrait:boolean)=>{
-    const url=highDetail&&!isPortrait?'/assets/quality-v3/snow-restored.webp':`/assets/realistic-winter/winter-camp-${isPortrait?'portrait-v5':'landscape-v3'}.webp`;
+    const url=`/assets/realistic-winter/winter-camp-${isPortrait?'portrait-v5':'landscape-v3'}.webp`;
     const texture=new THREE.Texture();
     if(typeof createImageBitmap!=='undefined'){
       new THREE.ImageBitmapLoader().setOptions({imageOrientation:'flipY',premultiplyAlpha:'none',colorSpaceConversion:'default'}).load(url,bitmap=>{
