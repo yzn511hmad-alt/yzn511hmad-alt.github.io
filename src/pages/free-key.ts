@@ -11,6 +11,7 @@ import { ScrollManager } from '../core/Scroll';
 import { onFrame } from '../core/FrameLoop';
 import { QualityTier } from '../core/QualityTier';
 import { PASS_LIFETIME_MS } from '../components/VaultState';
+import { initMeltKeyStage } from '../components/MeltKeyStage';
 import {
   MELT_STORAGE_KEY as BASE_MELT_STORAGE_KEY, MELT_WAIT_MS, prepareMeltRun, beginMeltRun, restoreMeltRun,
   meltSnapshot, collectMeltKey, meltKeyExpired,
@@ -87,7 +88,7 @@ function boot(): void {
   try { saved = sessionStorage.getItem(MELT_STORAGE_KEY); } catch { /* Storage is optional. */ }
   let run = restoreMeltRun(saved, Date.now(), true);
   let unsubscribe: (() => void) | undefined, disposeStage: (() => void) | undefined;
-  let destroyed = false, visible = false;
+  let destroyed = false, visible = true;
   let phase: MeltPhase | undefined;
   // Persisted ready state and finite reveal choreography are separate.
   // Automatic collection with a healthy visual stage waits for its event.
@@ -265,9 +266,9 @@ function boot(): void {
     tick();
   }, { signal });
   const visibility = new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting && entry.intersectionRatio >= .2;
+    visible = entry.isIntersecting;
     if (visible) { if(!document.hidden)phaseMotion?.resume();startVisibleRun();tick(); startTimer(); } else {stopTimer();phaseMotion?.pause();}
-  },{threshold:.2});
+  },{threshold:0.01});
   visibility.observe(root);
   const menuButton = document.getElementById('key-menu-toggle') as HTMLButtonElement | null;
   const signIn = document.getElementById('key-sign-in');
@@ -310,15 +311,18 @@ function boot(): void {
   persist(); updateUI(); tick(); startTimer(); scheduleDeadline(); scheduleExpiry();
   let stageRequested=false;
   const requestStage=()=>{
-    if(stageRequested||destroyed||root.dataset.stageFallback==='true')return;stageRequested=true;nearStage.disconnect();
-    import('../components/MeltKeyStage').then(module=>{if(destroyed||!module||root.dataset.stageFallback==='true')return;disposeStage=module.initMeltKeyStage(root);publish();}).catch(fallback);
+    if(stageRequested||destroyed||root.dataset.stageFallback==='true')return;stageRequested=true;
+    try {
+      disposeStage=initMeltKeyStage(root);
+      publish();
+    } catch {
+      fallback();
+    }
   };
-  const nearStage=new IntersectionObserver(([entry])=>{if(entry.isIntersecting)requestStage();},{rootMargin:'300px 0px'});
-  nearStage.observe(root);
   requestStage();
   dispose = () => {
     if (destroyed) return;
-    destroyed = true;nearStage.disconnect(); phaseMotion?.kill(); stopTimer(); events.abort(); visibility.disconnect(); disposeStage?.();
+    destroyed = true; phaseMotion?.kill(); stopTimer(); events.abort(); visibility.disconnect(); disposeStage?.();
     trialOutput?.remove();
     if (deadline) clearTimeout(deadline); if (expiry) clearTimeout(expiry);
     scroll.instance.off('scroll', headerScroll); scroll.destroy();

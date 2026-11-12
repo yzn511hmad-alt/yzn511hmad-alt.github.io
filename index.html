@@ -5,30 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snowy Studios // The Ultimate Roblox Script Hub</title>
   <meta name="description" content="Precision-built Roblox scripts, continuously updated for the games you play most. Fast to load, quiet by design, and supported around the clock.">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 <!-- Preload critical stylesheets and modules for zero-delay instant rendering -->
 
+  <link rel="preload" href="/src/styles/tokens.css" as="style">
+  <link rel="preload" href="/src/styles/themes.css" as="style">
+  <link rel="preload" href="/src/styles/glacial-atmosphere.css" as="style">
 
   <!-- Critical Solid & Gradient Fallback Styles (Eliminates Blank Flash on Load & Navigation) -->
-  <style>html,body{color:#dfeaf1;color-scheme:dark;background:#07111d;margin:0}svg{max-width:100%;height:auto}.brand-logo-img{display:block;width:auto!important;max-width:150px!important;height:44px!important;max-height:44px!important}.brand-snowflake-icon{flex-shrink:0;width:26px;height:26px}.btn-discord svg{fill:currentColor;width:18px;height:18px}.nav-logo svg,.brand svg{width:22px;height:22px}</style>
+  <style>
+    html,body { margin:0; background:#07111d; color:#dfeaf1; color-scheme:dark; }
+    svg { max-width:100%; height:auto; }
+    .brand-logo-img { height:44px!important; width:auto!important; max-height:44px!important; max-width:150px!important; display:block; }
+    .brand-snowflake-icon { width:26px; height:26px; flex-shrink:0; }
+    .btn-discord svg { width:18px; height:18px; fill:currentColor; }
+    .nav-logo svg,.brand svg { width:22px; height:22px; }
+  </style>
 
   <!-- Synchronous Stylesheets to Eliminate FOUC on Navigation -->
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/base.css">
+  <link rel="stylesheet" href="/src/styles/sections.css">
+  <link rel="stylesheet" href="/src/styles/themes.css">
 
   <!-- Unified typography: IBM Plex Sans & Instrument Serif -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/main-blgeGzoe.js"></script>
-  <link rel="modulepreload" crossorigin href="./assets/vendor-gsap-bXzFIbWr.js">
-  <link rel="modulepreload" crossorigin href="./assets/SnowyFooter-Dy0mc3AW.js">
-  <link rel="modulepreload" crossorigin href="./assets/vendor-lenis-BKII60EA.js">
-  <link rel="modulepreload" crossorigin href="./assets/Scroll-LFdG9vbQ.js">
-  <link rel="modulepreload" crossorigin href="./assets/preload-helper-CRzLMJPS.js">
-  <link rel="stylesheet" crossorigin href="./assets/SnowyFooter-BMrOBPYn.css">
-  <link rel="stylesheet" crossorigin href="./assets/vendor-lenis-fOJvfYOR.css">
-  <link rel="stylesheet" crossorigin href="./assets/main-C8OBdQn4.css">
-  <link rel="stylesheet" crossorigin href="./assets/glacial-atmosphere-fLTfy5HJ.css">
+  <link rel="stylesheet" href="/src/styles/glacial-atmosphere.css">
+  <link rel="stylesheet" href="/src/styles/snowy-footer.css">
+  <link rel="stylesheet" href="/src/styles/polar-night.css">
 </head>
 <body class="snowy-atmosphere">
   <div id="app" class="app-wrapper">
@@ -36,8 +43,8 @@
       <div class="nav-container">
         <a href="/index.html" class="brand-logo" aria-label="Snowy Studios Home">
           <picture>
-            <source srcset="snowy-logo.avif" type="image/avif">
-            <img src="./snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" />
+            <source srcset="/snowy-logo.avif" type="image/avif">
+            <img src="/snowy-logo.png" alt="Snowy Studios" class="brand-logo-img" width="175" height="40" style="height: 40px; width: auto; max-height: 40px;" />
           </picture>
         </a>
 
@@ -1068,5 +1075,7 @@
 
 
 
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/components/SnowyFooter.ts"></script>
 </body>
 </html>

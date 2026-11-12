@@ -30,7 +30,7 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const quality=matchMedia('(max-width:767px), (pointer:coarse)');
   const connection=(navigator as Navigator & {connection?:EventTarget}).connection;
-  let disposed=false,visible=false,failed=false,width=1,height=1;
+  let disposed=false,visible=true,failed=false,width=1,height=1;
   let unsubscribe:(()=>void)|undefined,last=-Infinity,lastMeta=-Infinity,renderCount=0;
   let collectTween:gsap.core.Tween|undefined;
   let collecting=false,ambientTime=0;
@@ -98,7 +98,7 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
   let snowTerrain:ReturnType<typeof createSnowTerrain>|undefined;
   let originalCamp:{icePosition:THREE.Vector3;iceScale:number;chestPosition:THREE.Vector3;chestScale:number}|undefined;
   let savedShadows:{enabled:boolean;type:THREE.ShadowMapType}|undefined;
-  const assetsReady=()=>!!((!compactGround||phoneSnowSettled)&&backdrop?.image&&sky?.ready&&(fire?.root.userData.posterReady||fire?.root.userData.videoReady));
+  const assetsReady=()=>!!((!compactGround||phoneSnowSettled)&&backdrop?.image&&(fire?.root.userData.posterReady||fire?.root.userData.videoReady));
   const metadata=()=>{host.dataset.chestLid=String(unlockTelemetry?.lid??0);host.dataset.chestCard=String(unlockTelemetry?.card??0);host.dataset.keyInsertion=String(unlockTelemetry?.insertion??0);host.dataset.keyTurn=String(unlockTelemetry?.turn??0);if(!unlockTelemetry){delete host.dataset.keyTip;delete host.dataset.keySocket;delete host.dataset.keyAxisError;}if(model)host.dataset.keyWorld=model.key.getWorldPosition(new THREE.Vector3()).toArray().join(',');host.dataset.collectProgress=pose.collect.toFixed(4);if(unlockTelemetry){host.dataset.chestLid=unlockTelemetry.lid.toFixed(4);host.dataset.chestCard=unlockTelemetry.card.toFixed(4);host.dataset.keyInsertion=unlockTelemetry.insertion.toFixed(4);host.dataset.keyTurn=unlockTelemetry.turn.toFixed(4);host.dataset.keyTip=unlockTelemetry.keyTip.join(',');host.dataset.keySocket=unlockTelemetry.socket.join(',');host.dataset.keyAxisError=String(unlockTelemetry.axisError);}host.dataset.chestReady=String(!!chest);host.dataset.chestMaterialReady=String(chest?.root.userData.materialReady??false);host.dataset.chestMaterialError=String(chest?.root.userData.materialError??false);host.dataset.collecting=String(collecting);host.dataset.cameraPose=[...camera.position.toArray(),...camera.quaternion.toArray()].map(n=>n.toFixed(6)).join(',');host.dataset.renderCount=String(renderCount);host.dataset.ambientTime=ambientTime.toFixed(3);host.dataset.aurora=sky?.state??'still';host.dataset.auroraLook='upper-local-v9';host.dataset.auroraTexture=sky?.textureVariant??'loading';host.dataset.auroraGround='off';host.dataset.fire=fire?.root.userData.playing?'burning':'still';host.dataset.fireReady=String(fire?.root.userData.videoReady??false);host.dataset.auroraReady=String(sky?.ready??false);host.dataset.fireVideoTime=String(fire?.video.currentTime??0);host.dataset.fireVideoDuration=String(fire?.video.duration??0);host.dataset.fireResolution=fire?[fire.video.videoWidth,fire.video.videoHeight].join('x'):'';host.dataset.detailQuality=highDetail?'enhanced':'baseline';host.dataset.auroraVideoTime=String(sky?.time??0);host.dataset.meltProgress=state.progress.toFixed(3);if(model){host.dataset.materialStudy=String(model.root.userData.materialStudy);host.dataset.materialReady=String(model.root.userData.materialReady);const water=model.root.userData.meltwater;host.dataset.waterArea=String(water?.area??0);host.dataset.waterVolume=String(water?.visualVolume??0);host.dataset.waterHeight=String(water?.filmHeight??0);host.dataset.waterTint=String(water?.tint??'');host.dataset.waterWetness=String(water?.wetness??0);host.dataset.waterRunoff=String(water?.runoffVisible??false);const visual=model.root.userData.meltVisual;host.dataset.iceTint=String(visual?.iceTint??'');host.dataset.keyReveal=String(visual?.keyReveal??0);host.dataset.glowAlpha=String(visual?.glowAlpha??0);host.dataset.iceScale=String(visual?.iceScale??0);host.dataset.iceOpacity=String(visual?.iceOpacity??0);}if(surface){host.dataset.triangles=String(surface.engine.info.render.triangles);host.dataset.drawCalls=String(surface.engine.info.render.calls);}};
   const sleep=(status='idle')=>{sky?.setActive(false);fire?.pause();unsubscribe?.();unsubscribe=undefined;host.dataset.renderState=status;metadata();};
   const fallback=()=>{
@@ -175,10 +175,7 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
     fire?.setMotion(!reduced.matches);
     // Do not repeatedly draw incomplete frames behind the ready poster.
     if(!assetsReady()){waitForScene('loading');return;}
-    if(!uploadsReady){
-      if(!uploadPending){uploadPending=true;void uploadTextures().catch(fallback);}
-      waitForScene('uploading');return;
-    }
+    if(!uploadPending){uploadPending=true;void uploadTextures().catch(fallback);}
     const currentVariant=String(!!fire?.root.userData.videoReady)+':'+String(reduced.matches)+':'+(state.phase==='ready'?'open':'ice');
     if(!presented&&warmVariant!==currentVariant){
       warmVariant=currentVariant;warmFrames=0;
@@ -242,15 +239,15 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
     }
     irradiance?.update();
     surface.render(scene,camera);renderCount++;
-    if(!visible){prewarmed=true;host.dataset.prewarmed='true';sky?.setActive(false);fire?.pause();host.dataset.renderState='prewarmed';metadata();return;}
-    if(presented&&!reduced.matches)fire?.loadVideo();
-    projectHitTarget();projectLootCard();
-    // Immediate progressive presentation once environment and models are mounted
-    if(!presented&&backdrop?.image&&sky?.ready&&model&&chest&&(fire?.root.userData.posterReady||fire?.root.userData.videoReady)){
+    if(!presented&&backdrop?.image&&model){
       presented=true;root.dataset.scenePresented='true';root.dataset.meltStage='ready';
+      root.dataset.effectsPresented='true';
       root.dispatchEvent(new CustomEvent('melt-key-ready'));
       if(!reduced.matches)fire?.loadVideo();
     }
+    if(!visible){prewarmed=true;host.dataset.prewarmed='true';sky?.setActive(false);fire?.pause();host.dataset.renderState='prewarmed';metadata();return;}
+    if(presented&&!reduced.matches)fire?.loadVideo();
+    projectHitTarget();projectLootCard();
   };
   const frame=(time:number)=>{
     if(disposed||failed||!visible||document.hidden){sleep('paused');return;}
@@ -463,7 +460,7 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
   quality.addEventListener('change',resize,{signal});connection?.addEventListener('change',resize,{signal});
   reduced.addEventListener('change',()=>{if(reduced.matches){stillProgress=state.progress;collecting=false;collectTween?.kill();collectTween=undefined;if(state.phase==='ready'){pose.collect=1;root.dataset.unlocking='false';root.dispatchEvent(new CustomEvent('melt-key-reveal-complete'));}}invalidate();},{signal});
   const sizeObserver=new ResizeObserver(resize);sizeObserver.observe(host);
-  const visibilityObserver=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting&&entry.intersectionRatio>=.2;if(visible){if(!document.hidden)collectTween?.resume();invalidate();}else{collectTween?.pause();sleep('paused');}},{threshold:.2});visibilityObserver.observe(host);
+  const visibilityObserver=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible){if(!document.hidden)collectTween?.resume();invalidate();}else{collectTween?.pause();sleep('paused');}},{threshold:0.01});visibilityObserver.observe(host);
   void (async()=>{try{
     campDetail=new THREE.TextureLoader().load('/assets/quality-v3/camp-detail.webp',t=>{if(disposed){t.dispose();return;}t.colorSpace=THREE.SRGBColorSpace;setCampDetail(t);invalidate();});campDetail.colorSpace=THREE.SRGBColorSpace;campDetail.anisotropy=8;
     surface=new SharedSurface(canvas,{antialias:true});surface.toneMapping=THREE.ACESFilmicToneMapping;surface.toneMappingExposure=.95;
