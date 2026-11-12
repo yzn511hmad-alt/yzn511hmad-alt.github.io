@@ -57,13 +57,28 @@ html[data-theme-preset='polar-night'] body.ice-access-page .ice-copy > #ice-titl
 .key-premium-arrow {display:grid;place-items:center;width:28px;height:36px;color:#123d4b;}.key-premium-arrow svg {width:23px;height:23px;transition:transform .16s ease;}
 .key-premium-link:hover {box-shadow:inset 0 1px 0 #fff,0 7px 22px #00121c55;}.key-premium-link:hover .key-premium-arrow svg {transform:translateX(2px);}.key-premium-link:active {transform:translateY(1px);}.ice-page .key-premium-link:focus-visible {outline:3px solid #f3fdff;outline-offset:4px;box-shadow:0 0 0 2px #092b3b;}
 .ice-scene-label,.ice-scene-bottom,.melt-fallback {display:none;}
-#ice-vault-canvas {position:absolute;inset:0;z-index:2;width:100%;height:100%;display:block;opacity:0;pointer-events:none;}
-#ice-vault-canvas {transition:opacity .16s linear;}
+#ice-vault-canvas {position:absolute;inset:0;z-index:2;width:100%;height:100%;display:block;opacity:0;pointer-events:none;transition:opacity .2s ease-out;}
+[data-effects-presented='true'] #ice-vault-canvas,
 [data-scene-presented='true'] #ice-vault-canvas {opacity:1;}
-html[data-scene-preview='off'] [data-effects-presented='true'] #ice-vault-canvas {opacity:1;transition:none;}
-[data-scene-presented='true'] .ice-initial-scene {opacity:1;visibility:hidden;transition:visibility 0s .18s;}
-html[data-scene-preview='on'] #ice-vault-canvas,
-html[data-scene-preview='on'] [data-scene-presented='true'] .ice-initial-scene {transition:none;}
+[data-effects-presented='true'] .ice-initial-scene,
+[data-scene-presented='true'] .ice-initial-scene {opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease-out, visibility 0s .2s;}
+.ice-vault-loader {
+  position:absolute;top:0;left:0;right:0;height:2px;z-index:10;
+  background:rgba(184,241,255,0.08);overflow:hidden;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.ice-vault-loader-bar {
+  width:45%;height:100%;
+  background:linear-gradient(90deg,transparent,#7ce0ff,#b8f1ff,transparent);
+  animation:ice-loader-sweep 1.2s infinite ease-in-out;
+}
+@keyframes ice-loader-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+[data-scene-presented='true'] .ice-vault-loader {
+  opacity:0;pointer-events:none;
+}
 .key-sign-in {
  display:block;width:100%;min-height:48px;margin-top:14px;padding:10px 12px;
  border:1px solid #d5f7ff;border-radius:4px 13px 4px 13px;

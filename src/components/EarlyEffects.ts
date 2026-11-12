@@ -51,7 +51,7 @@ export function createEarlyEffects(options:{surface:SharedSurface;scene:THREE.Sc
   const dirty:Array<[THREE.LightShadow,boolean]>=[];scene.traverse(o=>{if(o instanceof THREE.DirectionalLight){dirty.push([o.shadow,o.shadow.needsUpdate]);o.shadow.needsUpdate=false}});
   try{hidden.forEach(o=>o.visible=false);ground.visible=true;surface.render(scene,camera);started=true;}
   finally{ground.visible=false;hidden.forEach((o,i)=>o.visible=visibility[i]);dirty.forEach(([s,value])=>s.needsUpdate=value)}
-  if(!first){if(typeof gl.fenceSync==='function'){fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);if(fence)gl.flush();else{first=true;options.onFirst('frame-fallback')}}else{first=true;options.onFirst('frame-fallback')}}
+  if(!first){first=true;options.onFirst('immediate');}
   return true;
  },dispose(){disposed=true;cancelAnimationFrame(compileFrame);if(fence)(surface.engine.getContext() as WebGL2RenderingContext).deleteSync(fence);scene.remove(ground);ground.geometry.dispose();material.dispose();}};
 }
