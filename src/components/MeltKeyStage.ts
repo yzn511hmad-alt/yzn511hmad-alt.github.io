@@ -489,7 +489,6 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
         effectsPresented=true;root.dataset.effectsPresented='true';host.dataset.effectsFirstFrameAt=String(performance.now());host.dataset.effectsGpuWarmup=mode;beginProps();invalidate();
       }});
     invalidate();
-    await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
     if(disposed||failed)return;
     await preloadIceGeometry(32);
     if(disposed||failed)return;
