@@ -41,12 +41,14 @@ export class WiFiDebugHUD {
   private container: HTMLDivElement | null = null;
   private badge: HTMLButtonElement | null = null;
   private panel: HTMLDivElement | null = null;
+  private tbody: HTMLTableSectionElement | null = null;
   private isOpen = false;
   private currentFilter: string = 'all';
   private currentSort: 'size' | 'time' | 'name' = 'size';
   private fpsHistory: number[] = [];
   private lastFrameTime = performance.now();
-  private rafId: number | null = null;
+  private updateTimer: number | null = null;
+  private cachedData: ColdStartSummary | null = null;
 
   constructor() {
     this.init();
@@ -59,7 +61,7 @@ export class WiFiDebugHUD {
     this.createBadge();
     this.createPanel();
     this.attachShortcuts();
-    this.startMetricsLoop();
+    this.startBackgroundMetrics();
 
     if (hasDebug) {
       this.open();
@@ -94,7 +96,7 @@ export class WiFiDebugHUD {
     let totalNetworkCalls = 0;
     let cachedCalls = 0;
 
-    // Document HTML itself
+    // Document HTML entry
     if (nav) {
       const docTransferKB = (nav.transferSize || 28980) / 1024;
       const docDecodedKB = (nav.decodedBodySize || 28980) / 1024;
@@ -103,14 +105,14 @@ export class WiFiDebugHUD {
       totalTransferKB += docTransferKB;
       totalDecodedKB += docDecodedKB;
       totalNetworkCalls += 1;
+      if (nav.transferSize === 0) cachedCalls += 1;
     }
 
     const assets: AssetMetric[] = [];
 
-    // Add main HTML document entry
     if (nav) {
       assets.push({
-        name: location.pathname.split('/').pop() || 'index.html',
+        name: location.pathname.split('/').pop() || 'free-key.html',
         url: location.href,
         type: 'document',
         transferKB: (nav.transferSize || 28980) / 1024,
@@ -139,7 +141,6 @@ export class WiFiDebugHUD {
         type = 'css';
       }
 
-      // If transferSize is 0, it came from local memory or disk cache
       const isCached = entry.transferSize === 0 && entry.decodedBodySize > 0;
       const transferKB = (entry.transferSize || entry.encodedBodySize || 0) / 1024;
       const decodedKB = (entry.decodedBodySize || entry.transferSize || 0) / 1024;
@@ -164,7 +165,6 @@ export class WiFiDebugHUD {
       });
     }
 
-    // Current FPS calculation
     const fps = this.calculateFPS();
 
     return {
@@ -200,51 +200,38 @@ export class WiFiDebugHUD {
   private createBadge(): void {
     this.badge = document.createElement('button');
     this.badge.id = 'snowy-wifi-badge';
-    this.badge.setAttribute('aria-label', 'Open WiFi & WebGL Debugger');
+    this.badge.setAttribute('type', 'button');
+    this.badge.setAttribute('aria-label', 'Toggle WiFi & WebGL Debugger');
     this.badge.innerHTML = `
       <span class="badge-icon">📶</span>
-      <span class="badge-text" id="snowy-badge-text">Measuring WiFi...</span>
+      <span class="badge-text" id="snowy-badge-text">WiFi Inspector</span>
     `;
     this.applyBadgeStyles();
-    this.badge.addEventListener('click', () => this.toggle());
+    this.badge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggle();
+    });
     document.body.appendChild(this.badge);
   }
 
   private createPanel(): void {
+    this.applyStyles();
+
     this.container = document.createElement('div');
     this.container.id = 'snowy-wifi-hud-container';
     this.container.style.display = 'none';
 
-    this.panel = document.createElement('div');
-    this.panel.className = 'snowy-wifi-panel';
-    this.applyPanelStyles();
-
-    this.container.appendChild(this.panel);
-    document.body.appendChild(this.container);
-  }
-
-  private renderHUD(): void {
-    if (!this.panel) return;
-    const data = this.collectMetrics();
-
-    // Update floating badge text
-    const badgeText = document.getElementById('snowy-badge-text');
-    if (badgeText) {
-      badgeText.textContent = `${(data.totalTransferKB / 1024).toFixed(2)} MB WiFi · ${data.gpuDrawCalls} Calls`;
-    }
-
-    let filteredAssets = data.assets;
-    if (this.currentFilter !== 'all') {
-      filteredAssets = filteredAssets.filter(a => a.type === this.currentFilter);
-    }
-
-    filteredAssets.sort((a, b) => {
-      if (this.currentSort === 'size') return b.transferKB - a.transferKB;
-      if (this.currentSort === 'time') return b.durationMs - a.durationMs;
-      return a.name.localeCompare(b.name);
+    // Click on backdrop to close
+    this.container.addEventListener('click', (e) => {
+      if (e.target === this.container) {
+        this.close();
+      }
     });
 
-    const isCold = data.cachedCalls === 0;
+    this.panel = document.createElement('div');
+    this.panel.className = 'snowy-wifi-panel';
+    // Prevent clicks inside panel from closing
+    this.panel.addEventListener('click', (e) => e.stopPropagation());
 
     this.panel.innerHTML = `
       <div class="hud-header">
@@ -252,13 +239,13 @@ export class WiFiDebugHUD {
           <span class="hud-badge-icon">📶</span>
           <div>
             <h2 class="hud-title">SNOWY // COLD-START WIFI & DRAW CALLS INSPECTOR</h2>
-            <p class="hud-subtitle">Status: <strong style="color: ${isCold ? '#4ade80' : '#facc15'}">${isCold ? '100% PURE COLD START' : `${data.cachedCalls} assets cached (warm)`}</strong></p>
+            <p class="hud-subtitle">Status: <strong id="hud-status-text" style="color: #4ade80">Calculating...</strong></p>
           </div>
         </div>
         <div class="hud-header-actions">
-          <button class="hud-btn hud-btn-cold" id="btn-cold-restart" title="Clear cache and reload with fresh timestamp">🔄 Cold Start Test</button>
-          <button class="hud-btn hud-btn-copy" id="btn-copy-report" title="Copy report to clipboard">📋 Copy Report</button>
-          <button class="hud-btn hud-btn-close" id="btn-close-hud" title="Close inspector">✕</button>
+          <button class="hud-btn hud-btn-cold" id="btn-cold-restart" type="button" title="Clear cache and reload with fresh timestamp">🔄 Cold Start Test</button>
+          <button class="hud-btn hud-btn-copy" id="btn-copy-report" type="button" title="Copy report to clipboard">📋 Copy Report</button>
+          <button class="hud-btn hud-btn-close" id="btn-close-hud" type="button" title="Close inspector">✕</button>
         </div>
       </div>
 
@@ -266,22 +253,22 @@ export class WiFiDebugHUD {
       <div class="hud-kpi-grid">
         <div class="hud-kpi-card">
           <span class="hud-kpi-label">TOTAL WIFI USAGE</span>
-          <span class="hud-kpi-value text-accent">${(data.totalTransferKB / 1024).toFixed(2)} <small>MB</small></span>
-          <span class="hud-kpi-sub">${data.totalTransferKB.toFixed(1)} KB over network wire</span>
+          <span class="hud-kpi-value text-accent" id="val-total-wifi">0.00 <small>MB</small></span>
+          <span class="hud-kpi-sub" id="sub-total-wifi">0 KB over wire</span>
         </div>
         <div class="hud-kpi-card">
           <span class="hud-kpi-label">WIFI DRAW CALLS</span>
-          <span class="hud-kpi-value">${data.totalNetworkCalls} <small>requests</small></span>
-          <span class="hud-kpi-sub">${data.cachedCalls} from memory cache</span>
+          <span class="hud-kpi-value" id="val-net-calls">0 <small>requests</small></span>
+          <span class="hud-kpi-sub" id="sub-net-calls">0 from memory cache</span>
         </div>
         <div class="hud-kpi-card">
           <span class="hud-kpi-label">GPU DRAW CALLS</span>
-          <span class="hud-kpi-value text-cyan">${data.gpuDrawCalls} <small>calls/frame</small></span>
-          <span class="hud-kpi-sub">${data.gpuTriangles.toLocaleString()} triangles · ${data.fps} FPS</span>
+          <span class="hud-kpi-value text-cyan" id="val-draw-calls">0 <small>calls/frame</small></span>
+          <span class="hud-kpi-sub" id="sub-draw-calls">0 triangles · 60 FPS</span>
         </div>
         <div class="hud-kpi-card">
           <span class="hud-kpi-label">FIRST SCENE PREVIEW</span>
-          <span class="hud-kpi-value text-green">${data.timeToPreviewMs > 0 ? (data.timeToPreviewMs / 1000).toFixed(2) : '< 1.5'} <small>s</small></span>
+          <span class="hud-kpi-value text-green" id="val-preview-time">0.00 <small>s</small></span>
           <span class="hud-kpi-sub">Skeleton to poster display</span>
         </div>
       </div>
@@ -290,49 +277,44 @@ export class WiFiDebugHUD {
       <div class="hud-category-breakdown">
         <div class="hud-breakdown-title">
           <span>WiFi Bandwidth Distribution by Asset Type</span>
-          <span>Total: ${(data.totalTransferKB / 1024).toFixed(2)} MB</span>
+          <span id="txt-breakdown-total">Total: 0.00 MB</span>
         </div>
         <div class="hud-stacked-bar">
-          <div class="bar-seg seg-video" style="width: ${(data.categories.video.kb / Math.max(1, data.totalTransferKB)) * 100}%" title="Video: ${data.categories.video.kb.toFixed(1)} KB"></div>
-          <div class="bar-seg seg-texture" style="width: ${(data.categories.texture.kb / Math.max(1, data.totalTransferKB)) * 100}%" title="Textures: ${data.categories.texture.kb.toFixed(1)} KB"></div>
-          <div class="bar-seg seg-script" style="width: ${(data.categories.script.kb / Math.max(1, data.totalTransferKB)) * 100}%" title="Scripts: ${data.categories.script.kb.toFixed(1)} KB"></div>
-          <div class="bar-seg seg-font" style="width: ${(data.categories.font.kb / Math.max(1, data.totalTransferKB)) * 100}%" title="Fonts: ${data.categories.font.kb.toFixed(1)} KB"></div>
-          <div class="bar-seg seg-css" style="width: ${(data.categories.css.kb / Math.max(1, data.totalTransferKB)) * 100}%" title="CSS: ${data.categories.css.kb.toFixed(1)} KB"></div>
-          <div class="bar-seg seg-doc" style="width: ${(data.categories.document.kb / Math.max(1, data.totalTransferKB)) * 100}%" title="HTML: ${data.categories.document.kb.toFixed(1)} KB"></div>
+          <div class="bar-seg seg-video" id="bar-video" style="width: 0%" title="Video"></div>
+          <div class="bar-seg seg-texture" id="bar-texture" style="width: 0%" title="Textures"></div>
+          <div class="bar-seg seg-script" id="bar-script" style="width: 0%" title="Scripts"></div>
+          <div class="bar-seg seg-font" id="bar-font" style="width: 0%" title="Fonts"></div>
+          <div class="bar-seg seg-css" id="bar-css" style="width: 0%" title="CSS"></div>
+          <div class="bar-seg seg-doc" id="bar-doc" style="width: 0%" title="HTML"></div>
         </div>
-        <div class="hud-legend">
-          <span class="legend-item"><span class="dot seg-video"></span> Video: <strong>${data.categories.video.kb.toFixed(1)} KB</strong> (${data.categories.video.count})</span>
-          <span class="legend-item"><span class="dot seg-texture"></span> 3D Textures: <strong>${data.categories.texture.kb.toFixed(1)} KB</strong> (${data.categories.texture.count})</span>
-          <span class="legend-item"><span class="dot seg-script"></span> JS / Engine: <strong>${data.categories.script.kb.toFixed(1)} KB</strong> (${data.categories.script.count})</span>
-          <span class="legend-item"><span class="dot seg-font"></span> Fonts: <strong>${data.categories.font.kb.toFixed(1)} KB</strong> (${data.categories.font.count})</span>
-          <span class="legend-item"><span class="dot seg-css"></span> Stylesheets: <strong>${data.categories.css.kb.toFixed(1)} KB</strong> (${data.categories.css.count})</span>
-          <span class="legend-item"><span class="dot seg-doc"></span> HTML: <strong>${data.categories.document.kb.toFixed(1)} KB</strong> (${data.categories.document.count})</span>
+        <div class="hud-legend" id="hud-legend-container">
+          <!-- Filled dynamically -->
         </div>
       </div>
 
       <!-- FILTER AND SORT TOOLBAR -->
       <div class="hud-toolbar">
-        <div class="hud-filters">
-          <button class="filter-tab ${this.currentFilter === 'all' ? 'active' : ''}" data-filter="all">All (${data.assets.length})</button>
-          <button class="filter-tab ${this.currentFilter === 'texture' ? 'active' : ''}" data-filter="texture">Textures (${data.categories.texture.count})</button>
-          <button class="filter-tab ${this.currentFilter === 'script' ? 'active' : ''}" data-filter="script">Scripts (${data.categories.script.count})</button>
-          <button class="filter-tab ${this.currentFilter === 'video' ? 'active' : ''}" data-filter="video">Video (${data.categories.video.count})</button>
-          <button class="filter-tab ${this.currentFilter === 'font' ? 'active' : ''}" data-filter="font">Fonts (${data.categories.font.count})</button>
-          <button class="filter-tab ${this.currentFilter === 'css' ? 'active' : ''}" data-filter="css">CSS (${data.categories.css.count})</button>
+        <div class="hud-filters" id="hud-filter-group">
+          <button class="filter-tab active" data-filter="all" type="button">All (0)</button>
+          <button class="filter-tab" data-filter="texture" type="button">Textures (0)</button>
+          <button class="filter-tab" data-filter="script" type="button">Scripts (0)</button>
+          <button class="filter-tab" data-filter="video" type="button">Video (0)</button>
+          <button class="filter-tab" data-filter="font" type="button">Fonts (0)</button>
+          <button class="filter-tab" data-filter="css" type="button">CSS (0)</button>
         </div>
         <div class="hud-sorting">
           <label>Sort by:
             <select id="hud-sort-select">
-              <option value="size" ${this.currentSort === 'size' ? 'selected' : ''}>WiFi Size (Largest)</option>
-              <option value="time" ${this.currentSort === 'time' ? 'selected' : ''}>Load Duration</option>
-              <option value="name" ${this.currentSort === 'name' ? 'selected' : ''}>Asset Name</option>
+              <option value="size" selected>WiFi Size (Largest)</option>
+              <option value="time">Load Duration</option>
+              <option value="name">Asset Name</option>
             </select>
           </label>
         </div>
       </div>
 
-      <!-- ASSET DETAILS TABLE -->
-      <div class="hud-table-wrapper">
+      <!-- ASSET DETAILS TABLE (SCROLLABLE) -->
+      <div class="hud-table-wrapper" id="hud-table-wrapper">
         <table class="hud-table">
           <thead>
             <tr>
@@ -344,46 +326,36 @@ export class WiFiDebugHUD {
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
-            ${filteredAssets.map(a => `
-              <tr class="${a.transferKB > 150 ? 'row-heavy' : ''}">
-                <td class="col-name" title="${a.url}">
-                  <span class="type-icon">${this.getTypeIcon(a.type)}</span>
-                  <strong>${a.name}</strong>
-                </td>
-                <td class="col-type"><span class="badge-type badge-${a.type}">${a.type}</span></td>
-                <td class="col-size" style="text-align: right;">
-                  <strong>${a.transferKB.toFixed(1)} KB</strong>
-                  <div class="mini-bar-container"><div class="mini-bar" style="width: ${Math.min(100, (a.transferKB / Math.max(1, filteredAssets[0]?.transferKB || 1)) * 100)}%"></div></div>
-                </td>
-                <td class="col-decoded" style="text-align: right;">${a.decodedKB.toFixed(1)} KB</td>
-                <td class="col-time" style="text-align: right;">${a.durationMs} ms</td>
-                <td class="col-status">
-                  <span class="status-pill ${a.isCached ? 'status-cached' : 'status-network'}">
-                    ${a.isCached ? '⚡ Cached' : '🌐 Network 200'}
-                  </span>
-                </td>
-              </tr>
-            `).join('')}
+          <tbody id="hud-table-body">
+            <!-- Rows injected here once -->
           </tbody>
         </table>
       </div>
       <div class="hud-footer">
-        <span>💡 Press <kbd>Shift + D</kbd> to toggle this HUD anytime. Append <kbd>?debug=1</kbd> to URL to auto-open.</span>
+        <span>💡 Click outside or press <kbd>Esc</kbd> / <kbd>Shift + D</kbd> to close. Append <kbd>?debug=1</kbd> to URL to auto-open.</span>
       </div>
     `;
 
-    // Attach event handlers
+    this.container.appendChild(this.panel);
+    document.body.appendChild(this.container);
+
+    this.tbody = this.panel.querySelector('#hud-table-body');
+
+    // Attach static event handlers
     this.panel.querySelector('#btn-close-hud')?.addEventListener('click', () => this.close());
     this.panel.querySelector('#btn-cold-restart')?.addEventListener('click', () => this.runColdStartTest());
-    this.panel.querySelector('#btn-copy-report')?.addEventListener('click', () => this.copyReportToClipboard(data));
+    this.panel.querySelector('#btn-copy-report')?.addEventListener('click', () => {
+      if (this.cachedData) this.copyReportToClipboard(this.cachedData);
+    });
 
     this.panel.querySelectorAll('.filter-tab').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const filter = (e.currentTarget as HTMLElement).dataset.filter;
         if (filter) {
           this.currentFilter = filter;
-          this.renderHUD();
+          this.panel?.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+          (e.currentTarget as HTMLElement).classList.add('active');
+          this.renderTableOnly();
         }
       });
     });
@@ -391,8 +363,128 @@ export class WiFiDebugHUD {
     const sortSelect = this.panel.querySelector('#hud-sort-select') as HTMLSelectElement;
     sortSelect?.addEventListener('change', (e) => {
       this.currentSort = (e.target as HTMLSelectElement).value as any;
-      this.renderHUD();
+      this.renderTableOnly();
     });
+  }
+
+  private updateHUDValues(): void {
+    if (!this.panel) return;
+    const data = this.collectMetrics();
+    this.cachedData = data;
+
+    // Update floating badge text
+    const badgeText = document.getElementById('snowy-badge-text');
+    if (badgeText) {
+      badgeText.textContent = `${(data.totalTransferKB / 1024).toFixed(2)} MB · ${data.gpuDrawCalls} Calls`;
+    }
+
+    const isCold = data.cachedCalls === 0;
+    const statusText = this.panel.querySelector('#hud-status-text');
+    if (statusText) {
+      statusText.textContent = isCold ? '100% PURE COLD START' : `${data.cachedCalls} assets cached (warm)`;
+      (statusText as HTMLElement).style.color = isCold ? '#4ade80' : '#facc15';
+    }
+
+    // KPI numbers
+    const totalWifiEl = this.panel.querySelector('#val-total-wifi');
+    if (totalWifiEl) totalWifiEl.innerHTML = `${(data.totalTransferKB / 1024).toFixed(2)} <small>MB</small>`;
+
+    const subTotalWifiEl = this.panel.querySelector('#sub-total-wifi');
+    if (subTotalWifiEl) subTotalWifiEl.textContent = `${data.totalTransferKB.toFixed(1)} KB over network wire`;
+
+    const netCallsEl = this.panel.querySelector('#val-net-calls');
+    if (netCallsEl) netCallsEl.innerHTML = `${data.totalNetworkCalls} <small>requests</small>`;
+
+    const subNetCallsEl = this.panel.querySelector('#sub-net-calls');
+    if (subNetCallsEl) subNetCallsEl.textContent = `${data.cachedCalls} from memory cache`;
+
+    const drawCallsEl = this.panel.querySelector('#val-draw-calls');
+    if (drawCallsEl) drawCallsEl.innerHTML = `${data.gpuDrawCalls} <small>calls/frame</small>`;
+
+    const subDrawCallsEl = this.panel.querySelector('#sub-draw-calls');
+    if (subDrawCallsEl) subDrawCallsEl.textContent = `${data.gpuTriangles.toLocaleString()} triangles · ${data.fps} FPS`;
+
+    const previewTimeEl = this.panel.querySelector('#val-preview-time');
+    if (previewTimeEl) previewTimeEl.innerHTML = `${data.timeToPreviewMs > 0 ? (data.timeToPreviewMs / 1000).toFixed(2) : '< 1.0'} <small>s</small>`;
+
+    // Stacked bar widths
+    const totalKB = Math.max(1, data.totalTransferKB);
+    const setWidth = (id: string, kb: number) => {
+      const el = this.panel?.querySelector(id) as HTMLElement;
+      if (el) el.style.width = `${(kb / totalKB) * 100}%`;
+    };
+    setWidth('#bar-video', data.categories.video.kb);
+    setWidth('#bar-texture', data.categories.texture.kb);
+    setWidth('#bar-script', data.categories.script.kb);
+    setWidth('#bar-font', data.categories.font.kb);
+    setWidth('#bar-css', data.categories.css.kb);
+    setWidth('#bar-doc', data.categories.document.kb);
+
+    const txtBreakdown = this.panel.querySelector('#txt-breakdown-total');
+    if (txtBreakdown) txtBreakdown.textContent = `Total: ${(data.totalTransferKB / 1024).toFixed(2)} MB`;
+
+    // Legend
+    const legendEl = this.panel.querySelector('#hud-legend-container');
+    if (legendEl) {
+      legendEl.innerHTML = `
+        <span class="legend-item"><span class="dot seg-video"></span> Video: <strong>${data.categories.video.kb.toFixed(1)} KB</strong> (${data.categories.video.count})</span>
+        <span class="legend-item"><span class="dot seg-texture"></span> 3D Textures: <strong>${data.categories.texture.kb.toFixed(1)} KB</strong> (${data.categories.texture.count})</span>
+        <span class="legend-item"><span class="dot seg-script"></span> JS / Engine: <strong>${data.categories.script.kb.toFixed(1)} KB</strong> (${data.categories.script.count})</span>
+        <span class="legend-item"><span class="dot seg-font"></span> Fonts: <strong>${data.categories.font.kb.toFixed(1)} KB</strong> (${data.categories.font.count})</span>
+        <span class="legend-item"><span class="dot seg-css"></span> Stylesheets: <strong>${data.categories.css.kb.toFixed(1)} KB</strong> (${data.categories.css.count})</span>
+        <span class="legend-item"><span class="dot seg-doc"></span> HTML: <strong>${data.categories.document.kb.toFixed(1)} KB</strong> (${data.categories.document.count})</span>
+      `;
+    }
+
+    // Update filter counts
+    const updateCount = (filter: string, count: number) => {
+      const btn = this.panel?.querySelector(`[data-filter="${filter}"]`);
+      if (btn) btn.textContent = `${filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1)} (${count})`;
+    };
+    updateCount('all', data.assets.length);
+    updateCount('texture', data.categories.texture.count);
+    updateCount('script', data.categories.script.count);
+    updateCount('video', data.categories.video.count);
+    updateCount('font', data.categories.font.count);
+    updateCount('css', data.categories.css.count);
+  }
+
+  private renderTableOnly(): void {
+    if (!this.tbody || !this.cachedData) return;
+
+    let filtered = this.cachedData.assets;
+    if (this.currentFilter !== 'all') {
+      filtered = filtered.filter(a => a.type === this.currentFilter);
+    }
+
+    filtered.sort((a, b) => {
+      if (this.currentSort === 'size') return b.transferKB - a.transferKB;
+      if (this.currentSort === 'time') return b.durationMs - a.durationMs;
+      return a.name.localeCompare(b.name);
+    });
+
+    const maxKB = Math.max(1, filtered[0]?.transferKB || 1);
+
+    this.tbody.innerHTML = filtered.map(a => `
+      <tr class="${a.transferKB > 150 ? 'row-heavy' : ''}">
+        <td class="col-name" title="${a.url}">
+          <span class="type-icon">${this.getTypeIcon(a.type)}</span>
+          <strong>${a.name}</strong>
+        </td>
+        <td class="col-type"><span class="badge-type badge-${a.type}">${a.type}</span></td>
+        <td class="col-size" style="text-align: right;">
+          <strong>${a.transferKB.toFixed(1)} KB</strong>
+          <div class="mini-bar-container"><div class="mini-bar" style="width: ${Math.min(100, (a.transferKB / maxKB) * 100)}%"></div></div>
+        </td>
+        <td class="col-decoded" style="text-align: right;">${a.decodedKB.toFixed(1)} KB</td>
+        <td class="col-time" style="text-align: right;">${a.durationMs} ms</td>
+        <td class="col-status">
+          <span class="status-pill ${a.isCached ? 'status-cached' : 'status-network'}">
+            ${a.isCached ? '⚡ Cached' : '🌐 Network 200'}
+          </span>
+        </td>
+      </tr>
+    `).join('');
   }
 
   private getTypeIcon(type: AssetMetric['type']): string {
@@ -411,7 +503,8 @@ export class WiFiDebugHUD {
     this.isOpen = true;
     if (this.container) this.container.style.display = 'flex';
     localStorage.setItem('snowy:debug', '1');
-    this.renderHUD();
+    this.updateHUDValues();
+    this.renderTableOnly();
   }
 
   public close(): void {
@@ -426,7 +519,6 @@ export class WiFiDebugHUD {
   }
 
   private runColdStartTest(): void {
-    // Clear storage and add cache-busting query to force pure cold download
     try {
       sessionStorage.clear();
       localStorage.setItem('snowy:debug', '1');
@@ -469,30 +561,22 @@ export class WiFiDebugHUD {
 
   private attachShortcuts(): void {
     window.addEventListener('keydown', (e) => {
-      if (e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+      if (e.key === 'Escape' && this.isOpen) {
+        this.close();
+      } else if (e.shiftKey && (e.key === 'D' || e.key === 'd')) {
         this.toggle();
       }
     });
   }
 
-  private startMetricsLoop(): void {
-    const loop = () => {
-      if (this.isOpen) {
-        this.renderHUD();
-      } else {
-        const data = this.collectMetrics();
-        const badgeText = document.getElementById('snowy-badge-text');
-        if (badgeText) {
-          badgeText.textContent = `${(data.totalTransferKB / 1024).toFixed(2)} MB · ${data.gpuDrawCalls} Calls`;
-        }
-      }
-      this.rafId = requestAnimationFrame(loop);
-    };
-    // Update every 1 second
-    setInterval(() => {
-      if (this.isOpen) this.renderHUD();
-    }, 1000);
-    this.rafId = requestAnimationFrame(loop);
+  private startBackgroundMetrics(): void {
+    window.addEventListener('load', () => {
+      this.updateHUDValues();
+    });
+
+    this.updateTimer = window.setInterval(() => {
+      this.updateHUDValues();
+    }, 2000);
   }
 
   private applyBadgeStyles(): void {
@@ -534,8 +618,9 @@ export class WiFiDebugHUD {
     });
   }
 
-  private applyPanelStyles(): void {
+  private applyStyles(): void {
     const style = document.createElement('style');
+    style.id = 'snowy-wifi-hud-styles';
     style.textContent = `
       #snowy-wifi-hud-container {
         position: fixed;
@@ -550,6 +635,7 @@ export class WiFiDebugHUD {
         box-sizing: border-box;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         color: #e2f5ff;
+        user-select: auto;
       }
       .snowy-wifi-panel {
         width: 100%;
@@ -738,8 +824,22 @@ export class WiFiDebugHUD {
       }
       .hud-table-wrapper {
         flex: 1;
-        overflow-y: auto;
-        max-height: 420px;
+        overflow-y: scroll !important;
+        max-height: 400px;
+        overscroll-behavior: contain;
+      }
+      .hud-table-wrapper::-webkit-scrollbar {
+        width: 8px;
+      }
+      .hud-table-wrapper::-webkit-scrollbar-track {
+        background: #06111a;
+      }
+      .hud-table-wrapper::-webkit-scrollbar-thumb {
+        background: #1e3d59;
+        border-radius: 4px;
+      }
+      .hud-table-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #2b5880;
       }
       .hud-table {
         width: 100%;
@@ -757,6 +857,7 @@ export class WiFiDebugHUD {
         text-transform: uppercase;
         letter-spacing: 0.05em;
         border-bottom: 1px solid rgba(255,255,255,0.08);
+        z-index: 2;
       }
       .hud-table td {
         padding: 7px 16px;
