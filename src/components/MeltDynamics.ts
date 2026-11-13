@@ -13,10 +13,43 @@ export function iceBounds(progress: number) {
   return { x: footprint, y: 1 - melt, z: footprint, cx: 0, cz: 0 };
 }
 
-// One deformation drives both the visible body and its shadow. The early and
-// middle stages follow the selected reference; the end becomes a soft, low
-// cap with an unbroken footprint, not a raised rectangular lip.
+// GPU-accelerated hewn ice sculpting and progressive melt deformation.
+// All mathematical sculpting, bevel remapping, taper, weathering, clipping planes,
+// and dynamic melting run 100% on the GPU in the vertex shader.
 export const meltVertex = `
+vec3 hewnIce(vec3 p){
+  vec3 ap = abs(p);
+  vec3 s = sign(p);
+  vec3 r = vec3(
+    ap.x <= 0.75 ? p.x / 0.75 * 0.85 : s.x * (0.85 + (ap.x - 0.75) / 0.25 * 0.15),
+    ap.y <= 0.75 ? p.y / 0.75 * 0.85 : s.y * (0.85 + (ap.y - 0.75) / 0.25 * 0.15),
+    ap.z <= 0.75 ? p.z / 0.75 * 0.85 : s.z * (0.85 + (ap.z - 0.75) / 0.25 * 0.15)
+  );
+  vec3 inner = clamp(r, -0.85, 0.85);
+  vec3 diff = r - inner;
+  vec3 n = length(diff) > 0.00001 ? normalize(diff) : vec3(0.0, 1.0, 0.0);
+  vec3 pt = inner + n * 0.15;
+  float h = (pt.y + 1.0) * 0.5;
+  pt.x *= 1.0 - 0.036 * h;
+  pt.z *= 1.0 - 0.024 * h;
+  float weather = 0.006 * sin(pt.x * 9.0 + pt.y * 4.0) * sin(pt.z * 7.0 - pt.y * 3.0) + 0.004 * sin(pt.x * 19.0 + pt.z * 13.0);
+  pt += n * (weather * smoothstep(0.04, 0.20, h));
+
+  vec3 c1 = normalize(vec3(0.64, 0.62, 0.45));
+  float d1 = dot(pt, c1) - 1.37;
+  if (d1 > 0.0) pt -= c1 * d1;
+
+  vec3 c2 = normalize(vec3(-0.74, 0.49, -0.46));
+  float d2 = dot(pt, c2) - 1.39;
+  if (d2 > 0.0) pt -= c2 * d2;
+
+  vec3 c3 = normalize(vec3(0.09, 1.0, -0.045));
+  float d3 = dot(pt, c3) - 0.955;
+  if (d3 > 0.0) pt -= c3 * d3;
+
+  return pt;
+}
+
 vec3 meltIce(vec3 p){
   float t=clamp(uMelt,0.,1.);
   float melt=pow(t,1.55);
@@ -41,7 +74,12 @@ vec3 meltIce(vec3 p){
   cap.y=-1.+height*(max(-.65,direction.y)+.65)/1.65;
   q=mix(q,cap,finish);
   return q;
-}`;
+}
+
+vec3 shapeIce(vec3 p){
+  return meltIce(hewnIce(p));
+}
+`;
 
 /** Preserve the selected reference's progressive lean, rather than the newer
  * release-and-fall sequence. The last pose rests on the wet floor after all ice is gone. */

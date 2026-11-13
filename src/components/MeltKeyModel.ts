@@ -191,14 +191,14 @@ export function createMeltKeyModel(segments=40,study=3,onMaterialReady?:()=>void
       vec3 normalAxis=abs(objectNormal.y)<.9?vec3(0.,1.,0.):vec3(1.,0.,0.);
       vec3 tangent=normalize(cross(normalAxis,objectNormal));
       vec3 bitangent=cross(objectNormal,tangent);
-      vec3 anchor=meltIce(position);
-      vec3 alongT=meltIce(position+tangent*.001)-anchor;
-      vec3 alongB=meltIce(position+bitangent*.001)-anchor;
+      vec3 anchor=shapeIce(position);
+      vec3 alongT=shapeIce(position+tangent*.001)-anchor;
+      vec3 alongB=shapeIce(position+bitangent*.001)-anchor;
       objectNormal=normalize(cross(alongT,alongB));`);
     shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>
-      vJellyLocal=position;transformed=meltIce(position);`);
+      vJellyLocal=hewnIce(position);transformed=shapeIce(position);`);
   };
-  iceMaterial.customProgramCacheKey=()=> 'snowy-natural-hewn-ice-v7-'+airPockets.length+'-'+Number(highDetail)+'-'+Number(naturalClarity);
+  iceMaterial.customProgramCacheKey=()=> 'snowy-natural-hewn-ice-gpu-v9-'+airPockets.length+'-'+Number(highDetail)+'-'+Number(naturalClarity);
   // Broad, planar faces with rounding confined to a short .15 edge radius.
   const iceGeometry=createMeltIceGeometry(segments);
   const ice = new THREE.Mesh(iceGeometry, iceMaterial);
@@ -210,7 +210,7 @@ export function createMeltKeyModel(segments=40,study=3,onMaterialReady?:()=>void
     shader.uniforms.uMelt=uniforms.uMelt;shader.uniforms.uOpacity=uniforms.uOpacity;shader.uniforms.uRimeAtlas={value:atlas};
     shader.vertexShader='uniform float uMelt;varying vec3 vRimeLocal;\n'+meltVertex+'\n'+shader.vertexShader;
     shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>
-      vRimeLocal=position;transformed=meltIce(position)+objectNormal*.0025*(1.-uMelt);`);
+      vRimeLocal=hewnIce(position);transformed=shapeIce(position)+objectNormal*.0025*(1.-uMelt);`);
     shader.fragmentShader=`uniform sampler2D uRimeAtlas;uniform float uMelt;uniform float uOpacity;varying vec3 vRimeLocal;
       float rimeHash(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
       float rimeNoise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
@@ -230,7 +230,7 @@ export function createMeltKeyModel(segments=40,study=3,onMaterialReady?:()=>void
       float crackle=texture2D(uRimeAtlas,vec2(fuv.x/3.,fuv.y)).r*fw.z+texture2D(uRimeAtlas,vec2((suv.x+1.)/3.,suv.y)).r*fw.x+texture2D(uRimeAtlas,vec2((tuv.x+2.)/3.,tuv.y)).r*fw.y;
       diffuseColor.a*=max(max(max(cortex*clusters*1.05,basal),frostPatch*.62),max(0.,crackle-.20)*1.35)*grain*uOpacity*(1.-smoothstep(.32,.82,uMelt));`);
   };
-  rimeMaterial.customProgramCacheKey=()=> 'snowy-patchy-rime-v3-'+Number(highDetail);
+  rimeMaterial.customProgramCacheKey=()=> 'snowy-patchy-rime-gpu-v4-'+Number(highDetail);
   const rime=new THREE.Mesh(iceGeometry,rimeMaterial);rime.name='surface-hoar';rime.position.copy(ice.position);root.add(rime);
 
   const metal = new THREE.MeshPhysicalMaterial({color:0xd5ae5e,roughness:.23,metalness:1,envMapIntensity:1.25,emissive:0x000000});
@@ -283,8 +283,8 @@ export function createMeltKeyModel(segments=40,study=3,onMaterialReady?:()=>void
   ice.castShadow=true;
   key.traverse(o=>{if(o instanceof THREE.Mesh){o.castShadow=true;o.customDepthMaterial=keyDepth;}});
   const depth=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking});
-  depth.onBeforeCompile=shader=>{shader.uniforms.uMelt=uniforms.uMelt;shader.vertexShader='uniform float uMelt;\n'+meltVertex+'\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n transformed=meltIce(position);');};
-  depth.customProgramCacheKey=()=> 'snowy-complete-vertical-shadow-v11';ice.customDepthMaterial=depth;
+  depth.onBeforeCompile=shader=>{shader.uniforms.uMelt=uniforms.uMelt;shader.vertexShader='uniform float uMelt;\n'+meltVertex+'\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n transformed=shapeIce(position);');};
+  depth.customProgramCacheKey=()=> 'snowy-complete-vertical-shadow-gpu-v12';ice.customDepthMaterial=depth;
   const parts={ice,key,ring,shaft,bit,collar,floor,core};
   root.userData.sculptRuntime={nodes:parts,meshes:{root:ice,ring,shaft,bit,collar},sockets:{floor:new THREE.Vector3(0,.04,0)},colliders:{ice:{type:'box',size:[2,2,2]},key:{type:'compound'}},explodable:true,clickable:true};
   const smooth=(a:number,b:number,t:number)=>{const x=THREE.MathUtils.clamp((t-a)/(b-a),0,1);return x*x*(3-2*x);};
