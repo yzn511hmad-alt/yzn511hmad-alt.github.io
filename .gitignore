@@ -15,6 +15,7 @@ work/
 *.tmp
 *.tmp.zip
 *.log
+wifi-audit-report.json
 
 # Editor & OS
 .DS_Store

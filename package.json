@@ -25,7 +25,8 @@
     "record:aurora": "node scripts/record-aurora.cjs",
     "assets:aurora": "node scripts/build-aurora-master.cjs",
     "test:ice-scene": "node scripts/test-ice-scene.cjs",
-    "test:free-key-compression": "node scripts/test-delivery.mjs"
+    "test:free-key-compression": "node scripts/test-delivery.mjs",
+    "audit:wifi": "python scripts/measure_wifi.py"
   },
   "keywords": [
     "creative-web",

@@ -7,6 +7,7 @@ import '../styles/reference-colors.css';
 import '../styles/melt-key.css';
 import gsap from 'gsap';
 import { ThemeManager } from '../core/ThemeManager';
+import { initWiFiDebugHUD } from '../components/WiFiDebugHUD';
 import { ScrollManager } from '../core/Scroll';
 import { onFrame } from '../core/FrameLoop';
 import { QualityTier } from '../core/QualityTier';
@@ -28,6 +29,7 @@ let dispose: (() => void) | undefined;
 function boot(): void {
   dispose?.();dispose=undefined;
   new ThemeManager();
+  initWiFiDebugHUD();
   const scroll = new ScrollManager();
   const events = new AbortController(), { signal } = events;
   const root = document.getElementById('key-access')!;

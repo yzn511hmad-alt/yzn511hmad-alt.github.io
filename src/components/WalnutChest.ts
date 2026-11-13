@@ -35,13 +35,9 @@ export function createWalnutChest(options: WalnutChestOptions = {}) {
     const url=`${base}${name}${options.lowPower?'-mobile':''}.webp`;
     const targetMaps=options.compactGeometry?1:(options.lowPower?3:2);const ready=()=>{mapsSettled++;root.userData.materialReady=mapsSettled===targetMaps;options.onReady?.();};
     const error=()=>{if(!disposed){root.userData.materialError=true;options.onError?.();}};
-    const texture=new THREE.Texture();
-    new THREE.ImageBitmapLoader().setOptions({imageOrientation:'flipY',premultiplyAlpha:'none',colorSpaceConversion:srgb?'default':'none'}).load(url,bitmap=>{
-      if(disposed){bitmap.close();return;}texture.image=bitmap;texture.needsUpdate=true;ready();
-    },undefined,()=>{
-      loader.load(url,t=>{if(disposed){t.dispose();return;}texture.image=t.image;texture.needsUpdate=true;ready();},undefined,error);
-    });
-    texture.flipY=false;
+    const texture=loader.load(url,t=>{
+      if(disposed){t.dispose();return;}ready();
+    },undefined,error);
     texture.colorSpace=srgb?THREE.SRGBColorSpace:THREE.NoColorSpace;
     texture.anisotropy=options.lowPower?4:8;texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
     textures.add(texture);return texture;

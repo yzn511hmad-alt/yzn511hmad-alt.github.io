@@ -263,17 +263,9 @@ export function initMeltKeyStage(root:HTMLElement):()=>void {
   const invalidate=()=>{if(disposed||failed||invalidationFrame)return;invalidationFrame=requestAnimationFrame(()=>{invalidationFrame=0;if(disposed||failed)return;draw();wake();});};
   const loadPlate=(isPortrait:boolean)=>{
     const url=`/assets/realistic-winter/winter-camp-${isPortrait?'portrait-v5':'landscape-v3'}.webp`;
-    const texture=new THREE.Texture();
-    if(typeof createImageBitmap!=='undefined'){
-      new THREE.ImageBitmapLoader().setOptions({imageOrientation:'flipY',premultiplyAlpha:'none',colorSpaceConversion:'default'}).load(url,bitmap=>{
-        if(disposed){bitmap.close();return;}texture.image=bitmap;texture.needsUpdate=true;host.dataset.background='photographic-winter';resize();
-      },undefined,fallback);
-      texture.flipY=false;
-    }else{
-      const t=new THREE.TextureLoader().load(url,()=>{
-        if(disposed){t.dispose();return;}texture.image=t.image;texture.needsUpdate=true;host.dataset.background='photographic-winter';resize();
-      },undefined,fallback);
-    }
+    const texture=new THREE.TextureLoader().load(url,t=>{
+      if(disposed){t.dispose();return;}host.dataset.background='photographic-winter';resize();
+    },undefined,fallback);
     texture.colorSpace=THREE.SRGBColorSpace;return texture;
   };
   const resize=()=>{
