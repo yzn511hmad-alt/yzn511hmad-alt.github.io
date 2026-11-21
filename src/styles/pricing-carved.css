@@ -1,0 +1,240 @@
+@media not (forced-colors: active) {
+  html[data-plan-design="carved"] #plans {
+    .edition {
+      --metal-base: #192f45;
+      --fractures: url('/assets/pricing/carved-midnight.webp');
+      --copy-shade: linear-gradient(90deg, #06152817, transparent 74%);
+      --brush: repeating-linear-gradient(179.7deg, #ecf7ff07 0 .65px, transparent 1px 2.8px, #00132808 3px 3.7px, transparent 4px 6px);
+      --rim: linear-gradient(115deg, #8aa8b9, #2a4154 17%, #7395ac 39%, #deeff7 54%, #526e82 66%, #1d3043 84%, #9bb7c8);
+      --inner-line: #a1c1d078;
+      border: 1px solid #7492a9;
+      border-radius: 10px;
+      background: var(--rim);
+      box-shadow: 0 3px 0 #091724, 0 9px 16px #020b1459;
+    }
+    .edition--metal {
+      --metal-base: #e3eaed;
+      --fractures: url('/assets/pricing/carved-pearl.webp');
+      --copy-shade: radial-gradient(ellipse at 25% 48%, #e2ebefaa, #e2ebef33 48%, transparent 76%);
+      --rim: linear-gradient(115deg, #fff, #899ca8 20%, #d1dbe1 36%, #fff 54%, #788a97 69%, #c8d2d7 88%, #fff);
+      --inner-line: #ffffffb0;
+      border-color: #d5dbdc;
+    }
+    .edition-content {
+      margin: 1px 1px 3px;
+      border: 0;
+      border-radius: 8px;
+      background-color: var(--metal-base);
+      background-image: var(--brush), var(--copy-shade), var(--fractures);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      box-shadow: inset 0 1px 0 var(--inner-line), inset 0 -1px 1px #162d4152;
+    }
+    .plan-heading { background: none; border: 0; }
+    .plan-heading::after { display: none; }
+    .plan-inclusions {
+      margin-inline: clamp(9px, 1.8vw, 28px);
+      padding-inline: 0;
+      border-top: 1px solid var(--plan-rule);
+    }
+    .plan-actions { border: 0; }
+    .plan-cta { border-radius: 4px; box-shadow: none; }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  html[data-plan-design="carved"] #plans .edition--metal .edition-content {
+    isolation: isolate;
+    overflow: clip;
+  }
+  html[data-plan-design="carved"] #plans .edition--metal .edition-content::before {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+    inset: -10% auto -10% 0;
+    width: 48%;
+    background: linear-gradient(90deg, transparent, #fff2 30%, #fffffff0 53%, #fff3 70%, transparent);
+    opacity: .66;
+    animation: lifetime-glint 4s linear infinite;
+    animation-play-state: paused;
+  }
+  html[data-plan-design="carved"] #plans .edition--metal[data-glint-visible] .edition-content::before {
+    animation-play-state: running;
+  }
+}
+@keyframes lifetime-glint {
+  0%, 77% { transform: translateX(-220%) skewX(-15deg); }
+  100% { transform: translateX(340%) skewX(-15deg); }
+}@media not (forced-colors: active) {
+  html[data-plan-design="carved"] #plans .edition .plan-cta {
+    min-height: 45px;
+    border: 1px solid #698ba2;
+    border-radius: 5px;
+    padding-inline: 14px;
+    color: #f0f7fc;
+    background: linear-gradient(180deg, #ffffff09, #00000012), #243e52;
+    box-shadow: inset 0 1px 0 #d9e9f12b, 0 1px 2px #03111c30;
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+  html[data-plan-design="carved"] #plans .edition--metal .plan-cta {
+    border-color: #496071;
+    background-color: #1b3447;
+  }
+  html[data-plan-design="carved"] #plans .plan-cta span {
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 24px;
+    border-left: 1px solid #c5dce333;
+    font-size: 16px;
+    color: #d0e5f1;
+  }
+  html[data-plan-design="carved"] #plans .edition .plan-cta:active {
+    background-color: #152d40;
+    box-shadow: inset 0 1px 3px #00000040;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (forced-colors: none) {
+  html[data-plan-design="carved"] #plans .edition .plan-cta:hover {
+    color: #fff;
+    background-color: #33536b;
+    border-color: #b2cbdc;
+    box-shadow: inset 0 1px 0 #d9e9f13d, 0 1px 3px #03111c40;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-plan-design="carved"] #plans .edition .plan-cta { transition: none; }
+}
+@media not (forced-colors: active) {
+  html[data-plan-design="carved"] #plans {
+    .edition {
+      --plan-ink:#edf5ff;
+      --plan-muted:#a4bed9;
+      --plan-rule:#4b83b233;
+      --plan-focus:#b8e9ff;
+      --plan-glyph:#52c0cd;
+      --metal-base:#0d2b48;
+      --fractures:none;
+      --brush:none;
+      --copy-shade:linear-gradient(145deg,#164465,#0d2b48 49%,#08192c);
+      --rim:linear-gradient(140deg,#34668d,#21405e 60%,#4889b4);
+      --inner-line:#88c9ff1c;
+      border:1px solid #3d72945c;
+      border-radius:10px 10px 27px 10px;
+      background:var(--rim);
+      box-shadow:0 12px 28px #01091466;
+    }
+    .edition--metal {
+      --plan-ink:#f1f6ff;
+      --plan-muted:#b7c9e4;
+      --plan-rule:#52c0cd36;
+      --plan-focus:#c9e4ff;
+      --plan-glyph:#8dc9d2;
+      --metal-base:#08192c;
+      --copy-shade:linear-gradient(145deg,#0d2b48,#08192c 47%,#00101f);
+      --rim:linear-gradient(140deg,#8dc9d2,#0e5576 45%,#0d2b48 80%,#229dba);
+      --inner-line:#8dc9d24d;
+      border-color:#52c0cd8f;
+    }
+    .edition-content {
+      margin:1px;
+      border-radius:8px 8px 25px 8px;
+      overflow:hidden;
+      isolation:isolate;
+      background-image:var(--copy-shade);
+    }
+    .edition-content::before {display:none}
+    .edition-content::after {
+      content:'';
+      position:absolute;pointer-events:none;
+      top:0;right:0;width:68px;height:5px;
+      background:var(--plan-glyph);
+      opacity:.7;
+      border-radius:0 0 0 4px;
+    }
+    .plan-heading {
+      padding-block:25px 21px;
+      background:none;
+    }
+    .plan-heading h2 {
+      font-size:clamp(19px,1.9vw,25px);
+      font-weight:500;
+      letter-spacing:-.025em;
+      margin-bottom:17px;
+    }
+    .price {
+      font-family:var(--font-ui),sans-serif;
+      font-size:clamp(51px,5.5vw,79px);
+      font-weight:700;
+      line-height:.94;
+      letter-spacing:-.075em;
+    }
+    .cents {font-size:.56em;letter-spacing:-.065em}
+    .currency {font-size:.30em;letter-spacing:0;align-self:flex-start;padding-top:.13em;margin-right:4px}
+    .price-unit {font-weight:400;font-size:12px;color:var(--plan-muted);margin-top:13px}
+    .plan-inclusions {
+      padding-block:21px;
+      border-top:1px solid var(--plan-rule);
+    }
+    .features {gap:8px;color:var(--plan-muted)}
+    .features li {font-weight:400}
+    .features li::before {
+      content:'✓';font-size:12px;color:var(--plan-glyph);
+      background:none;clip-path:none;transform:none;
+      inline-size:13px;block-size:auto;border:0;
+    }
+    .edition--metal .features {color:var(--plan-muted)}
+    .edition--metal .features li:nth-child(-n+2) {color:var(--plan-ink);font-weight:600}
+    .plan-popularity {
+      color:#afe0f9;border:1px solid #65b8dc66;
+      background:#4ab5de18;border-radius:4px;
+      padding:4px 6px;font-weight:500;
+    }
+    .plan-actions {padding-block:12px 19px}
+    .edition .plan-cta {
+      font-family:var(--font-ui),sans-serif;
+      min-height:46px;border-radius:6px;
+      color:#38c6fa;background:#17354d;border-color:#277aa2;
+      box-shadow:inset 0 1px #a8dfff11;
+    }
+    .edition--metal .plan-cta {
+      color:#071b32;background:linear-gradient(105deg,#52c0cd,#8dc9d2);border-color:#6da4ef;
+      box-shadow:inset 0 1px #b9e4ff44;
+    }
+    .plan-cta span {border:0;color:inherit}
+    .edition .plan-cta:active {background:#1e4663}
+    .edition--metal .plan-cta:active {background:#229dba}
+  }
+}
+@media (hover:hover) and (pointer:fine) and (forced-colors:none) {
+  html[data-plan-design="carved"] #plans .edition .plan-cta:hover {
+    color:#d5f4ff;background:#1e4663;border-color:#55cfff;
+  }
+  html[data-plan-design="carved"] #plans .edition--metal .plan-cta:hover {
+    color:#071b32;background:linear-gradient(105deg,#68cbd6,#b5e2e8);border-color:#a0bfff;
+  }
+}
+@media(max-width:480px) {
+  html[data-plan-design="carved"] #plans {
+    .plan-heading {padding-block:18px 17px}
+    .plan-heading h2 {font-size:19px;margin-bottom:14px}
+    .price {font-size:clamp(39px,11vw,53px)}
+    .plan-inclusions {padding-block:15px}
+    .features {gap:8px}
+    .plan-actions {padding-bottom:12px}
+    .plan-popularity {font-size:8px;padding:3px 5px}
+  }
+}
+@media(min-width:821px) and (max-height:740px){
+  html[data-plan-design="carved"] #plans {
+    .plan-heading {padding-block:14px}
+    .plan-heading h2 {margin-bottom:11px}
+    .price {font-size:clamp(44px,6vw,63px)}
+    .plan-inclusions {padding-block:14px}
+    .plan-actions {padding-bottom:13px}
+  }
+}
+
+

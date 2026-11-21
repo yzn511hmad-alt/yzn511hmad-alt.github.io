@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 156" fill="none">
+<defs>
+  <linearGradient id="fall" x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+    <stop stop-color="white"/><stop offset=".7" stop-color="white" stop-opacity=".85"/><stop offset="1" stop-color="white" stop-opacity=".2"/>
+  </linearGradient>
+  <g id="seams" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m57-2 3 9-6 12 2 7-6 8 2 11-4 6 4 10-7 10 2 6-8 12 2 6-8 10-2 9-10 11" stroke-width="1.55"/>
+    <path d="m105-1-5 12 2 6-6 10 1 8-7 10 4 8-2 9 7 12-3 12 4 7-1 10 7 7-3 9 5 9" stroke-width="1.3"/>
+    <path d="m149-2-3 14 3 11-7 13 4 8-4 10 4 9-4 11 6 9-2 8 9 7-3 10 7 9" stroke-width="1.15"/>
+    <path d="m54 19 10 4 9-2 8 4 6-1 9 3m6-10 11-4 12 3 8-4 13 0m3 11 11 1 9-5 14 2M48 51l12-3 9 3 11-5 10-1m4 8 11-5 9 2 9-5 10 2 13-3m-4 30 10-4 9 2 8-5 13 1M39 89l13-3 9 3 10-5 10 2 9-4 7 4m2 17 11 2 10-6 7 1 8-6 11-3m6 17 10-3 7 2 13-7" stroke-width=".95"/>
+  </g>
+</defs>
+<g stroke="url(#fall)"><use href="#seams"/></g>
+<g stroke="white" opacity=".5" stroke-width=".55"><path d="m61 0 2 7-5 11 2 7m-10 9-9-2-7-9-8-1-5-7M47 77l-11-3-6-6-11 1-9-7m96 48-7 2-7 10-8 3-4 9m68-51 10-2 7 5 8 1m-48-71 1 9 6 6 1 7m-62 51-2 13-7 7-1 11m95-11-5 12 4 8-5 12 1 11"/></g>
+</svg>

@@ -76,7 +76,7 @@ export class SharedSurface {
     if (this.domElement.width !== width) this.domElement.width = width;
     if (this.domElement.height !== height) this.domElement.height = height;
   }
-  render(scene: THREE.Scene, camera: THREE.Camera): void {
+  render(scene: THREE.Scene, camera: THREE.Camera, pipeline?: (renderer:THREE.WebGLRenderer,scene:THREE.Scene,camera:THREE.Camera,width:number,height:number)=>void): void {
     if (this.disposed || document.hidden || this.engine.getContext().isContextLost()) return;
     const width = Math.max(1, Math.round(this.width * this.dpr));
     const height = Math.max(1, Math.round(this.height * this.dpr));
@@ -100,7 +100,8 @@ export class SharedSurface {
     this.engine.toneMappingExposure = this.toneMappingExposure;
     this.engine.outputColorSpace = this.outputColorSpace;
     this.engine.setClearColor(0x000000, 0);
-    this.engine.render(scene, camera);
+    if(pipeline)pipeline(this.engine,scene,camera,width,height);
+    else this.engine.render(scene, camera);
     if (this.context) {
       this.context.globalCompositeOperation = 'copy';
       this.context.drawImage(this.engine.domElement, 0, bufferHeight - height, width, height, 0, 0, width, height);

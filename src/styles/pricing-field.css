@@ -1,0 +1,48 @@
+/* Each opaque face samples the same ice field used by .pricing-journey. */
+@media not (forced-colors: active) {
+  html:is([data-plan-design="field"], [data-plan-design="field-gold"]) #plans {
+    .edition {
+      border-radius: 11px;
+      background: #14283a;
+      box-shadow: 0 5px 16px #020c1759;
+    }
+    .edition--metal { background: #dce7ed; }
+    .edition-content {
+      isolation: isolate;
+      margin: 0;
+      border: 0;
+      border-radius: inherit;
+      background: none;
+      box-shadow: none;
+    }
+    .edition-content::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      pointer-events: none;
+      background: var(--pricing-ice-texture) 27% center / cover no-repeat;
+      filter: brightness(1.55);
+    }
+    .edition--metal .edition-content::before {
+      background-position: 84% center;
+      filter: grayscale(1) invert(1);
+      mix-blend-mode: multiply;
+    }
+    .edition--metal .edition-content { background-color: #e7f0f6; }
+    .plan-heading { background: none; border: 0; }
+    .plan-heading::after { display: none; }
+    .plan-inclusions {
+      margin-inline: clamp(9px, 1.8vw, 28px);
+      padding-inline: 0;
+      border-top: 1px solid var(--plan-rule);
+    }
+    .plan-actions { border: 0; }
+    .plan-cta { box-shadow: none; }
+  }
+  html[data-plan-design="field-gold"] #plans .edition--metal .edition-content::before {
+    filter: url("#pearl-gold-veins");
+    mix-blend-mode: normal;
+  }
+}

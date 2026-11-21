@@ -1,0 +1,71 @@
+/* Optional design study on the live pricing DOM. */
+html[data-plan-design="ridge"] #plans {
+  .edition {
+    --plan-ridge: #9ec5df;
+    --plan-face: linear-gradient(155deg, #203b50, #11293c 52%, #102437);
+    background: var(--plan-face);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px #03101c55;
+  }
+  .edition--metal {
+    --plan-ridge: #896e47;
+    --plan-face: linear-gradient(150deg, #f6f3e9, #e8edf0 54%, #d8e2e9);
+    border-color: #d8caaa;
+  }
+  .edition-content {
+    margin: 0;
+    border: 0;
+    border-radius: inherit;
+    background: none;
+    box-shadow: none;
+  }
+  .plan-heading {
+    display: flex;
+    flex-direction: column; align-items: stretch;
+    background: none;
+    border: 0;
+    padding-bottom: 13px;
+  }
+  .plan-heading::after {
+    inset: auto 0 0 auto;
+    width: 43%;
+    height: 74%;
+    background: var(--plan-ridge);
+    clip-path: none;
+    mask: url('/assets/pricing/engraved-ridge.svg') right bottom / contain no-repeat;
+    z-index: -1;
+  }
+  .plan-heading h2 {
+    font: 500 clamp(17px, 1.6vw, 24px)/1.2 Georgia, serif;
+    letter-spacing: -.025em;
+    margin-bottom: 12px;
+  }
+  .plan-popularity {
+    color: #624b2b;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid #aa946a;
+    border-radius: 0;
+    padding: 0 0 2px;
+  }
+  .plan-inclusions {
+    margin-inline: clamp(10px, 1.8vw, 28px);
+    padding-inline: 0;
+    border-top: 1px solid var(--plan-rule);
+  }
+  .features li::before { width: 7px; height: 1px; transform: none; }
+  .features { gap: 6px; }
+  .plan-actions { border: 0; padding-bottom: 16px; }
+  .plan-cta {
+    border-radius: 4px;
+    background: #263f51;
+    box-shadow: none;
+  }
+  .edition--metal .plan-cta { background: #203747; }
+}
+@media (max-width: 650px) {
+  html[data-plan-design="ridge"] #plans .plan-heading::after { width: 32%; bottom: 20%; opacity: .75; }
+}
+@media (forced-colors: active) {
+  html[data-plan-design="ridge"] #plans .plan-heading::after { display: none; }
+}

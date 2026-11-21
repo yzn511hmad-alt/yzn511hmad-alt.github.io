@@ -1,0 +1,72 @@
+html[data-plan-design="fissure"] #plans {
+  .edition {
+    --seam: linear-gradient(120deg, #476883, #beddf4 50%, #7499b5);
+    --face: linear-gradient(135deg, #1e364c, #102538 66%, #142b40);
+    background: var(--face);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px #030b1655;
+  }
+  .edition--metal {
+    --seam: linear-gradient(120deg, #927551, #bb975a 48%, #8f734e 66%, #ac946f);
+    --face: linear-gradient(132deg, #f0f5f8, #d8e6ee 70%, #ccdee9);
+  }
+  .edition-content {
+    margin: 0;
+    background: none;
+    border: 0;
+    border-radius: inherit;
+    box-shadow: none;
+  }
+  .plan-heading {
+    overflow: hidden;
+    border-radius: 9px 9px 0 0;
+    background: none;
+    border: 0;
+  }
+  .plan-heading::before, .plan-heading::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto auto;
+    width: 44%;
+    height: auto;
+    aspect-ratio: 180 / 156;
+    z-index: -1;
+    pointer-events: none;
+    clip-path: none;
+  }
+  .plan-heading::before {
+    background: url('/assets/pricing/frost-field.webp') 82% 8% / 320%;
+    mask-image: radial-gradient(ellipse at 100% 0, black, transparent 76%);
+    opacity: .57;
+  }
+  .edition--metal .plan-heading::before { opacity: .18; }
+  .plan-heading::after {
+    background: var(--seam);
+    mask: url('/assets/pricing/corner-fracture.svg') right top / contain no-repeat;
+  }
+  .plan-title-row { justify-content: flex-start; }
+  .plan-popularity {
+    position: absolute;
+    bottom: 13px;
+    right: clamp(9px, 1.8vw, 28px);
+    background: #e9e4d6;
+  }
+  .plan-inclusions {
+    border-top: 1px solid var(--plan-rule);
+    margin-inline: clamp(9px, 1.8vw, 28px);
+    padding-inline: 0;
+  }
+  .plan-actions { border: 0; }
+  .plan-cta { border-radius: 4px; box-shadow: none; }
+}
+@media (max-width: 650px) {
+  html[data-plan-design="fissure"] #plans {
+    .plan-heading::after, .plan-heading::before { width: 38%; }
+    .plan-heading { padding-bottom: 23px; }
+    .plan-popularity { bottom: 4px; left: 8px; right: auto; }
+  }
+}
+@media (forced-colors: active) {
+  html[data-plan-design="fissure"] #plans .plan-heading::before,
+  html[data-plan-design="fissure"] #plans .plan-heading::after { display: none; }
+}

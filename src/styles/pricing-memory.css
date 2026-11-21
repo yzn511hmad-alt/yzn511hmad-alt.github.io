@@ -1,0 +1,7 @@
+.metal-memory{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
+.memory-mark path{fill:none;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.memory-cut{stroke:#020c1c;stroke-width:2;transform:translateY(1.25px)}
+.memory-edge{stroke:#b5dcea;stroke-width:.85}
+.memory-gold .memory-edge{stroke:#d8c799;stroke-width:1.1}
+.memory-silver .memory-edge{stroke:#c5e5f4;stroke-width:1.1}
+@media(prefers-reduced-motion:reduce),(forced-colors:active){.metal-memory{display:none}}

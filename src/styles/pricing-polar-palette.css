@@ -1,0 +1,220 @@
+/* Snowy / original brand backgrounds
+ * Visual balance: 60% polar night, 30% glacial surfaces, 10% ice accents.
+ * Text neutrals support contrast; they are not a fourth accent family.
+ */
+:root {
+  --snow-night: #00101f;
+  --snow-depth: #08192c;
+  --snow-surface: #0d2b48;
+  --snow-surface-light: #0e5576;
+  --snow-accent: #52c0cd;
+  --snow-frost: #8dc9d2;
+  --snow-text: #e4e7e5;
+  --snow-muted: #b8cfdf;
+  --snow-line: #82cbea30;
+  --night: var(--snow-night);
+  --ink: var(--snow-text);
+  --ice: var(--snow-accent);
+  --muted: var(--snow-muted);
+  --line: var(--snow-line);
+  background: var(--snow-night);
+  color: var(--snow-text);
+}
+body {background: var(--snow-night)}
+::selection {background: var(--snow-accent);color: var(--snow-night)}
+.pricing-journey {
+  --pricing-ice-texture: url('/assets/pricing/frost-field.webp');
+  background: linear-gradient(112deg,var(--snow-night),var(--snow-depth) 62%,var(--snow-surface));
+}
+
+/* Edge lighting runs behind the full journey and leaves the copy in shadow. */
+@media (forced-colors: none) {
+  .pricing-journey::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 100vw 105svh at 105% -2%, #8dc9d2ed, #52c0cdad 14%, #229dba71 29%, #137a9f2b 47%, transparent 67%),
+      radial-gradient(ellipse 78vw 85svh at -10% 18%, #1d778468, #0e557630 32%, transparent 72%),
+      radial-gradient(ellipse 69vw 126svh at 105% 34%, #137a9f69, #0e557639 36%, transparent 76%),
+      radial-gradient(ellipse 52vw 102svh at -8% 61%, #1d778450, #0e557631 40%, transparent 76%),
+      radial-gradient(ellipse 73vw 135svh at 101% 85%, #229dba5e, #0e557653 38%, transparent 79%);
+  }
+  @media (max-width: 820px) {
+    .pricing-journey::after {
+      background:
+        radial-gradient(ellipse 118vw 78svh at 105% 12%, #52c0cd8c, #137a9f45 30%, transparent 72%),
+        radial-gradient(ellipse 99vw 125svh at 114% 37%, #137a9f63, transparent 76%),
+        radial-gradient(ellipse 99vw 100svh at -14% 60%, #1d778453, transparent 73%),
+        radial-gradient(ellipse 115vw 112svh at 112% 87%, #137a9f60, transparent 76%);
+    }
+  }
+}
+
+/* Shared frost surface below the payment artwork. */
+.pricing-journey::before {
+  --pricing-copy-shade: radial-gradient(ellipse at 25% 46%, #09192cef, #09192ca0 31%, transparent 68%);
+  --pricing-edge-shade: linear-gradient(180deg, #09172348, transparent 22%, transparent 76%, #09152270);
+  --pricing-ice-position: center;
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--pricing-copy-shade), var(--pricing-edge-shade),
+    var(--pricing-ice-texture) var(--pricing-ice-position) / cover no-repeat;
+}
+
+@media (max-width: 820px) {
+  .pricing-journey::before {
+    --pricing-copy-shade: radial-gradient(ellipse at 45% 31%, #09192cb8, #09192c60 46%, transparent 82%);
+    --pricing-edge-shade: linear-gradient(180deg, #09172322, transparent 68%, #09152268);
+    --pricing-ice-position: 66% center;
+  }
+}
+
+@media (forced-colors: active) {
+  .pricing-journey::before { content: none; }
+}
+
+.pricing-next { isolation: isolate; }
+.pricing-next::before {
+  content: '';
+  position: absolute;
+  inset: 5px -7px;
+  z-index: -1;
+  border-radius: 6px;
+  background: #07131cd9;
+  box-shadow: 0 0 8px 4px #07131c62;
+  pointer-events: none;
+}
+
+@media (max-width: 820px) {
+  .pricing-links a { position: relative; isolation: isolate; }
+  .pricing-links a::before {
+    content: '';
+    position: absolute;
+    inset: 5px -6px;
+    z-index: -1;
+    border-radius: 6px;
+    background: #07131cd9;
+    box-shadow: 0 0 8px 4px #07131c62;
+    pointer-events: none;
+  }
+
+  .pricing-chapter .chapter-copy::before {
+    content: '';
+    position: absolute;
+    inset: -18px -12px;
+    z-index: -1;
+    border-radius: 22px;
+    background: #071522b8;
+    box-shadow: 0 0 22px 12px #071522ac;
+    pointer-events: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .pricing-next::before, .pricing-links a::before, .pricing-chapter .chapter-copy::before { content: none; }
+}
+
+.chapter-copy h1,.chapter-copy h2,.chapter-shield h2,.plans-intro h2 {color:var(--snow-text)}
+.chapter-copy h1 em,.chapter-copy h2 em,.chapter-shield h2 em,.plans-intro h2 em,
+.payment-section h2 em,.comparison-section h2 em,.faq-section h2 em,.closing h2 em {color:var(--snow-frost)}
+.chapter-description,.plans-intro>p:last-child,.chapter-shield>p:not(.eyebrow),
+.collection-details p,.checkout-steps p,.plan-description,.price-unit,
+.plan-foot,.payment-totals p,.payment-totals span,.payment-calculator legend,
+.section-heading>p,.questions details p,.footer {color:var(--snow-muted)}
+.eyebrow,.overline,.chapter-bottom,.chapter-fineprint,.checkout-steps li>span,
+.timeline-options dd,.showroom-bottom,.closing>p {color:#b2cde0}
+.journey-button {
+  background:var(--snow-accent);border-color:#b5edff;color:var(--snow-night);
+  box-shadow:0 8px 32px #5dcfff13,inset 0 1px #e5faff80;
+}
+.journey-button:hover {background:#b9edff;color:var(--snow-night)}
+.quiet-link,.text-link {color:var(--snow-frost);border-color:#7edcfa60}
+.quiet-link:hover,.text-link:hover {color:#fff;border-color:var(--snow-accent)}
+.method-list span {
+  background:#173b5699;color:#d8efff;border-color:#7abada40;
+  box-shadow:inset 0 1px #a6e2ff0a;
+}
+.chapter-shield {
+  background:linear-gradient(120deg,var(--surface-card),var(--bg-secondary) 58%,var(--bg-primary));
+  border-color:#8ed9f54a;
+  box-shadow:inset 0 1px #b3e8ff24,0 35px 100px #020b1959;
+}
+.chapter-shield:after {border-color:#96dfff26;box-shadow:0 0 0 45px #91d9ff08,0 0 0 90px #91d9ff05}
+.collection-details,.timeline-options,.checkout-steps {border-color:#8ed9f538}
+.collection-details span {color:var(--snow-accent)}
+.collection-details strong,.checkout-steps strong {color:var(--snow-text)}
+.timeline-options>div,.checkout-steps li {border-color:#8ed9f52c}
+.timeline-options dt {color:var(--snow-frost)}
+.plans-chapter .edition {
+  background:linear-gradient(135deg,var(--surface-card),var(--bg-primary) 75%);
+  border-color:#8ed9f53d;
+  box-shadow:inset 0 1px #b8e6ff1a;
+}
+.plans-chapter .edition--metal {
+  background:linear-gradient(135deg,var(--surface-raised),var(--surface-card) 62%,var(--bg-secondary));
+  border-color:#8ed9f58a;
+}
+.edition:after {background:radial-gradient(circle at var(--light-x) var(--light-y),#c0f0ff0d,transparent 55%)}
+.features {color:#d3e8f6}
+.features li:before {color:var(--snow-accent)}
+.plan-cta {border-color:#8ed9f55c;color:var(--snow-frost)}
+.plan-cta:hover {background:#7edcfa14;color:#fff}
+.edition--metal .plan-cta {background:var(--snow-accent);border-color:#b5edff;color:var(--snow-night)}
+.edition--metal .plan-cta:hover {background:#b9edff;color:var(--snow-night)}
+.value-note {color:var(--snow-frost)}
+.status-dot {background:var(--snow-accent);box-shadow:0 0 9px #7edcfa40}
+.payment-section,.comparison-section,.faq-section,.closing,.footer {background:var(--snow-night)}
+.payment-options span {color:var(--snow-muted);border-color:#8ed9f53d;background:var(--snow-depth)}
+.payment-options :checked+span {background:var(--snow-accent);border-color:var(--snow-accent);color:var(--snow-night)}
+.payment-totals strong {color:var(--snow-text)}
+.payment-brands {color:#c2dcec}
+thead th {border-color:#82cbea45}
+thead th:first-child,thead small {color:var(--snow-muted)}
+tbody th {color:#c1d7e6}
+tbody td {color:#cce6f6}
+tbody th,tbody td {border-color:#82cbea20}
+thead th:last-child,tbody td:last-child {background:linear-gradient(90deg,#356b8c29,#173b5614)}
+.questions summary {color:var(--snow-text)}
+.questions summary span,.closing-star {color:var(--snow-accent)}
+.footer-word {color:var(--snow-frost)}
+.first-frame .fallback-card {background:linear-gradient(135deg,#46515d,#171f28 60%,#34414e);border-color:#64727f}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible+span {outline-color:var(--snow-accent)}
+@media(forced-colors:active) {
+  .journey-button,.plan-cta,.edition--metal .plan-cta,.payment-options :checked+span {background:ButtonFace;color:ButtonText;border-color:ButtonText}
+  .chapter-shield,.plans-chapter .edition {background:Canvas;border-color:CanvasText}
+}
+
+
+/* Restored signature footer closes the pricing journey. */
+body > .snowy-signoff { z-index: 3; }
+@media (forced-colors: none) {
+  body > .snowy-signoff {
+    --text-primary: var(--snow-text);
+    --text-secondary: var(--snow-muted);
+    --text-muted: var(--snow-frost);
+    background: radial-gradient(ellipse at 82% 78%, #0e55768c, transparent 68%),
+      linear-gradient(160deg, var(--snow-night), var(--snow-depth) 55%, var(--snow-surface));
+    border-top-color: #52c0cd40;
+  }
+  body > .snowy-signoff::before {
+    background: radial-gradient(ellipse 65% 40% at 50% 64%, #229dba28, transparent 75%);
+  }
+  .snowy-signoff .signoff-title span,
+  .snowy-signoff .signoff-cta span,
+  .snowy-signoff .signoff-crystal,
+  .snowy-signoff .signoff-nav [aria-current='page'] { color: var(--snow-frost); }
+  .snowy-signoff .signoff-word {
+    background-image: linear-gradient(174deg, var(--snow-text) 12%, #8dc9d2 43%,
+      #137a9f 51%, #8dc9d2 54%, #52c0cd 73%, #0e5576 100%);
+  }
+  .snowy-signoff .signoff-orbit { border-color: #52c0cd56; }
+  .snowy-signoff .signoff-horizon {
+    background: linear-gradient(90deg, transparent, #137a9f55 20%, #8dc9d2b0 50%, #137a9f55 80%, transparent);
+  }
+}

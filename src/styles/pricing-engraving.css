@@ -1,0 +1,28 @@
+/* Fine engraved linework, with bounded transform-only motion. */
+.chapter-copy,.chapter-shield{isolation:isolate}
+.snow-engraving{position:absolute;inset:16px -36px 10px -56px;z-index:-1;overflow:hidden;pointer-events:none;user-select:none}
+.snow-engraving-field{position:absolute;left:24px;top:50%;width:calc(100% - 30px);max-width:590px;aspect-ratio:1;transform:translateY(-50%)}
+.snow-engraving-core{position:absolute;inset:34%;background:url('/assets/ornaments/snowy-crystal.svg') center/contain no-repeat;opacity:.31}
+.snow-engraving-weave,.snow-engraving-weave--inner{position:absolute;inset:0;background:url('/assets/ornaments/snowy-motion-rosette.svg') center/contain no-repeat;transform-origin:center;opacity:.32}
+.snow-engraving-weave--inner{inset:15%;opacity:.32}
+.snow-engraving-rail{position:absolute;inset:40px 18px 32px 25px;border-left:1px solid #7dd3fc30;border-top:1px solid #7dd3fc25;border-bottom:1px solid #7dd3fc25}
+.snow-engraving-rail:before{content:'';position:absolute;left:4px;top:4px;bottom:4px;width:4px;border-left:1px solid #7dd3fc12;background:repeating-linear-gradient(0deg,transparent 0 23px,#7dd3fc30 23px 24px,transparent 24px 48px)}
+.snow-engraving-rail:after{content:'';position:absolute;left:-4px;right:0;top:-4px;height:9px;background:linear-gradient(#beeaff80,#beeaff80) left center/9px 1px no-repeat,linear-gradient(#beeaff80,#beeaff80) left center/1px 9px no-repeat,linear-gradient(#beeaff60,#beeaff60) right center/18px 1px no-repeat}
+.snow-engraving-seal{position:absolute;left:1px;top:17px;width:48px;height:48px;background:url('/assets/ornaments/snowy-ice-seal.svg') center/contain no-repeat;opacity:.72}
+.chapter-copy>.eyebrow{display:flex;align-items:center;gap:14px}
+.chapter-copy>.eyebrow:after{content:'';height:1px;width:48px;background:linear-gradient(90deg,#7dd3fc6b,transparent)}
+.chapter-shield>.snow-engraving{inset:0}
+.chapter-shield .snow-engraving-field{left:auto;right:22px;width:51%;top:50%}
+.chapter-shield .snow-engraving-rail{inset:26px;border-left:0;border-right:1px solid #7dd3fc30}
+.chapter-shield .snow-engraving-rail:before{left:auto;right:4px}
+.chapter-shield .snow-engraving-seal{left:auto;right:5px;top:6px}
+#chapter-two .snow-engraving-weave{transform:rotate(24deg)}
+#chapter-four .snow-engraving-weave--inner{transform:rotate(-19deg)}
+#chapter-five .snow-engraving-weave{transform:rotate(48deg)}
+
+@media(min-width:651px) and (max-width:1100px){.snow-engraving{left:-24px;right:-12px}.snow-engraving-seal{left:1px}.snow-engraving-field{left:18px;width:calc(100% - 24px)}}
+@media(max-width:650px){.snow-engraving{inset:20px -10px -20px -10px}.snow-engraving-field{left:8px;width:calc(100% - 16px)}.snow-engraving-rail{left:0;right:0;top:20px;bottom:0}.snow-engraving-seal{left:0;top:0;width:40px;height:40px}.chapter-shield .snow-engraving-field{width:96%;left:auto;right:2%;top:38%}.chapter-shield .snow-engraving-rail{inset:16px}.chapter-shield .snow-engraving-seal{right:0;top:0;width:32px;height:32px}}
+@media(forced-colors:active){.snow-engraving,.chapter-copy>.eyebrow:after{display:none}}
+/* Only the visible moving layers are promoted, not all chapters. */
+.snow-engraving[data-running=true] .snow-engraving-weave{will-change:transform}
+.snow-engraving{contain:layout paint style}

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { losslessDelivery } from './scripts/lossless-delivery.ts';
@@ -6,11 +6,50 @@ import { losslessDelivery } from './scripts/lossless-delivery.ts';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+/**
+ * Injects <link rel="modulepreload"> into built pricing.html for the lazy
+ * PricingJourney chunk and its static imports (vendor-three, vendor-gsap, etc.)
+ * so the HTML preload scanner fetches the 3D scene in parallel at t=0.
+ */
+function pricingModulePreload(): Plugin {
+  return {
+    name: 'snowy-pricing-modulepreload',
+    enforce: 'post',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html, ctx) {
+        if (!ctx.bundle || !ctx.filename.endsWith('pricing.html')) return html;
+        const journey = Object.values(ctx.bundle).find(
+          (item) => item.type === 'chunk' && item.name === 'PricingJourney',
+        );
+        if (!journey || journey.type !== 'chunk') return html;
+        const seen = new Set<string>();
+        const queue = [journey.fileName, ...journey.imports];
+        const links: string[] = [];
+        while (queue.length) {
+          const file = queue.shift()!;
+          if (seen.has(file)) continue;
+          seen.add(file);
+          const href = '/' + file;
+          if (!html.includes(`href="${href}"`)) {
+            links.push(`<link rel="modulepreload" crossorigin href="${href}">`);
+          }
+          const chunk = ctx.bundle[file];
+          if (chunk && chunk.type === 'chunk') {
+            for (const dep of chunk.imports) queue.push(dep);
+          }
+        }
+        return links.length ? html.replace('</head>', `  ${links.join('\n  ')}\n</head>`) : html;
+      },
+    },
+  };
+}
+
 export default defineConfig({
   root: '.',
   publicDir: 'public',
   optimizeDeps: { entries: ['*.html'] },
-  plugins: [losslessDelivery()],
+  plugins: [pricingModulePreload(), losslessDelivery()],
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),

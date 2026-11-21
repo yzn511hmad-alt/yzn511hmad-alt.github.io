@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="ice" x1="0" x2="1" y2="1">
+      <stop stop-color="#e0f7ff"/>
+      <stop offset=".52" stop-color="#7dd3fc"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity=".34"/>
+    </linearGradient>
+    <g id="arm">
+      <path d="M100 14l8 11-4 15v11l15-11 6 2-1 7-20 16v13l9-7 7 2-2 7-14 11v9h-8v-9L82 80l-2-7 7-2 9 7V65L76 49l-1-7 6-2 15 11V40l-4-15z" fill="url(#ice)" fill-opacity=".55" stroke="#a3cbf5" stroke-width="1"/>
+      <path d="M100 14v86h-4v-9L82 80l-2-7 7-2 9 7V65L76 49l-1-7 6-2 15 11V40l-4-15z" fill="#081a33" fill-opacity=".56"/>
+      <path d="M100 14v80m0-35L76 43m24 16 24-16m-24 43L81 74m19 12 19-12M92 25l8 5 8-5" stroke="#e0f7ff" stroke-opacity=".8" stroke-width=".85"/>
+    </g>
+  </defs>
+  <use href="#arm"/>
+  <use href="#arm" transform="rotate(60 100 100)"/>
+  <use href="#arm" transform="rotate(120 100 100)"/>
+  <use href="#arm" transform="rotate(180 100 100)"/>
+  <use href="#arm" transform="rotate(240 100 100)"/>
+  <use href="#arm" transform="rotate(300 100 100)"/>
+</svg>

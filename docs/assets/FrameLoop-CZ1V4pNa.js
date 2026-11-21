@@ -1,0 +1,1 @@
+import{i as e}from"./vendor-gsap-bXzFIbWr.js";var t=new Set,n=(e,n)=>{if(document.hidden)return;let r=Math.min(n/1e3,.05);for(let n of t)n(e,r)};function r(r){return t.size||e.ticker.add(n,!1,!0),t.add(r),()=>{t.delete(r),t.size||e.ticker.remove(n)}}export{r as t};

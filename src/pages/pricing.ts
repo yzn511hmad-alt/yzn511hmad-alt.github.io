@@ -1,46 +1,74 @@
-/**
- * DEDICATED PRICING PAGE
- * Snowy Studios (getsnowy.xyz)
- * Authentic recreation matching reference design 100%
- */
+const events = new AbortController();
+const menu = document.querySelector<HTMLButtonElement>('.mobile-menu-toggle');
+const nav = document.querySelector<HTMLElement>('#pricing-mobile-menu');
+function closeMenu() { menu?.setAttribute('aria-expanded','false'); if(nav) nav.hidden=true; }
+menu?.addEventListener('click', () => {
+  const open = menu.getAttribute('aria-expanded') !== 'true';
+  menu.setAttribute('aria-expanded', String(open)); if(nav) nav.hidden=!open;
+}, {signal: events.signal});
+document.addEventListener('keydown', e => {if(e.key === 'Escape' && menu?.getAttribute('aria-expanded') === 'true'){ closeMenu(); menu.focus(); }}, {signal: events.signal});
+nav?.addEventListener('click', e => {if((e.target as Element).closest('a')) closeMenu();}, {signal: events.signal});
+document.querySelector('.signoff-backtop')?.addEventListener('click',()=>{
+  const main=document.getElementById('main-content');main?.setAttribute('tabindex','-1');main?.focus({preventScroll:true});
+},{signal:events.signal});
+if(import.meta.hot) import.meta.hot.dispose(() => events.abort());
 
-import '../styles/tokens.css';
-import '../styles/base.css';
-import '../styles/sections.css';
-import '../styles/themes.css';
-import '../styles/pages.css';
-import '../styles/polar-night.css';
-
-import { ThemeManager } from '../core/ThemeManager';
-import { ScrollManager } from '../core/Scroll';
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Theme Manager
-  new ThemeManager();
-
-  // 2. Initialize Smooth Scroll
-  const scrollManager = new ScrollManager();
-  window.addEventListener('pagehide', () => scrollManager.destroy(), { once: true });
-  if (import.meta.hot) import.meta.hot.dispose(() => scrollManager.destroy());
-
-  // 3. Header scroll state listener
-  const header = document.getElementById('site-header');
-  if (header) {
-    scrollManager.instance.on('scroll', ({ scroll }: { scroll: number }) => {
-      if (scroll > 30) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
-    // Fallback standard window scroll listener
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 30) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    }, { passive: true });
+const ornaments = new Map<Element, string>();
+const openingChapter = document.getElementById('chapter-one');
+const lifetimeCard = document.querySelector('html[data-plan-design="carved"] #plans .edition--metal');
+if (openingChapter) ornaments.set(openingChapter, 'data-engraving-visible');
+if (lifetimeCard) ornaments.set(lifetimeCard, 'data-glint-visible');
+const visibleOrnaments = new Set<Element>();
+const syncOrnaments = () => {
+  for (const [element, attribute] of ornaments) {
+    element.toggleAttribute(attribute, visibleOrnaments.has(element) && !document.hidden);
   }
+};
+const ornamentObserver = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (entry.isIntersecting) visibleOrnaments.add(entry.target);
+    else visibleOrnaments.delete(entry.target);
+  }
+  syncOrnaments();
 });
+for (const element of ornaments.keys()) ornamentObserver.observe(element);
+document.addEventListener('visibilitychange', syncOrnaments, { signal: events.signal });
+events.signal.addEventListener('abort', () => {
+  ornamentObserver.disconnect();
+  for (const [element, attribute] of ornaments) element.removeAttribute(attribute);
+}, { once: true });
+
+const header = document.getElementById('site-header');
+const syncHeader = () => header?.classList.toggle('scrolled', scrollY > 40);
+window.addEventListener('scroll',syncHeader,{passive:true,signal:events.signal});syncHeader();
+matchMedia('(min-width:961px)').addEventListener('change',e=>{if(e.matches)closeMenu();},{signal:events.signal});
+// The built page preloads this separate scene while the regular page renders.
+let disposeJourney: (()=>void)|undefined;
+let enhancementCancelled=false;
+function showPricingFallback() {
+  const root=document.documentElement;
+  delete root.dataset.pricingEntrance;
+  root.setAttribute('data-pricing-fallback','');
+}
+const journeyModule=import('../components/PricingJourney').catch(error=>{
+  if(!enhancementCancelled){
+    showPricingFallback();
+    console.warn('Payment artwork unavailable; pricing remains accessible.',error);
+  }
+  return undefined;
+});
+requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  void journeyModule.then(module=>{
+    if(enhancementCancelled||!module)return;
+    const host=document.getElementById('payment-stage');
+    if(!host)return;
+    try{disposeJourney=module.createPricingJourney(host);}
+    catch(error){
+      showPricingFallback();
+      host.dataset.ready='fallback';
+      console.warn('Payment artwork unavailable; pricing remains accessible.',error);
+    }
+  });
+}));
+if(import.meta.hot)import.meta.hot.dispose(()=>{enhancementCancelled=true;disposeJourney?.();});
+
