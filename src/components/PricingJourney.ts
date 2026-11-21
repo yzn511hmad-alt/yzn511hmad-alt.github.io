@@ -122,12 +122,6 @@ export function createPricingJourney(host:HTMLElement) {
       setEntranceClip(0);
       return false;
     }
-    if(stacked&&entranceElapsed===0&&artTop>innerHeight*.86){
-      host.dataset.openingMotion='waiting';
-      setEntranceClip(innerHeight);
-      entranceBandPresence=0;
-      return true;
-    }
     // Prime the scene under the clip before the first timed frame.
     if(!shown){
       setEntranceClip(innerHeight);
@@ -144,7 +138,9 @@ export function createPricingJourney(host:HTMLElement) {
     }
 
     host.dataset.openingMotion='playing';
-    const clipTop=stacked?Math.max(0,Math.round(artTop)):0;
+    // Enter from the viewport edge on phones too, before the artwork slot
+    // reaches the screen. Keep the existing landing pose below the plans.
+    const clipTop=0;
     setEntranceClip(clipTop);
     const upperEdge=(.5-clipTop/innerHeight)*viewHeight;
     const above=(upperEdge-objects.position.y)/objects.scale.y;
