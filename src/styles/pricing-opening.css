@@ -549,6 +549,10 @@ html[data-pricing-fallback] .pricing-holders-column { display: none; }
     --engraving-fade: radial-gradient(ellipse at 15% 18%, #000 8%, #000a 42%, transparent 77%);
   }
 }
+@media (max-width: 767px) {
+  .pricing-engraving { display: none; }
+  .pricing-engraving::before { content: none; animation: none; }
+}
 @media (max-width: 480px) {
   #chapter-one h1 { font-size: clamp(32px, 10vw, 46px); }
   #chapter-one .chapter-description { margin-bottom: 16px; }
