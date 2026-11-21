@@ -247,10 +247,9 @@ export function createPricingJourney(host:HTMLElement) {
     const reduced=motion.matches;
     const currentScroll=scroll?.getScroll()??scrollY;
     const phoneMotion=simpleOptics&&!reduced;
-    // Position and rotation use the same scroll sample through the payment
-    // sequence; blend back into the existing scrub before the later chapters.
+    // Phone poses and chapter transitions share the browser's scroll clock.
     const paymentHandoff=smooth(paymentArtCenter-viewportHeight*.32,paymentArtCenter+viewportHeight*.21,currentScroll);
-    const sceneScroll=phoneMotion?THREE.MathUtils.lerp(currentScroll,easedScroll,paymentHandoff):easedScroll;
+    const sceneScroll=phoneMotion?currentScroll:easedScroll;
     let idx=0;
     while(idx<stops.length-2&&sceneScroll>=anchors[idx+1])idx++;
     const fraction=THREE.MathUtils.clamp((sceneScroll-anchors[idx])/Math.max(1,anchors[idx+1]-anchors[idx]),0,1);
@@ -259,10 +258,9 @@ export function createPricingJourney(host:HTMLElement) {
     const f=motion.matches?0:smooth(0,1,fraction),a=stops[idx],b=stops[idx+1];
     const lerp=(key:keyof typeof a)=>THREE.MathUtils.lerp(a[key],b[key],f);
     const mobile=viewportWidth<=820;
-    // Sample the orbit and arrival from the same eased scroll. The handoff
-    // must follow the same path forward and backward, even on fast reversals.
-    const orbitProgress=reduced?0:progressBetween(sectionLayout[3].top-viewportHeight*.85,orbitHeight+viewportHeight*.70,easedScroll);
-    const arrivalScroll=phoneMotion?currentScroll:easedScroll;
+    // Sample both parts of the handoff from the same scroll position.
+    const orbitProgress=reduced?0:progressBetween(sectionLayout[3].top-viewportHeight*.85,orbitHeight+viewportHeight*.70,sceneScroll);
+    const arrivalScroll=sceneScroll;
     const arrivalProgress=reduced?0:progressBetween(sectionLayout[4].top-viewportHeight,viewportHeight*.91,arrivalScroll);
     const orbitWeight=smooth(0,.1,orbitProgress)*(1-smooth(.9,1,orbitProgress));
     const viewH=2*Math.tan(THREE.MathUtils.degToRad(18))*12,viewW=viewH*camera.aspect;
@@ -303,10 +301,8 @@ export function createPricingJourney(host:HTMLElement) {
       );
       mobileY=(.5-center/viewportHeight)*viewH;
     }
-    // The phone payment art is anchored to document scroll. Damping that
-    // position makes it lag behind a fast swipe or a jump to the section.
-    const followsDocument=phoneMotion&&(currentScroll<paymentArtCenter+viewportHeight*.21||arrivalProgress>=.78);
-    framedMobileY=shown&&!reduced&&!followsDocument?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
+    // Phone framing follows document scroll through the entire journey.
+    framedMobileY=shown&&!reduced&&!phoneMotion?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
     const framingSettles=mobile&&Math.abs(framedMobileY-mobileY)>.002;
     if(!framingSettles)framedMobileY=mobileY;
 
@@ -358,7 +354,25 @@ export function createPricingJourney(host:HTMLElement) {
     const turn=smooth(.08,.88,orbitProgress);
     const sweep=Math.sin(Math.PI*turn);
     const mix=THREE.MathUtils.lerp;
-    if(reveal>0){
+    if(phoneMotion&&reveal>0){
+      // Sweep each coin outward before docking. Keep both on their own side
+      // so they do not race across the card while the holders are appearing.
+      const arc=THREE.MathUtils.smootherstep(orbitProgress,.14,.78);
+      const lift=Math.sin(Math.PI*arc)*(1-smooth(.16,.50,arrivalProgress));
+      card.position.z=.52*lift;
+      card.position.y=-.18*lift;
+      card.rotation.x+=.10*lift;
+      card.rotation.y+=.74*Math.sin(arc*Math.PI*2)*lift;
+      card.rotation.z-=.12*lift;
+      bitcoin.position.x=mix(bitcoin.position.x,-1.75,reveal)-.46*lift;
+      paypal.position.x=mix(paypal.position.x,1.75,reveal)+.46*lift;
+      bitcoin.position.y=mix(bitcoin.position.y,-.36,reveal)+.58*lift;
+      paypal.position.y=mix(paypal.position.y,.36,reveal)-.46*lift;
+      bitcoin.rotation.x+=.33*lift;
+      paypal.rotation.x-=.29*lift;
+      bitcoin.rotation.y-=.54*lift;
+      paypal.rotation.y+=.49*lift;
+    }else if(reveal>0){
       card.position.z=1.05*smooth(.32,.65,orbitProgress);
       card.position.y=-.24*sweep;
       card.rotation.set(
