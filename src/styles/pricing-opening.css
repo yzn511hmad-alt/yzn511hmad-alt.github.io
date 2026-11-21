@@ -220,8 +220,7 @@
   background: var(--plan-glyph);
   transform: rotate(45deg);
 }
-#plans .edition--metal .features { color: var(--plan-ink); font-weight: 550; }
-#plans .edition--metal .features li:nth-child(-n+2) { font-weight: 650; }
+#plans .edition--metal .features { color: var(--plan-ink); font-weight: 650; }
 #plans .plan-actions { padding-block: 12px; border-top: 1px solid var(--plan-rule); }
 #plans .plan-cta {
   min-height: 45px;

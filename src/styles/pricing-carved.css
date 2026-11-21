@@ -185,8 +185,7 @@
       background:none;clip-path:none;transform:none;
       inline-size:13px;block-size:auto;border:0;
     }
-    .edition--metal .features {color:var(--plan-muted)}
-    .edition--metal .features li:nth-child(-n+2) {color:var(--plan-ink);font-weight:600}
+    .edition--metal .features li {color:var(--plan-ink);font-weight:600}
     .plan-popularity {
       color:#afe0f9;border:1px solid #65b8dc66;
       background:#4ab5de18;border-radius:4px;
