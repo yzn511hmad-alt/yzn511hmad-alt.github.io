@@ -75,6 +75,22 @@ body {background: var(--snow-night)}
   }
 }
 
+@media (max-width: 767px) {
+  /* Match the stable phone canvas when browser chrome changes height. */
+  .pricing-journey::before,
+  .pricing-journey::after {
+    position: fixed;
+    bottom: auto;
+    height: 100vh;
+    height: 100lvh;
+  }
+  .pricing-journey::after {
+    background:
+      radial-gradient(ellipse 118vw 78svh at 105% 17%, #52c0cd8c, #137a9f45 30%, transparent 72%),
+      radial-gradient(ellipse 99vw 125svh at 114% 150%, #137a9f63, transparent 76%);
+  }
+}
+
 @media (forced-colors: active) {
   .pricing-journey::before { content: none; }
 }
