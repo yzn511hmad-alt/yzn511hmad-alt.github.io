@@ -213,20 +213,28 @@ export function createPricingJourney(host:HTMLElement) {
     // Reserve space for the reference's broad annular field around the metal.
     const currentScroll=scroll.getScroll();
     const phoneMotion=phone.matches&&!reduced;
-    // The tall payment copy separates the two art slots. Transfer halfway
-    // between them, while both are outside the phone viewport.
-    const phoneSlotOffset=currentScroll+innerHeight*.5-(opening.y+paymentArtCenter)*.5;
-    const openingOnPhone=phoneSlotOffset<0;
-    const phoneTurn=phoneMotion?(openingOnPhone
-      ?smooth(opening.y-innerHeight*.91,opening.y-innerHeight*.28,easedScroll)
-      :smooth(paymentArtCenter-innerHeight*.93,paymentArtCenter-innerHeight*.32,easedScroll)):0;
+    const trackStart=opening.y-innerHeight*.42;
+    const trackEnd=paymentArtCenter-innerHeight*.61;
+    const trackProgress=phoneMotion?progressBetween(trackStart,trackEnd-trackStart,currentScroll):0;
+    const openingTurn=phoneMotion?smooth(Math.max(0,opening.y-innerHeight*.91),opening.y-innerHeight*.28,easedScroll):0;
+    const paymentTurn=phoneMotion?smooth(paymentArtCenter-innerHeight*.93,paymentArtCenter-innerHeight*.32,easedScroll):0;
+    const phoneTurn=openingTurn+paymentTurn;
     const turnAngle=phoneTurn*Math.PI*2;
-    const turnEnvelope=Math.sin(phoneTurn*Math.PI);
+    const turnEnvelope=Math.abs(Math.sin(phoneTurn*Math.PI));
     let mobileY=-2.5;
     if(mobile){
       const half=2.9*scale*innerHeight/viewH;
       const paymentBottom=sectionLayout[1].copyBottom??0;
-      const paymentCenter=phoneMotion?paymentArtCenter-currentScroll:Math.max(innerHeight*.67,paymentBottom-currentScroll+half+24);
+      let paymentCenter=Math.max(innerHeight*.67,paymentBottom-currentScroll+half+24);
+      if(phoneMotion){
+        // Join the two document anchors to a slow downward path in screen
+        // space. The payment panel covers the same scene as it passes behind.
+        const movingCenter=THREE.MathUtils.lerp(.42,.61,trackProgress)*innerHeight;
+        const releaseOpening=smooth(trackStart,trackStart+innerHeight*.18,currentScroll);
+        const reachPayment=smooth(trackEnd-innerHeight*.18,trackEnd,currentScroll);
+        const fromOpening=THREE.MathUtils.lerp(opening.y-currentScroll,movingCenter,releaseOpening);
+        paymentCenter=THREE.MathUtils.lerp(fromOpening,paymentArtCenter-currentScroll,reachPayment);
+      }
       const fromPayment=phoneMotion?smooth(paymentArtCenter-innerHeight*.32,paymentArtCenter+innerHeight*.21,easedScroll):smooth(1.65,2.15,p);
       const toKey=smooth(.34,.83,arrivalProgress);
       const center=THREE.MathUtils.lerp(
@@ -244,17 +252,18 @@ export function createPricingJourney(host:HTMLElement) {
     if(!framingSettles)framedMobileY=mobileY;
 
     // Keep the original poses and scroll curves, mapped to the current opening grid.
-    const openingWeight=reduced?1:phoneMotion?Number(openingOnPhone):1-smooth(mobile?.36:0,1,p);
+    const openingWeight=reduced?1:phoneMotion?1-smooth(0,1,trackProgress):1-smooth(mobile?.36:0,1,p);
     const openingScale=opening.size/innerHeight*viewH/7.3;
     const parkedX=(opening.x/innerWidth-.5)*viewW;
     const parkedY=(.5-(opening.y-currentScroll)/innerHeight)*viewH;
     objects.scale.setScalar(THREE.MathUtils.lerp(scale*.84,openingScale,openingWeight));
     objects.position.set(
       THREE.MathUtils.lerp(mobile?0:(lerp('x')-orbitWeight*.02)*viewW,parkedX,openingWeight),
-      THREE.MathUtils.lerp(mobile?framedMobileY:lerp('y'),parkedY,openingWeight),0,
+      THREE.MathUtils.lerp(mobile?framedMobileY:lerp('y'),parkedY,phoneMotion?0:openingWeight),0,
     );
     const spinTrigger=spinTween.scrollTrigger!;
-    const sceneSpin=phoneMotion?turnAngle:spin.angle;
+    // Drop the completed opening revolution before later Euler blends.
+    const sceneSpin=phoneMotion?(openingTurn===1?paymentTurn:phoneTurn)*Math.PI*2:spin.angle;
     const approach=THREE.MathUtils.clamp(currentScroll/Math.max(1,spinTrigger.start),0,1);
     const departure=THREE.MathUtils.clamp((easedScroll-spinTrigger.end)/Math.max(1,anchors[2]-spinTrigger.end),0,1);
     const cardYaw=p<2?THREE.MathUtils.lerp(-.22,.55,approach)+departure*2.75:lerp('ry');
@@ -383,8 +392,7 @@ export function createPricingJourney(host:HTMLElement) {
     const radius=pixelScale*5.2;
     const covered=p>=1.8&&p<3.3&&centerY-radius>=libraryBounds.top+4&&centerY+radius<=libraryBounds.bottom-4&&
       Math.max(0,centerX-radius)>=libraryBounds.left&&Math.min(innerWidth,centerX+radius)<=libraryBounds.right;
-    const slotOpacity=phoneMotion?smooth(0,innerHeight*.12,Math.abs(phoneSlotOffset)):1;
-    const opacity=smooth(.05,.36,(footerTop-currentScroll)/innerHeight)*slotOpacity;
+    const opacity=smooth(.05,.36,(footerTop-currentScroll)/innerHeight);
     const hide=opacity===0||covered;
     if(host.hasAttribute('data-library-covered')!==covered)host.toggleAttribute('data-library-covered',covered);
     const nextOpacity=opacity.toFixed(3);
@@ -403,7 +411,7 @@ export function createPricingJourney(host:HTMLElement) {
       host.dataset.ready='true';
     }
     host.dataset.phase=p.toFixed(3);host.dataset.renderCount=String(Number(host.dataset.renderCount||0)+1);
-    host.dataset.sectionTwoTurn=(reduced?0:phoneMotion?(openingOnPhone?0:phoneTurn):spin.angle/(Math.PI*2)).toFixed(4);
+    host.dataset.sectionTwoTurn=(reduced?0:phoneMotion?paymentTurn:spin.angle/(Math.PI*2)).toFixed(4);
     host.dataset.orbitProgress=orbitProgress.toFixed(4);host.dataset.arrivalProgress=arrivalProgress.toFixed(4);
     host.dataset.localAngles=[card.rotation.y,bitcoin.rotation.y,paypal.rotation.y].map(v=>v.toFixed(4)).join(',');
   });

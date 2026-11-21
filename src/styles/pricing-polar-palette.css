@@ -116,6 +116,13 @@ body {background: var(--snow-night)}
   }
 }
 
+@media (max-width: 767px) {
+  #chapter-two .chapter-copy::before {
+    background: linear-gradient(#071522b8 0 calc(100% - 64px), #07152200);
+    box-shadow: none;
+  }
+}
+
 @media (forced-colors: active) {
   .pricing-next::before, .pricing-links a::before, .pricing-chapter .chapter-copy::before { content: none; }
 }
