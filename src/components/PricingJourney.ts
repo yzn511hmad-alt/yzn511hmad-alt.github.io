@@ -44,6 +44,7 @@ export function createPricingJourney(host:HTMLElement) {
   host.dataset.studioSize=metalwork.environmentSize.join('x');
 
   const sections=['#chapter-one','#chapter-two','#chapter-three','#pricing-orbit','#chapter-five','.journey-end'].map(selector=>document.querySelector<HTMLElement>(selector)!);
+  const main=host.parentElement!;
   const footer=document.querySelector<HTMLElement>('.snowy-signoff')!;
   const library=sections[2];
   const openingArt=document.querySelector<HTMLElement>('.opening-art')!;
@@ -66,6 +67,8 @@ export function createPricingJourney(host:HTMLElement) {
   let entranceEdgeLight=0;
   let libraryBounds={top:0,bottom:0,left:0,right:0};
   let arrivalCenter=0;
+  let mainTop=0;
+  let seatedCanvasTop:number|undefined;
   let lastOpacity='';
   const mark=()=>{dirty=true;};
   let nativePosition=scrollY,nativeDelta=0,nativeScrollAt=-Infinity;
@@ -79,6 +82,7 @@ export function createPricingJourney(host:HTMLElement) {
   let arrivalWidth=0,arrivalHeight=0,arrivalX=0,orbitHeight=0;
   let viewportWidth=innerWidth,viewportHeight=innerHeight,visibleHeight=innerHeight,viewportDpr=0;
   function measure(){
+    mainTop=main.getBoundingClientRect().top+scrollY;
     sectionLayout=sections.map(section=>({top:section.getBoundingClientRect().top+scrollY,copyBottom:section.querySelector<HTMLElement>('.chapter-copy')?.getBoundingClientRect().bottom}));
     for(const layout of sectionLayout)if(layout.copyBottom!==undefined)layout.copyBottom+=scrollY;
     anchors=sectionLayout.map((layout,index)=>layout.top-(index===0?0:viewportHeight*(index===5?.15:.25)));
@@ -130,10 +134,10 @@ export function createPricingJourney(host:HTMLElement) {
     renderer.render(world,view);
   }
   resize();window.addEventListener('resize',resize,{signal:events.signal});
-  const layoutObserver=new ResizeObserver(measure);layoutObserver.observe(document.querySelector('#main-content')!);
+  const layoutObserver=new ResizeObserver(measure);layoutObserver.observe(main);
   for(const element of [openingArt,paymentArt,library,sections[3],arrivalArt])layoutObserver.observe(element);
   document.fonts.ready.then(()=>{if(!disposed)measure();});
-  const observer=new IntersectionObserver(e=>{visible=e.some(v=>v.isIntersecting);dirty=true;});observer.observe(document.querySelector('#main-content')!);
+  const observer=new IntersectionObserver(e=>{visible=e.some(v=>v.isIntersecting);dirty=true;});observer.observe(main);
   document.addEventListener('visibilitychange',mark,{signal:events.signal});
   motion.addEventListener('change',()=>{ScrollTrigger.refresh();mark();},{signal:events.signal});
   let shown=false,last=-Infinity,framedMobileY=-2.5;
@@ -244,7 +248,8 @@ export function createPricingJourney(host:HTMLElement) {
     // Sample the orbit and arrival from the same eased scroll. The handoff
     // must follow the same path forward and backward, even on fast reversals.
     const orbitProgress=reduced?0:progressBetween(sectionLayout[3].top-viewportHeight*.85,orbitHeight+viewportHeight*.70,easedScroll);
-    const arrivalProgress=reduced?0:progressBetween(sectionLayout[4].top-viewportHeight,viewportHeight*.91,easedScroll);
+    const arrivalScroll=phoneMotion?currentScroll:easedScroll;
+    const arrivalProgress=reduced?0:progressBetween(sectionLayout[4].top-viewportHeight,viewportHeight*.91,arrivalScroll);
     const orbitWeight=smooth(0,.1,orbitProgress)*(1-smooth(.9,1,orbitProgress));
     const viewH=2*Math.tan(THREE.MathUtils.degToRad(18))*12,viewW=viewH*camera.aspect;
     const scale=(mobile?Math.min(.6,viewW/6.8):Math.min(1,viewH/6.8,viewW/11.5))*lerp('s')*(1-orbitWeight*.08);
@@ -357,6 +362,17 @@ export function createPricingJourney(host:HTMLElement) {
     // Static seated holders also illustrate the payment set for reduced-motion readers.
     const keyOnScreen=arrivalCenter-currentScroll<viewportHeight*1.48&&arrivalCenter-currentScroll>-viewportHeight*.48;
     const docking=reduced?(keyOnScreen?1:0):arrivalProgress;
+    // All three objects are fully seated by .87. Once seated, the browser
+    // scrolls this canvas with the section, even between WebGL frames.
+    const seated=phoneMotion&&docking>=.88;
+    const canvasDocumentTop=seated?arrivalCenter-viewportHeight*.5:currentScroll;
+    const nextSeatedTop=seated?canvasDocumentTop-mainTop:undefined;
+    if(nextSeatedTop!==seatedCanvasTop){
+      seatedCanvasTop=nextSeatedTop;
+      host.toggleAttribute('data-pricing-seated',seated);
+      if(nextSeatedTop===undefined)host.style.removeProperty('--pricing-seated-top');
+      else host.style.setProperty('--pricing-seated-top',`${nextSeatedTop}px`);
+    }
     const orbitHandoff=smooth(.64,1,orbitProgress);
     const arrivalHandoff=smooth(0,.24,docking);
     const rise=1-(1-orbitHandoff)*(1-arrivalHandoff);
@@ -369,17 +385,26 @@ export function createPricingJourney(host:HTMLElement) {
     // change the scale of the ornament attached to the actor group.
     const dockScale=Math.min(1,arrivalWidth*viewH/(viewportHeight*6.95),arrivalHeight*viewH/(viewportHeight*5.15));
     const slotX=(arrivalX/viewportWidth-.5)*viewW;
-    const slotY=(.5-(arrivalCenter-currentScroll)/viewportHeight)*viewH;
-    const approachY=(.5-(arrivalCenter-easedScroll)/viewportHeight)*viewH;
+    const slotY=(.5-(arrivalCenter-canvasDocumentTop)/viewportHeight)*viewH;
+    const approachY=(.5-(arrivalCenter-arrivalScroll)/viewportHeight)*viewH;
     const attach=smooth(.46,.78,docking);
+    // Move the fixed view's framing toward a projection shift as the set
+    // docks. After full attachment this matches the absolute canvas exactly,
+    // including the perspective of surfaces at different depths.
+    const projectionY=phoneMotion?slotY*attach:0;
+    const projectionOffset=-2*projectionY/viewH;
+    if(camera.projectionMatrix.elements[9]!==projectionOffset){
+      camera.projectionMatrix.elements[9]=projectionOffset;
+      camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+    }
     objects.scale.lerp(dockPoint.setScalar(dockScale),rise);
     objects.position.x=mix(objects.position.x,slotX,rise);
-    objects.position.y=mix(objects.position.y,mix(approachY,slotY,attach),smooth(.24,.78,docking));
+    objects.position.y=mix(objects.position.y,mix(approachY,slotY,attach),smooth(.24,.78,docking))-projectionY;
     if(holders){
       holders.root.visible=keyOnScreen&&docking>.02;
       const holderAppear=smooth(.02,.28,docking);
       holders.root.scale.setScalar(dockScale*mix(.92,1,holderAppear));
-      holders.root.position.set(slotX,slotY-.24*(1-holderAppear)*dockScale,-.25*dockScale);
+      holders.root.position.set(slotX,slotY-projectionY-.24*(1-holderAppear)*dockScale,-.25*dockScale);
       holders.root.updateMatrix();
       const holdersMatrix=holders.root.matrix;
       const toActorSpace=()=>dockPoint.applyMatrix4(holdersMatrix)
@@ -424,7 +449,7 @@ export function createPricingJourney(host:HTMLElement) {
     const waitingForOpening=applyEntrance(currentScroll,viewH,p,entranceStep,mobile);
     const pixelScale=objects.scale.x*viewportHeight/viewH;
     const centerX=(objects.position.x/viewW+.5)*viewportWidth;
-    const centerY=(.5-objects.position.y/viewH)*viewportHeight+currentScroll;
+    const centerY=(.5-(objects.position.y+projectionY)/viewH)*viewportHeight+canvasDocumentTop;
     const radius=pixelScale*5.2;
     const covered=p>=1.8&&p<3.3&&centerY-radius>=libraryBounds.top+4&&centerY+radius<=libraryBounds.bottom-4&&
       Math.max(0,centerX-radius)>=libraryBounds.left&&Math.min(viewportWidth,centerX+radius)<=libraryBounds.right;
@@ -437,8 +462,8 @@ export function createPricingJourney(host:HTMLElement) {
     optics.setVisible(showOptics);animateOptics=!hide&&!waitingForOpening&&!motion.matches;
     if(hide||(waitingForOpening&&shown)){dirty=false;return;}
     const scrollVelocity=scroll?.getVelocity()??(performance.now()-nativeScrollAt<400?nativeDelta:0);
-    if(showOptics)optics.update(time,reduced?0:scrollVelocity,reduced,bandLift,entranceBandPresence,entranceBandOffset,entranceEdgeLight,docking,viewportWidth,viewportHeight,visibleHeight);
-    surface.render(scene,camera,visibleHeight<viewportHeight?drawVisibleArea:undefined);
+    if(showOptics)optics.update(time,reduced?0:scrollVelocity,reduced,bandLift,entranceBandPresence,entranceBandOffset,entranceEdgeLight,docking,viewportWidth,viewportHeight,seated?viewportHeight:visibleHeight);
+    surface.render(scene,camera,!seated&&visibleHeight<viewportHeight?drawVisibleArea:undefined);
     dirty=framingSettles;
     host.dataset.frameDrawCalls=String(surface.engine.info.render.calls);
     if(!shown){
@@ -459,6 +484,8 @@ export function createPricingJourney(host:HTMLElement) {
     for(const animation of [tween,spinTween]){animation.scrollTrigger?.kill();animation.kill();}
     scroll?.destroy();holders?.dispose();lightTrails?.dispose();optics.dispose();metalwork.dispose();surface.dispose();delete document.documentElement.dataset.journeyReady;
     host.removeAttribute('data-library-covered');
+    host.removeAttribute('data-pricing-seated');
+    host.style.removeProperty('--pricing-seated-top');
     host.style.removeProperty('opacity');
     setEntranceClip(0);
     delete host.dataset.openingMotion;

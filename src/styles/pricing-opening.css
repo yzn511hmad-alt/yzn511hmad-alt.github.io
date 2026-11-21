@@ -553,6 +553,7 @@ html[data-pricing-fallback] .pricing-holders-column { display: none; }
   .pricing-engraving { display: none; }
   .pricing-engraving::before { content: none; animation: none; }
   .journey-canvas { bottom: auto; height: 100vh; height: 100lvh; }
+  .journey-canvas[data-pricing-seated] { position: absolute; top: var(--pricing-seated-top); }
 }
 @media (max-width: 480px) {
   #chapter-one h1 { font-size: clamp(32px, 10vw, 46px); }
