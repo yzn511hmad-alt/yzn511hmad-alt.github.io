@@ -44,12 +44,14 @@ export function createPricingJourney(host:HTMLElement) {
   const footer=document.querySelector<HTMLElement>('.snowy-signoff')!;
   const library=sections[2];
   const openingArt=document.querySelector<HTMLElement>('.opening-art')!;
+  const paymentArt=sections[1].querySelector<HTMLElement>('.pricing-scene-slot')!;
   const arrivalArt=sections[4].querySelector<HTMLElement>('.pricing-scene-slot')!;
   const pose={progress:0},spin={angle:0};
   let dirty=true,visible=true,disposed=false,animateOptics=true;
   let anchors:number[]=[];
   let sectionLayout:Array<{top:number;copyBottom:number|undefined}>=[],footerTop=0;
   let opening={x:0,y:0,size:0,height:0};
+  let paymentArtCenter=0;
   let entrancePending=document.documentElement.dataset.pricingEntrance==='pending';
   const lightTrails=entrancePending&&!motion.matches?createPricingLightTrails(scene,card,bitcoin,paypal):undefined;
   let entranceElapsed=0;
@@ -70,6 +72,8 @@ export function createPricingJourney(host:HTMLElement) {
     anchors=sectionLayout.map((layout,index)=>layout.top-(index===0?0:innerHeight*(index===5?.15:.25)));
     const openingRect=openingArt.getBoundingClientRect();
     opening={x:openingRect.left+openingRect.width/2,y:openingRect.top+scrollY+openingRect.height/2,size:Math.min(openingRect.width,openingRect.height),height:openingRect.height};
+    const paymentRect=paymentArt.getBoundingClientRect();
+    paymentArtCenter=paymentRect.top+scrollY+paymentRect.height/2;
     const libraryRect=library.getBoundingClientRect();
     libraryBounds={top:libraryRect.top+scrollY,bottom:libraryRect.bottom+scrollY,left:libraryRect.left,right:libraryRect.right};
     orbitHeight=sections[3].getBoundingClientRect().height;
@@ -95,7 +99,7 @@ export function createPricingJourney(host:HTMLElement) {
   function resize(){lightTrails?.reset();surface.setPixelRatio(QualityTier.getDPR());surface.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();measure();}
   resize();window.addEventListener('resize',resize,{signal:events.signal});
   const layoutObserver=new ResizeObserver(measure);layoutObserver.observe(document.querySelector('#main-content')!);
-  for(const element of [openingArt,library,sections[3],arrivalArt])layoutObserver.observe(element);
+  for(const element of [openingArt,paymentArt,library,sections[3],arrivalArt])layoutObserver.observe(element);
   document.fonts.ready.then(()=>{if(!disposed)measure();});
   const observer=new IntersectionObserver(e=>{visible=e.some(v=>v.isIntersecting);dirty=true;});observer.observe(document.querySelector('#main-content')!);
   document.addEventListener('visibilitychange',mark,{signal:events.signal});
@@ -208,12 +212,22 @@ export function createPricingJourney(host:HTMLElement) {
     const scale=(mobile?Math.min(.6,viewW/6.8):Math.min(1,viewH/6.8,viewW/11.5))*lerp('s')*(1-orbitWeight*.08);
     // Reserve space for the reference's broad annular field around the metal.
     const currentScroll=scroll.getScroll();
+    const phoneMotion=phone.matches&&!reduced;
+    // The tall payment copy separates the two art slots. Transfer halfway
+    // between them, while both are outside the phone viewport.
+    const phoneSlotOffset=currentScroll+innerHeight*.5-(opening.y+paymentArtCenter)*.5;
+    const openingOnPhone=phoneSlotOffset<0;
+    const phoneTurn=phoneMotion?(openingOnPhone
+      ?smooth(opening.y-innerHeight*.91,opening.y-innerHeight*.28,easedScroll)
+      :smooth(paymentArtCenter-innerHeight*.93,paymentArtCenter-innerHeight*.32,easedScroll)):0;
+    const turnAngle=phoneTurn*Math.PI*2;
+    const turnEnvelope=Math.sin(phoneTurn*Math.PI);
     let mobileY=-2.5;
     if(mobile){
       const half=2.9*scale*innerHeight/viewH;
       const paymentBottom=sectionLayout[1].copyBottom??0;
-      const paymentCenter=Math.max(innerHeight*.67,paymentBottom-currentScroll+half+24);
-      const fromPayment=smooth(1.65,2.15,p);
+      const paymentCenter=phoneMotion?paymentArtCenter-currentScroll:Math.max(innerHeight*.67,paymentBottom-currentScroll+half+24);
+      const fromPayment=phoneMotion?smooth(paymentArtCenter-innerHeight*.32,paymentArtCenter+innerHeight*.21,easedScroll):smooth(1.65,2.15,p);
       const toKey=smooth(.34,.83,arrivalProgress);
       const center=THREE.MathUtils.lerp(
         THREE.MathUtils.lerp(paymentCenter,innerHeight*.59,fromPayment),
@@ -222,12 +236,15 @@ export function createPricingJourney(host:HTMLElement) {
       );
       mobileY=(.5-center/innerHeight)*viewH;
     }
-    framedMobileY=shown&&!motion.matches?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
+    // The phone payment art is anchored to document scroll. Damping that
+    // position makes it lag behind a fast swipe or a jump to the section.
+    const followsPaymentScroll=phoneMotion&&currentScroll<paymentArtCenter+innerHeight*.21;
+    framedMobileY=shown&&!reduced&&!followsPaymentScroll?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
     const framingSettles=mobile&&Math.abs(framedMobileY-mobileY)>.002;
     if(!framingSettles)framedMobileY=mobileY;
 
     // Keep the original poses and scroll curves, mapped to the current opening grid.
-    const openingWeight=motion.matches?1:1-smooth(mobile?.36:0,1,p);
+    const openingWeight=reduced?1:phoneMotion?Number(openingOnPhone):1-smooth(mobile?.36:0,1,p);
     const openingScale=opening.size/innerHeight*viewH/7.3;
     const parkedX=(opening.x/innerWidth-.5)*viewW;
     const parkedY=(.5-(opening.y-currentScroll)/innerHeight)*viewH;
@@ -237,18 +254,34 @@ export function createPricingJourney(host:HTMLElement) {
       THREE.MathUtils.lerp(mobile?framedMobileY:lerp('y'),parkedY,openingWeight),0,
     );
     const spinTrigger=spinTween.scrollTrigger!;
+    const sceneSpin=phoneMotion?turnAngle:spin.angle;
     const approach=THREE.MathUtils.clamp(currentScroll/Math.max(1,spinTrigger.start),0,1);
     const departure=THREE.MathUtils.clamp((easedScroll-spinTrigger.end)/Math.max(1,anchors[2]-spinTrigger.end),0,1);
     const cardYaw=p<2?THREE.MathUtils.lerp(-.22,.55,approach)+departure*2.75:lerp('ry');
     card.visible=true;
-    card.rotation.set(.1,motion.matches?-.2:cardYaw+spin.angle,motion.matches?-.12:lerp('r'));
+    card.rotation.set(.1,motion.matches?-.2:cardYaw+sceneSpin,motion.matches?-.12:lerp('r'));
     card.scale.setScalar(1);
     card.position.set(0,0,0);
     bitcoin.scale.setScalar(.94);paypal.scale.setScalar(.94);
     bitcoin.position.set(lerp('bx'),lerp('by'),1.75);
     paypal.position.set(lerp('px'),lerp('py'),1.7);
-    bitcoin.rotation.set(.12,motion.matches?0:-.25*approach+spin.angle-departure*3,-.18);
-    paypal.rotation.set(-.2,motion.matches?0:.25*approach-spin.angle+departure*3,.2);
+    bitcoin.rotation.set(.12,motion.matches?0:-.25*approach+sceneSpin-departure*3,-.18);
+    paypal.rotation.set(-.2,motion.matches?0:.25*approach-sceneSpin+departure*3,.2);
+
+    if(phoneMotion){
+      // Replace the long, mostly hidden chapter spin with one turn in each
+      // visible slot. The coins bank in opposite directions around the card.
+      objects.position.x+=Math.sin(turnAngle)*turnEnvelope*objects.scale.x*.44;
+      card.position.y+=turnEnvelope*.24;
+      card.rotation.x+=Math.sin(turnAngle)*.23;
+      card.rotation.z-=turnEnvelope*.18;
+      bitcoin.position.x-=turnEnvelope*.42;
+      paypal.position.x+=turnEnvelope*.42;
+      bitcoin.position.y+=Math.sin(turnAngle)*.49;
+      paypal.position.y-=Math.sin(turnAngle)*.49;
+      bitcoin.rotation.x+=turnEnvelope*.41;
+      paypal.rotation.x-=turnEnvelope*.41;
+    }
 
     // Unfold into a single spatial revolution after clearing the library.
     const reveal=smooth(.02,.24,orbitProgress);
@@ -350,7 +383,8 @@ export function createPricingJourney(host:HTMLElement) {
     const radius=pixelScale*5.2;
     const covered=p>=1.8&&p<3.3&&centerY-radius>=libraryBounds.top+4&&centerY+radius<=libraryBounds.bottom-4&&
       Math.max(0,centerX-radius)>=libraryBounds.left&&Math.min(innerWidth,centerX+radius)<=libraryBounds.right;
-    const opacity=smooth(.05,.36,(footerTop-currentScroll)/innerHeight);
+    const slotOpacity=phoneMotion?smooth(0,innerHeight*.12,Math.abs(phoneSlotOffset)):1;
+    const opacity=smooth(.05,.36,(footerTop-currentScroll)/innerHeight)*slotOpacity;
     const hide=opacity===0||covered;
     if(host.hasAttribute('data-library-covered')!==covered)host.toggleAttribute('data-library-covered',covered);
     const nextOpacity=opacity.toFixed(3);
@@ -369,7 +403,7 @@ export function createPricingJourney(host:HTMLElement) {
       host.dataset.ready='true';
     }
     host.dataset.phase=p.toFixed(3);host.dataset.renderCount=String(Number(host.dataset.renderCount||0)+1);
-    host.dataset.sectionTwoTurn=(motion.matches?0:spin.angle/(Math.PI*2)).toFixed(4);
+    host.dataset.sectionTwoTurn=(reduced?0:phoneMotion?(openingOnPhone?0:phoneTurn):spin.angle/(Math.PI*2)).toFixed(4);
     host.dataset.orbitProgress=orbitProgress.toFixed(4);host.dataset.arrivalProgress=arrivalProgress.toFixed(4);
     host.dataset.localAngles=[card.rotation.y,bitcoin.rotation.y,paypal.rotation.y].map(v=>v.toFixed(4)).join(',');
   });
