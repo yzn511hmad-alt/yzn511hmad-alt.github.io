@@ -16,38 +16,56 @@ function roundedRect(width: number, height: number, r: number) {
   return shape;
 }
 
-/**
- * Tactile micro-grain bump texture (128x128 single-channel = 16 KiB) for matte
- * elastomer surfaces. Tileable value noise reads as soft-touch molded silicone.
- */
-function createMicroGrainTexture() {
+/** A tile of rounded pebbles on the molded elastomer, shared by all holders. */
+function createHolderGrain() {
   const size = 128;
+  const cells = 16;
   const data = new Uint8Array(size * size);
   let seed = 0x51a7c93d;
   const next = () => {
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  const raw = new Float32Array(size * size);
-  for (let i = 0; i < raw.length; i++) raw[i] = next();
+  const points = Array.from({ length: cells * cells }, () => ({
+    x: 0.18 + next() * 0.64,
+    y: 0.18 + next() * 0.64,
+    height: 0.8 + next() * 0.2,
+  }));
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
-      let sum = 0;
+      const u = (x + 0.5) * cells / size;
+      const v = (y + 0.5) * cells / size;
+      const cellX = Math.floor(u);
+      const cellY = Math.floor(v);
+      let nearest = Infinity;
+      let second = Infinity;
+      let height = 1;
       for (let dy = -1; dy <= 1; dy++) {
-        const py = (y + dy + size) % size;
+        const py = cellY + dy;
         for (let dx = -1; dx <= 1; dx++) {
-          const px = (x + dx + size) % size;
-          sum += raw[py * size + px];
+          const px = cellX + dx;
+          const point = points[((py + cells) % cells) * cells + (px + cells) % cells];
+          const offsetX = u - (px + point.x);
+          const offsetY = v - (py + point.y);
+          const distance = offsetX * offsetX + offsetY * offsetY;
+          if (distance < nearest) {
+            second = nearest;
+            nearest = distance;
+            height = point.height;
+          } else if (distance < second) {
+            second = distance;
+          }
         }
       }
-      data[y * size + x] = Math.round((sum / 9) * 255);
+      const ridge = THREE.MathUtils.smoothstep(second - nearest, 0.02, 0.42);
+      const dome = 1 - 0.38 * THREE.MathUtils.smoothstep(nearest, 0, 0.6);
+      data[y * size + x] = Math.round((0.2 + 0.8 * ridge * dome * height) * 255);
     }
   }
   const tex = new THREE.DataTexture(data, size, size, THREE.RedFormat);
   tex.colorSpace = THREE.NoColorSpace;
   tex.wrapS = THREE.RepeatWrapping;
   tex.wrapT = THREE.RepeatWrapping;
-  tex.repeat.set(3.5, 3.5);
   tex.magFilter = THREE.LinearFilter;
   tex.minFilter = THREE.LinearMipmapLinearFilter;
   tex.generateMipmaps = true;
@@ -138,7 +156,7 @@ export function createPricingHolders() {
   const textures: THREE.Texture[] = [];
   const batches: THREE.InstancedMesh[] = [];
 
-  const grain = createMicroGrainTexture();
+  const grain = createHolderGrain();
   textures.push(grain);
 
   // Deep glacial-slate soft-touch elastomer (distinct from #00101f bg & #46515d card).
@@ -152,7 +170,7 @@ export function createPricingHolders() {
     sheenColor: new THREE.Color(0x7ec0dc),
     envMapIntensity: 0.94,
     bumpMap: grain,
-    bumpScale: 0.003,
+    bumpScale: 0.078,
   });
   // Slightly deeper matte polymer for recessed sleeve backplate & U-wall core.
   const elastomerCore = new THREE.MeshPhysicalMaterial({
@@ -165,8 +183,19 @@ export function createPricingHolders() {
     sheenColor: new THREE.Color(0x5d99b8),
     envMapIntensity: 0.82,
     bumpMap: grain,
-    bumpScale: 0.0026,
+    bumpScale: 0.061,
   });
+  // Use the same height data for tonal variation so the grain remains visible
+  // on the front faces under soft light, without allocating a color map.
+  const shadeGrain: THREE.MeshPhysicalMaterial['onBeforeCompile'] = (shader) => {
+    shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', `
+      #include <color_fragment>
+      float grainHeight = texture2D(bumpMap, vBumpMapUv).r;
+      diffuseColor.rgb *= mix(0.60, 1.22, grainHeight);
+    `);
+  };
+  elastomer.onBeforeCompile = shadeGrain;
+  elastomerCore.onBeforeCompile = shadeGrain;
   // Velvet-matte dark cavity liner inside the card pocket.
   const liner = new THREE.MeshStandardMaterial({
     color: 0x06101a,
