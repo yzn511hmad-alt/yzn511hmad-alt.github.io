@@ -14,6 +14,7 @@ export function createPricingJourney(host:HTMLElement) {
   gsap.registerPlugin(ScrollTrigger);
   const events=new AbortController();
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
+  const phone=matchMedia('(max-width: 767px)');
   const scroll=new ScrollManager();
   let surface:SharedSurface;
   try {surface=new SharedSurface(undefined,{antialias:true});}
@@ -54,6 +55,7 @@ export function createPricingJourney(host:HTMLElement) {
   let entranceElapsed=0;
   let entranceClip='';
   const entranceDuration=1.93;
+  const mobileEntranceTimeScale=2/3;
   let entranceBandOffset=0;
   let entranceBandPresence=1;
   let entranceEdgeLight=0;
@@ -177,7 +179,7 @@ export function createPricingJourney(host:HTMLElement) {
     entranceBandOffset=Math.max(0,above+3.8)*descent(1.19,.74);
     entranceBandPresence=1-(1-smooth(1.24,1.84,entranceElapsed))*scrollWeight;
     lightTrails?.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,innerWidth,innerHeight);
-    entranceElapsed+=delta;
+    entranceElapsed+=delta*(phone.matches?mobileEntranceTimeScale:1);
     return false;
   }
 
