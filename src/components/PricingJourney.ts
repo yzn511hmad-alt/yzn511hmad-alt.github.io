@@ -15,17 +15,20 @@ export function createPricingJourney(host:HTMLElement) {
   const events=new AbortController();
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   const phone=matchMedia('(max-width: 767px)');
-  const scroll=new ScrollManager();
+  const phoneScreen=Math.min(screen.width,screen.height)<=767;
+  const nativeTouch=(phone.matches||phoneScreen)&&matchMedia('(pointer: coarse)').matches;
+  // Lenis registers non-passive touch handlers even for its native touch mode.
+  const scroll=nativeTouch?undefined:new ScrollManager();
   let surface:SharedSurface;
   try {surface=new SharedSurface(undefined,{antialias:true});}
-  catch(error){scroll.destroy();throw error;}
+  catch(error){scroll?.destroy();throw error;}
   host.append(surface.domElement);
   const scene=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(36,1,.1,60);camera.position.z=12;
   const objects=new THREE.Group();scene.add(objects);
   let metalwork:ReturnType<typeof createPricingMetalwork>;
   try {metalwork=createPricingMetalwork(scene,objects,surface);}
-  catch(error){scroll.destroy();surface.dispose();surface.domElement.remove();throw error;}
+  catch(error){scroll?.destroy();surface.dispose();surface.domElement.remove();throw error;}
   const {card,bitcoin,paypal}=metalwork;
   let holders:ReturnType<typeof createPricingHolders>|undefined;
   const dockPoint=new THREE.Vector3();
@@ -65,11 +68,20 @@ export function createPricingJourney(host:HTMLElement) {
   let arrivalCenter=0;
   let lastOpacity='';
   const mark=()=>{dirty=true;};
+  let nativePosition=scrollY,nativeDelta=0,nativeScrollAt=-Infinity;
+  function markNativeScroll(){
+    const position=scrollY;
+    nativeDelta=position-nativePosition;
+    nativePosition=position;
+    nativeScrollAt=performance.now();
+    mark();
+  }
   let arrivalWidth=0,arrivalHeight=0,arrivalX=0,orbitHeight=0;
+  let viewportWidth=innerWidth,viewportHeight=innerHeight,visibleHeight=innerHeight,viewportDpr=0;
   function measure(){
     sectionLayout=sections.map(section=>({top:section.getBoundingClientRect().top+scrollY,copyBottom:section.querySelector<HTMLElement>('.chapter-copy')?.getBoundingClientRect().bottom}));
     for(const layout of sectionLayout)if(layout.copyBottom!==undefined)layout.copyBottom+=scrollY;
-    anchors=sectionLayout.map((layout,index)=>layout.top-(index===0?0:innerHeight*(index===5?.15:.25)));
+    anchors=sectionLayout.map((layout,index)=>layout.top-(index===0?0:viewportHeight*(index===5?.15:.25)));
     const openingRect=openingArt.getBoundingClientRect();
     opening={x:openingRect.left+openingRect.width/2,y:openingRect.top+scrollY+openingRect.height/2,size:Math.min(openingRect.width,openingRect.height),height:openingRect.height};
     const paymentRect=paymentArt.getBoundingClientRect();
@@ -96,7 +108,27 @@ export function createPricingJourney(host:HTMLElement) {
   ];
   const smooth=(from:number,to:number,value:number)=>THREE.MathUtils.smoothstep(value,from,to);
   const progressBetween=(start:number,length:number,scroll:number)=>THREE.MathUtils.clamp((scroll-start)/length,0,1);
-  function resize(){lightTrails?.reset();surface.setPixelRatio(QualityTier.getDPR());surface.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();measure();}
+  function resize(){
+    const width=phone.matches?host.clientWidth:innerWidth;
+    const height=phone.matches?host.clientHeight:innerHeight;
+    const dpr=QualityTier.getDPR();
+    const nextVisibleHeight=Math.min(height,innerHeight);
+    if(visibleHeight!==nextVisibleHeight){visibleHeight=nextVisibleHeight;mark();}
+    // Browser chrome can change innerHeight without changing the canvas.
+    if(width===viewportWidth&&height===viewportHeight&&dpr===viewportDpr)return;
+    viewportWidth=width;viewportHeight=height;viewportDpr=dpr;
+    lightTrails?.reset();
+    surface.setPixelRatio(dpr);
+    surface.setSize(width,height);
+    camera.aspect=width/height;
+    camera.updateProjectionMatrix();
+    measure();
+  }
+  function drawVisibleArea(renderer:THREE.WebGLRenderer,world:THREE.Scene,view:THREE.Camera,width:number,height:number){
+    const visiblePixels=Math.round(height*visibleHeight/viewportHeight);
+    renderer.setScissor(0,height-visiblePixels,width,visiblePixels);
+    renderer.render(world,view);
+  }
   resize();window.addEventListener('resize',resize,{signal:events.signal});
   const layoutObserver=new ResizeObserver(measure);layoutObserver.observe(document.querySelector('#main-content')!);
   for(const element of [openingArt,paymentArt,library,sections[3],arrivalArt])layoutObserver.observe(element);
@@ -130,7 +162,7 @@ export function createPricingJourney(host:HTMLElement) {
     }
     // Prime the scene under the clip before the first timed frame.
     if(!shown){
-      setEntranceClip(innerHeight);
+      setEntranceClip(viewportHeight);
       return false;
     }
 
@@ -148,7 +180,7 @@ export function createPricingJourney(host:HTMLElement) {
     // reaches the screen. Keep the existing landing pose below the plans.
     const clipTop=0;
     setEntranceClip(clipTop);
-    const upperEdge=(.5-clipTop/innerHeight)*viewHeight;
+    const upperEdge=(.5-clipTop/viewportHeight)*viewHeight;
     const above=(upperEdge-objects.position.y)/objects.scale.y;
     const descent=(delay:number,duration:number)=>{
       const t=THREE.MathUtils.clamp((entranceElapsed-delay)/duration,0,1);
@@ -182,7 +214,7 @@ export function createPricingJourney(host:HTMLElement) {
     // The engraved band settles behind the metals during the last beat.
     entranceBandOffset=Math.max(0,above+3.8)*descent(1.19,.74);
     entranceBandPresence=1-(1-smooth(1.24,1.84,entranceElapsed))*scrollWeight;
-    lightTrails?.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,innerWidth,innerHeight);
+    lightTrails?.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,viewportWidth,viewportHeight);
     entranceElapsed+=delta*(phone.matches?mobileEntranceTimeScale:1);
     return false;
   }
@@ -194,68 +226,72 @@ export function createPricingJourney(host:HTMLElement) {
     const delta=Math.min(.05,frameGap);last=time;
     const travel=tween.scrollTrigger!;
     const easedScroll=THREE.MathUtils.lerp(travel.start,travel.end,pose.progress);
+    const reduced=motion.matches;
+    const currentScroll=scroll?.getScroll()??scrollY;
+    const phoneMotion=phone.matches&&!reduced;
+    // Position and rotation use the same scroll sample through the payment
+    // sequence; blend back into the existing scrub before the later chapters.
+    const paymentHandoff=smooth(paymentArtCenter-viewportHeight*.32,paymentArtCenter+viewportHeight*.21,currentScroll);
+    const sceneScroll=phoneMotion?THREE.MathUtils.lerp(currentScroll,easedScroll,paymentHandoff):easedScroll;
     let idx=0;
-    while(idx<stops.length-2&&easedScroll>=anchors[idx+1])idx++;
-    const fraction=THREE.MathUtils.clamp((easedScroll-anchors[idx])/Math.max(1,anchors[idx+1]-anchors[idx]),0,1);
+    while(idx<stops.length-2&&sceneScroll>=anchors[idx+1])idx++;
+    const fraction=THREE.MathUtils.clamp((sceneScroll-anchors[idx])/Math.max(1,anchors[idx+1]-anchors[idx]),0,1);
     const p=motion.matches?0:idx+fraction;
     if(motion.matches)idx=0;
     const f=motion.matches?0:smooth(0,1,fraction),a=stops[idx],b=stops[idx+1];
     const lerp=(key:keyof typeof a)=>THREE.MathUtils.lerp(a[key],b[key],f);
-    const mobile=innerWidth<=820;
-    const reduced=motion.matches;
+    const mobile=viewportWidth<=820;
     // Sample the orbit and arrival from the same eased scroll. The handoff
     // must follow the same path forward and backward, even on fast reversals.
-    const orbitProgress=reduced?0:progressBetween(sectionLayout[3].top-innerHeight*.85,orbitHeight+innerHeight*.70,easedScroll);
-    const arrivalProgress=reduced?0:progressBetween(sectionLayout[4].top-innerHeight,innerHeight*.91,easedScroll);
+    const orbitProgress=reduced?0:progressBetween(sectionLayout[3].top-viewportHeight*.85,orbitHeight+viewportHeight*.70,easedScroll);
+    const arrivalProgress=reduced?0:progressBetween(sectionLayout[4].top-viewportHeight,viewportHeight*.91,easedScroll);
     const orbitWeight=smooth(0,.1,orbitProgress)*(1-smooth(.9,1,orbitProgress));
     const viewH=2*Math.tan(THREE.MathUtils.degToRad(18))*12,viewW=viewH*camera.aspect;
     const scale=(mobile?Math.min(.6,viewW/6.8):Math.min(1,viewH/6.8,viewW/11.5))*lerp('s')*(1-orbitWeight*.08);
     // Reserve space for the reference's broad annular field around the metal.
-    const currentScroll=scroll.getScroll();
-    const phoneMotion=phone.matches&&!reduced;
-    const trackStart=opening.y-innerHeight*.42;
-    const trackEnd=paymentArtCenter-innerHeight*.61;
+    const trackStart=opening.y-viewportHeight*.42;
+    const trackEnd=paymentArtCenter-viewportHeight*.61;
     const trackProgress=phoneMotion?progressBetween(trackStart,trackEnd-trackStart,currentScroll):0;
-    const openingTurn=phoneMotion?smooth(Math.max(0,opening.y-innerHeight*.91),opening.y-innerHeight*.28,easedScroll):0;
-    const paymentTurn=phoneMotion?smooth(paymentArtCenter-innerHeight*.93,paymentArtCenter-innerHeight*.32,easedScroll):0;
+    const openingTurn=phoneMotion?smooth(Math.max(0,opening.y-viewportHeight*.91),opening.y-viewportHeight*.28,currentScroll):0;
+    const paymentTurn=phoneMotion?smooth(paymentArtCenter-viewportHeight*.93,paymentArtCenter-viewportHeight*.32,currentScroll):0;
     const phoneTurn=openingTurn+paymentTurn;
     const turnAngle=phoneTurn*Math.PI*2;
     const turnEnvelope=Math.abs(Math.sin(phoneTurn*Math.PI));
     let mobileY=-2.5;
     if(mobile){
-      const half=2.9*scale*innerHeight/viewH;
+      const half=2.9*scale*viewportHeight/viewH;
       const paymentBottom=sectionLayout[1].copyBottom??0;
-      let paymentCenter=Math.max(innerHeight*.67,paymentBottom-currentScroll+half+24);
+      let paymentCenter=Math.max(viewportHeight*.67,paymentBottom-currentScroll+half+24);
       if(phoneMotion){
         // Join the two document anchors to a slow downward path in screen
         // space. The payment panel covers the same scene as it passes behind.
-        const movingCenter=THREE.MathUtils.lerp(.42,.61,trackProgress)*innerHeight;
-        const releaseOpening=smooth(trackStart,trackStart+innerHeight*.18,currentScroll);
-        const reachPayment=smooth(trackEnd-innerHeight*.18,trackEnd,currentScroll);
+        const movingCenter=THREE.MathUtils.lerp(.42,.61,trackProgress)*viewportHeight;
+        const releaseOpening=smooth(trackStart,trackStart+viewportHeight*.18,currentScroll);
+        const reachPayment=smooth(trackEnd-viewportHeight*.18,trackEnd,currentScroll);
         const fromOpening=THREE.MathUtils.lerp(opening.y-currentScroll,movingCenter,releaseOpening);
         paymentCenter=THREE.MathUtils.lerp(fromOpening,paymentArtCenter-currentScroll,reachPayment);
       }
-      const fromPayment=phoneMotion?smooth(paymentArtCenter-innerHeight*.32,paymentArtCenter+innerHeight*.21,easedScroll):smooth(1.65,2.15,p);
+      const fromPayment=phoneMotion?paymentHandoff:smooth(1.65,2.15,p);
       const toKey=smooth(.34,.83,arrivalProgress);
       const center=THREE.MathUtils.lerp(
-        THREE.MathUtils.lerp(paymentCenter,innerHeight*.59,fromPayment),
-        THREE.MathUtils.clamp(arrivalCenter-currentScroll,innerHeight*.45,innerHeight*.62),
+        THREE.MathUtils.lerp(paymentCenter,viewportHeight*.59,fromPayment),
+        THREE.MathUtils.clamp(arrivalCenter-currentScroll,viewportHeight*.45,viewportHeight*.62),
         toKey,
       );
-      mobileY=(.5-center/innerHeight)*viewH;
+      mobileY=(.5-center/viewportHeight)*viewH;
     }
     // The phone payment art is anchored to document scroll. Damping that
     // position makes it lag behind a fast swipe or a jump to the section.
-    const followsPaymentScroll=phoneMotion&&currentScroll<paymentArtCenter+innerHeight*.21;
+    const followsPaymentScroll=phoneMotion&&currentScroll<paymentArtCenter+viewportHeight*.21;
     framedMobileY=shown&&!reduced&&!followsPaymentScroll?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
     const framingSettles=mobile&&Math.abs(framedMobileY-mobileY)>.002;
     if(!framingSettles)framedMobileY=mobileY;
 
     // Keep the original poses and scroll curves, mapped to the current opening grid.
     const openingWeight=reduced?1:phoneMotion?1-smooth(0,1,trackProgress):1-smooth(mobile?.36:0,1,p);
-    const openingScale=opening.size/innerHeight*viewH/7.3;
-    const parkedX=(opening.x/innerWidth-.5)*viewW;
-    const parkedY=(.5-(opening.y-currentScroll)/innerHeight)*viewH;
+    const openingScale=opening.size/viewportHeight*viewH/7.3;
+    const parkedX=(opening.x/viewportWidth-.5)*viewW;
+    const parkedY=(.5-(opening.y-currentScroll)/viewportHeight)*viewH;
     objects.scale.setScalar(THREE.MathUtils.lerp(scale*.84,openingScale,openingWeight));
     objects.position.set(
       THREE.MathUtils.lerp(mobile?0:(lerp('x')-orbitWeight*.02)*viewW,parkedX,openingWeight),
@@ -265,7 +301,7 @@ export function createPricingJourney(host:HTMLElement) {
     // Drop the completed opening revolution before later Euler blends.
     const sceneSpin=phoneMotion?(openingTurn===1?paymentTurn:phoneTurn)*Math.PI*2:spin.angle;
     const approach=THREE.MathUtils.clamp(currentScroll/Math.max(1,spinTrigger.start),0,1);
-    const departure=THREE.MathUtils.clamp((easedScroll-spinTrigger.end)/Math.max(1,anchors[2]-spinTrigger.end),0,1);
+    const departure=THREE.MathUtils.clamp((sceneScroll-spinTrigger.end)/Math.max(1,anchors[2]-spinTrigger.end),0,1);
     const cardYaw=p<2?THREE.MathUtils.lerp(-.22,.55,approach)+departure*2.75:lerp('ry');
     card.visible=true;
     card.rotation.set(.1,motion.matches?-.2:cardYaw+sceneSpin,motion.matches?-.12:lerp('r'));
@@ -319,7 +355,7 @@ export function createPricingJourney(host:HTMLElement) {
     }
 
     // Static seated holders also illustrate the payment set for reduced-motion readers.
-    const keyOnScreen=arrivalCenter-currentScroll<innerHeight*1.48&&arrivalCenter-currentScroll>-innerHeight*.48;
+    const keyOnScreen=arrivalCenter-currentScroll<viewportHeight*1.48&&arrivalCenter-currentScroll>-viewportHeight*.48;
     const docking=reduced?(keyOnScreen?1:0):arrivalProgress;
     const orbitHandoff=smooth(.64,1,orbitProgress);
     const arrivalHandoff=smooth(0,.24,docking);
@@ -331,10 +367,10 @@ export function createPricingJourney(host:HTMLElement) {
     }
     // Culling the holders must never switch off the actor transform or
     // change the scale of the ornament attached to the actor group.
-    const dockScale=Math.min(1,arrivalWidth*viewH/(innerHeight*6.95),arrivalHeight*viewH/(innerHeight*5.15));
-    const slotX=(arrivalX/innerWidth-.5)*viewW;
-    const slotY=(.5-(arrivalCenter-currentScroll)/innerHeight)*viewH;
-    const approachY=(.5-(arrivalCenter-easedScroll)/innerHeight)*viewH;
+    const dockScale=Math.min(1,arrivalWidth*viewH/(viewportHeight*6.95),arrivalHeight*viewH/(viewportHeight*5.15));
+    const slotX=(arrivalX/viewportWidth-.5)*viewW;
+    const slotY=(.5-(arrivalCenter-currentScroll)/viewportHeight)*viewH;
+    const approachY=(.5-(arrivalCenter-easedScroll)/viewportHeight)*viewH;
     const attach=smooth(.46,.78,docking);
     objects.scale.lerp(dockPoint.setScalar(dockScale),rise);
     objects.position.x=mix(objects.position.x,slotX,rise);
@@ -386,13 +422,13 @@ export function createPricingJourney(host:HTMLElement) {
     const bandLift=card.position.y*(1-smooth(.12,.55,docking));
     const entranceStep=host.dataset.openingMotion==='playing'?Math.min(.12,frameGap):0;
     const waitingForOpening=applyEntrance(currentScroll,viewH,p,entranceStep,mobile);
-    const pixelScale=objects.scale.x*innerHeight/viewH;
-    const centerX=(objects.position.x/viewW+.5)*innerWidth;
-    const centerY=(.5-objects.position.y/viewH)*innerHeight+currentScroll;
+    const pixelScale=objects.scale.x*viewportHeight/viewH;
+    const centerX=(objects.position.x/viewW+.5)*viewportWidth;
+    const centerY=(.5-objects.position.y/viewH)*viewportHeight+currentScroll;
     const radius=pixelScale*5.2;
     const covered=p>=1.8&&p<3.3&&centerY-radius>=libraryBounds.top+4&&centerY+radius<=libraryBounds.bottom-4&&
-      Math.max(0,centerX-radius)>=libraryBounds.left&&Math.min(innerWidth,centerX+radius)<=libraryBounds.right;
-    const opacity=smooth(.05,.36,(footerTop-currentScroll)/innerHeight);
+      Math.max(0,centerX-radius)>=libraryBounds.left&&Math.min(viewportWidth,centerX+radius)<=libraryBounds.right;
+    const opacity=smooth(.05,.36,(footerTop-currentScroll)/viewportHeight);
     const hide=opacity===0||covered;
     if(host.hasAttribute('data-library-covered')!==covered)host.toggleAttribute('data-library-covered',covered);
     const nextOpacity=opacity.toFixed(3);
@@ -400,8 +436,9 @@ export function createPricingJourney(host:HTMLElement) {
     const showOptics=!hide;
     optics.setVisible(showOptics);animateOptics=!hide&&!waitingForOpening&&!motion.matches;
     if(hide||(waitingForOpening&&shown)){dirty=false;return;}
-    if(showOptics)optics.update(time,motion.matches?0:scroll.getVelocity(),motion.matches,bandLift,entranceBandPresence,entranceBandOffset,entranceEdgeLight,docking);
-    surface.render(scene,camera);
+    const scrollVelocity=scroll?.getVelocity()??(performance.now()-nativeScrollAt<400?nativeDelta:0);
+    if(showOptics)optics.update(time,reduced?0:scrollVelocity,reduced,bandLift,entranceBandPresence,entranceBandOffset,entranceEdgeLight,docking,viewportWidth,viewportHeight,visibleHeight);
+    surface.render(scene,camera,visibleHeight<viewportHeight?drawVisibleArea:undefined);
     dirty=framingSettles;
     host.dataset.frameDrawCalls=String(surface.engine.info.render.calls);
     if(!shown){
@@ -415,11 +452,12 @@ export function createPricingJourney(host:HTMLElement) {
     host.dataset.orbitProgress=orbitProgress.toFixed(4);host.dataset.arrivalProgress=arrivalProgress.toFixed(4);
     host.dataset.localAngles=[card.rotation.y,bitcoin.rotation.y,paypal.rotation.y].map(v=>v.toFixed(4)).join(',');
   });
-  scroll.instance.on('scroll',mark);
+  if(scroll)scroll.instance.on('scroll',mark);
+  else window.addEventListener('scroll',markNativeScroll,{passive:true,signal:events.signal});
   return ()=>{
     disposed=true;events.abort();remove();observer.disconnect();layoutObserver.disconnect();
     for(const animation of [tween,spinTween]){animation.scrollTrigger?.kill();animation.kill();}
-    scroll.destroy();holders?.dispose();lightTrails?.dispose();optics.dispose();metalwork.dispose();surface.dispose();delete document.documentElement.dataset.journeyReady;
+    scroll?.destroy();holders?.dispose();lightTrails?.dispose();optics.dispose();metalwork.dispose();surface.dispose();delete document.documentElement.dataset.journeyReady;
     host.removeAttribute('data-library-covered');
     host.style.removeProperty('opacity');
     setEntranceClip(0);

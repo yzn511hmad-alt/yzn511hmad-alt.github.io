@@ -11,9 +11,10 @@ export function createPricingOptics(objects:THREE.Group,card:THREE.Group,coins:T
   const vertexShader=`varying vec2 vPoint;void main(){vPoint=position.xy;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`;
   const phase={value:0},energy={value:1};
   const viewport={value:new THREE.Vector2(innerWidth,innerHeight)},dpr={value:QualityTier.getDPR()};
+  const bottomCrop={value:0};
   function geometry<T extends THREE.BufferGeometry>(g:T){geometries.add(g);return g;}
   function material(fragmentShader:string,uniforms:Record<string,THREE.IUniform>={}){
-    const m=new THREE.ShaderMaterial({vertexShader,fragmentShader,uniforms:{uPhase:phase,uEnergy:energy,uViewport:viewport,uDpr:dpr,...uniforms},transparent:true,depthWrite:false,depthTest:true,toneMapped:false,side:THREE.DoubleSide,forceSinglePass:true});
+    const m=new THREE.ShaderMaterial({vertexShader,fragmentShader,uniforms:{uPhase:phase,uEnergy:energy,uViewport:viewport,uDpr:dpr,uBottomCrop:bottomCrop,...uniforms},transparent:true,depthWrite:false,depthTest:true,toneMapped:false,side:THREE.DoubleSide,forceSinglePass:true});
     materials.add(m);return m;
   }
   function mesh(g:THREE.BufferGeometry,m:THREE.Material,parent:THREE.Object3D=root){const item=new THREE.Mesh(g,m);parent.add(item);return item;}
@@ -76,7 +77,7 @@ export function createPricingOptics(objects:THREE.Group,card:THREE.Group,coins:T
   for(let i=0;i<384;i++)for(let j=0;j<12;j++){const n=i*13+j;indices.push(n,n+1,n+13,n+1,n+14,n+13);}
   const bandGeometry=geometry(new THREE.BufferGeometry());bandGeometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));bandGeometry.setIndex(indices);bandGeometry.computeBoundingSphere();
   const bands=mesh(bandGeometry,material(`
-    varying vec2 vPoint;varying vec3 vNormal,vView;uniform float uEnergy,uDpr,uPresence,uEngravingAngle;uniform vec2 uViewport,uSpan;
+    varying vec2 vPoint;varying vec3 vNormal,vView;uniform float uEnergy,uDpr,uPresence,uEngravingAngle,uBottomCrop;uniform vec2 uViewport,uSpan;
     ${fieldLight}
     float thread(float p){float s=sin(p);float aa=max(fwidth(s)*0.65,0.02);return 1.0-smoothstep(0.18-aa,0.18+aa,abs(s));}
     void main(){
@@ -99,7 +100,7 @@ export function createPricingOptics(objects:THREE.Group,card:THREE.Group,coins:T
       color=mix(color,vec3(0.085,0.39,0.48),cyanArc*0.72);
       float borderDistance=min(min(abs(t-0.02),abs(t-0.98)),abs(t-0.16));
       float rim=1.0-smoothstep(0.008,0.008+max(fwidth(t),0.004),borderDistance);
-      vec2 pixel=gl_FragCoord.xy/uDpr,margin=min(pixel,uViewport-pixel);
+      vec2 pixel=gl_FragCoord.xy/uDpr,margin=min(pixel-vec2(0.0,uBottomCrop),uViewport-pixel);
       float frameFade=smoothstep(2.0,26.0,min(margin.x,margin.y));
       gl_FragColor=vec4(fieldLighting(color),(weave*0.57*edge*(0.72+0.28*lightArc)+rim*0.42)*uEnergy*frameFade*uPresence);
       #include <colorspace_fragment>
@@ -110,7 +111,7 @@ export function createPricingOptics(objects:THREE.Group,card:THREE.Group,coins:T
   const rippleGeometry=geometry(new THREE.RingGeometry(.65,1.65,144,12));rippleGeometry.boundingSphere=new THREE.Sphere(new THREE.Vector3(),2.4);
   const ripples=coins.map((coin,index)=>{
     const m=material(`
-      varying vec2 vPoint;varying vec3 vNormal,vView;uniform float uPhase,uEnergy,uDpr;uniform vec2 uViewport;uniform vec3 uColor;
+      varying vec2 vPoint;varying vec3 vNormal,vView;uniform float uPhase,uEnergy,uDpr,uBottomCrop;uniform vec2 uViewport;uniform vec3 uColor;
       ${fieldLight}
       void main(){
         float r=length(vPoint),d=r-0.65;
@@ -120,7 +121,7 @@ export function createPricingOptics(objects:THREE.Group,card:THREE.Group,coins:T
         float envelope=pow(clamp(1.0-d,0.0,1.0),1.7)*smoothstep(0.0,0.065,d);
         float inner=exp(-d*14.0)*0.18;
         float resolved=1.0-smoothstep(1.5,3.0,length(fwidth(vPoint))*44.0);
-        vec2 pixel=gl_FragCoord.xy/uDpr,margin=min(pixel,uViewport-pixel);
+        vec2 pixel=gl_FragCoord.xy/uDpr,margin=min(pixel-vec2(0.0,uBottomCrop),uViewport-pixel);
         float frameFade=smoothstep(2.0,26.0,min(margin.x,margin.y));
         gl_FragColor=vec4(fieldLighting(uColor),(line*envelope*0.76*resolved+inner)*uEnergy*frameFade);
         #include <colorspace_fragment>
@@ -182,10 +183,10 @@ export function createPricingOptics(objects:THREE.Group,card:THREE.Group,coins:T
   const rimPath=rounded(2.77,4.32,.2).getSpacedPoints(192);
   return{
     setVisible(value:boolean){root.visible=value;rim.visible=value;aura.visible=value;frontSheen.visible=value;backSheen.visible=value;if(!value)interaction.suspend();},
-    update(time:number,velocity:number,reduced:boolean,bandLift=card.position.y,framePresence=1,bandOffset=0,edgeLight=0,dockAmount=0){
+    update(time:number,velocity:number,reduced:boolean,bandLift:number,framePresence:number,bandOffset:number,edgeLight:number,dockAmount:number,width:number,height:number,visibleHeight:number){
       phase.value=reduced?0:(time%12)/12*Math.PI*2;energy.value=1+Math.min(Math.abs(velocity)/200,.08);
       engravingAngle.value=reduced?0:(time%32)/32*Math.PI*2;
-      viewport.value.set(innerWidth,innerHeight);dpr.value=QualityTier.getDPR();
+      viewport.value.set(width,height);dpr.value=QualityTier.getDPR();bottomCrop.value=height-visibleHeight;
       bands.rotation.set(.08+Math.sin(card.rotation.z)*.04,Math.sin(card.rotation.y)*.13,Math.sin(card.rotation.y)*.04+Math.sin(phase.value)*.015);
       bands.position.y=bandLift*.3*(1-dockAmount)+bandOffset;
       bands.position.z=-.48-.18*dockAmount;

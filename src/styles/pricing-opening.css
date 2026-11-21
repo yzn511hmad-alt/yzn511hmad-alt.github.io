@@ -552,6 +552,7 @@ html[data-pricing-fallback] .pricing-holders-column { display: none; }
 @media (max-width: 767px) {
   .pricing-engraving { display: none; }
   .pricing-engraving::before { content: none; animation: none; }
+  .journey-canvas { bottom: auto; height: 100vh; height: 100lvh; }
 }
 @media (max-width: 480px) {
   #chapter-one h1 { font-size: clamp(32px, 10vw, 46px); }
