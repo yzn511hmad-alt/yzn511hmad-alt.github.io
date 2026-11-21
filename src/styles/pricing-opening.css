@@ -72,6 +72,23 @@
   gap: clamp(12px, 1.6vw, 24px);
   scroll-margin-top: 96px;
 }
+@media (min-width: 768px) and (forced-colors: none) {
+  #plans { position: relative; }
+  #plans::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    inset: -18px auto auto clamp(-48px, -4vw, -20px);
+    width: 112px;
+    height: 166px;
+    background: linear-gradient(155deg, #137a9f, #8dc9d2 55%, #137a9f);
+    mask: url('/assets/ornaments/snowy-motion-rosette.svg') left -170px center / 235px no-repeat,
+      radial-gradient(ellipse at 53% 49%, #000 15%, transparent 74%);
+    mask-composite: intersect;
+    opacity: .67;
+  }
+}
 /* Two opaque finishes with the same pressed rim and inlaid face. */
 #plans .edition {
   --plan-ink: #f1f7fc;
