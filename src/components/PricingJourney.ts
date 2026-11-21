@@ -269,15 +269,11 @@ export function createPricingJourney(host:HTMLElement) {
     const trackStart=opening.y-viewportHeight*.42;
     const trackEnd=paymentArtCenter-viewportHeight*.61;
     const trackProgress=phoneMotion?progressBetween(trackStart,trackEnd-trackStart,currentScroll):0;
-    const openingTurnStart=Math.max(0,opening.y-viewportHeight*.95);
-    const openingTurnEnd=opening.y-viewportHeight*.18;
-    const paymentTurnStart=Math.max(openingTurnEnd,sectionLayout[1].top-viewportHeight*.30);
+    const paymentTurnStart=Math.max(0,opening.y-viewportHeight*.85);
     const paymentTurnEnd=paymentArtCenter-viewportHeight*.26;
-    const openingTurn=phoneMotion?smooth(openingTurnStart,openingTurnEnd,currentScroll):0;
     const paymentTurn=phoneMotion?smooth(paymentTurnStart,paymentTurnEnd,currentScroll):0;
-    const phoneTurn=openingTurn+paymentTurn;
-    const turnAngle=phoneTurn*Math.PI*2;
-    const turnEnvelope=Math.abs(Math.sin(phoneTurn*Math.PI));
+    const turnAngle=paymentTurn*Math.PI*2;
+    const turnEnvelope=Math.sin(paymentTurn*Math.PI);
     let mobileY=-2.5;
     if(mobile){
       const half=2.9*scale*viewportHeight/viewH;
@@ -287,8 +283,8 @@ export function createPricingJourney(host:HTMLElement) {
         // Join the two document anchors to a slow downward path in screen
         // space. The payment panel covers the same scene as it passes behind.
         const movingCenter=THREE.MathUtils.lerp(.42,.61,trackProgress)*viewportHeight;
-        const releaseOpening=smooth(trackStart,trackStart+viewportHeight*.32,currentScroll);
-        const reachPayment=smooth(trackEnd-viewportHeight*.32,trackEnd,currentScroll);
+        const releaseOpening=THREE.MathUtils.smootherstep(currentScroll,trackStart,trackStart+viewportHeight*.13);
+        const reachPayment=THREE.MathUtils.smootherstep(currentScroll,trackEnd-viewportHeight*.18,trackEnd);
         const fromOpening=THREE.MathUtils.lerp(opening.y-currentScroll,movingCenter,releaseOpening);
         paymentCenter=THREE.MathUtils.lerp(fromOpening,paymentArtCenter-currentScroll,reachPayment);
       }
@@ -317,8 +313,8 @@ export function createPricingJourney(host:HTMLElement) {
       THREE.MathUtils.lerp(mobile?framedMobileY:lerp('y'),parkedY,phoneMotion?0:openingWeight),0,
     );
     const spinTrigger=spinTween.scrollTrigger!;
-    // Drop the completed opening revolution before later Euler blends.
-    const sceneSpin=phoneMotion?(openingTurn===1?paymentTurn:phoneTurn)*Math.PI*2:spin.angle;
+    // One continuous turn joins the opening artwork to the payment section.
+    const sceneSpin=phoneMotion?turnAngle:spin.angle;
     const approach=THREE.MathUtils.clamp(currentScroll/Math.max(1,spinTrigger.start),0,1);
     const departure=THREE.MathUtils.clamp((sceneScroll-spinTrigger.end)/Math.max(1,anchors[2]-spinTrigger.end),0,1);
     const cardYaw=p<2?THREE.MathUtils.lerp(-.22,.55,approach)+departure*2.75:lerp('ry');
@@ -335,12 +331,13 @@ export function createPricingJourney(host:HTMLElement) {
     if(phoneMotion){
       // Lead with the card and let the two coins bank slightly out of phase.
       const bank=Math.sin(turnAngle)*turnEnvelope;
+      const paymentWeight=1-paymentHandoff;
       objects.position.x+=bank*objects.scale.x*.28;
       card.position.y+=turnEnvelope*.16;
       card.rotation.x+=bank*.20;
       card.rotation.z-=turnEnvelope*.13;
-      bitcoin.position.x-=turnEnvelope*.31;
-      paypal.position.x+=turnEnvelope*.31;
+      bitcoin.position.x=THREE.MathUtils.lerp(bitcoin.position.x,-1.55,paymentWeight)-turnEnvelope*.31;
+      paypal.position.x=THREE.MathUtils.lerp(paypal.position.x,1.45,paymentWeight)+turnEnvelope*.31;
       bitcoin.position.y+=Math.sin(turnAngle-.38)*turnEnvelope*.42;
       paypal.position.y-=Math.sin(turnAngle-.72)*turnEnvelope*.42;
       bitcoin.rotation.x+=turnEnvelope*.31;
