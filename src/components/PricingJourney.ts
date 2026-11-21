@@ -57,7 +57,7 @@ export function createPricingJourney(host:HTMLElement) {
   let opening={x:0,y:0,size:0,height:0};
   let paymentArtCenter=0;
   let entrancePending=document.documentElement.dataset.pricingEntrance==='pending';
-  const lightTrails=entrancePending&&!motion.matches?createPricingLightTrails(scene,card,bitcoin,paypal):undefined;
+  let lightTrails:ReturnType<typeof createPricingLightTrails>|undefined;
   let entranceElapsed=0;
   let entranceClip='';
   const entranceDuration=1.93;
@@ -99,9 +99,10 @@ export function createPricingJourney(host:HTMLElement) {
     footerTop=footer.getBoundingClientRect().top+scrollY;
     dirty=true;
   }
-  const tween=gsap.to(pose,{progress:1,ease:'none',onUpdate:mark,scrollTrigger:{trigger:sections[0],endTrigger:sections[5],start:'top top',end:'top 15%',scrub:.65,invalidateOnRefresh:true,onUpdate:mark,onRefresh:measure}});
+  const markScrub=()=>{if(seatedCanvasTop===undefined)mark();};
+  const tween=gsap.to(pose,{progress:1,ease:'none',onUpdate:markScrub,scrollTrigger:{trigger:sections[0],endTrigger:sections[5],start:'top top',end:'top 15%',scrub:.65,invalidateOnRefresh:true,onUpdate:mark,onRefresh:measure}});
   // Chapter two retains its independent complete local 360 degree turn.
-  const spinTween=gsap.to(spin,{angle:Math.PI*2,ease:'none',onUpdate:mark,scrollTrigger:{trigger:sections[1],start:'top 35%',end:'bottom 65%',scrub:.65,invalidateOnRefresh:true,onUpdate:mark,onRefresh:mark}});
+  const spinTween=gsap.to(spin,{angle:Math.PI*2,ease:'none',onUpdate:markScrub,scrollTrigger:{trigger:sections[1],start:'top 35%',end:'bottom 65%',scrub:.65,invalidateOnRefresh:true,onUpdate:mark,onRefresh:mark}});
   const stops=[
     {x:.25,y:0,r:-.19,ry:-.22,s:1,bx:-1.55,by:-1.05,px:1.45,py:1.1},
     {x:.25,y:0,r:.13,ry:.55,s:.9,bx:1.7,by:-.4,px:-1.65,py:.8},
@@ -139,6 +140,8 @@ export function createPricingJourney(host:HTMLElement) {
   document.fonts.ready.then(()=>{if(!disposed)measure();});
   const observer=new IntersectionObserver(e=>{visible=e.some(v=>v.isIntersecting);dirty=true;});observer.observe(main);
   document.addEventListener('visibilitychange',mark,{signal:events.signal});
+  surface.domElement.addEventListener('webglcontextrestored',mark,{signal:events.signal});
+  phone.addEventListener('change',mark,{signal:events.signal});
   motion.addEventListener('change',()=>{ScrollTrigger.refresh();mark();},{signal:events.signal});
   let shown=false,last=-Infinity,framedMobileY=-2.5;
   function setEntranceClip(top:number,bottom=0) {
@@ -218,7 +221,11 @@ export function createPricingJourney(host:HTMLElement) {
     // The engraved band settles behind the metals during the last beat.
     entranceBandOffset=Math.max(0,above+3.8)*descent(1.19,.74);
     entranceBandPresence=1-(1-smooth(1.24,1.84,entranceElapsed))*scrollWeight;
-    lightTrails?.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,viewportWidth,viewportHeight);
+    if(phone.matches)lightTrails?.hide();
+    else {
+      lightTrails??=createPricingLightTrails(scene,card,bitcoin,paypal);
+      lightTrails.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,viewportWidth,viewportHeight);
+    }
     entranceElapsed+=delta*(phone.matches?mobileEntranceTimeScale:1);
     return false;
   }
@@ -232,7 +239,8 @@ export function createPricingJourney(host:HTMLElement) {
     const easedScroll=THREE.MathUtils.lerp(travel.start,travel.end,pose.progress);
     const reduced=motion.matches;
     const currentScroll=scroll?.getScroll()??scrollY;
-    const phoneMotion=phone.matches&&!reduced;
+    const simpleOptics=phone.matches;
+    const phoneMotion=simpleOptics&&!reduced;
     // Position and rotation use the same scroll sample through the payment
     // sequence; blend back into the existing scrub before the later chapters.
     const paymentHandoff=smooth(paymentArtCenter-viewportHeight*.32,paymentArtCenter+viewportHeight*.21,currentScroll);
@@ -287,8 +295,8 @@ export function createPricingJourney(host:HTMLElement) {
     }
     // The phone payment art is anchored to document scroll. Damping that
     // position makes it lag behind a fast swipe or a jump to the section.
-    const followsPaymentScroll=phoneMotion&&currentScroll<paymentArtCenter+viewportHeight*.21;
-    framedMobileY=shown&&!reduced&&!followsPaymentScroll?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
+    const followsDocument=phoneMotion&&(currentScroll<paymentArtCenter+viewportHeight*.21||arrivalProgress>=.78);
+    framedMobileY=shown&&!reduced&&!followsDocument?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
     const framingSettles=mobile&&Math.abs(framedMobileY-mobileY)>.002;
     if(!framingSettles)framedMobileY=mobileY;
 
@@ -459,10 +467,11 @@ export function createPricingJourney(host:HTMLElement) {
     const nextOpacity=opacity.toFixed(3);
     if(nextOpacity!==lastOpacity){host.style.opacity=nextOpacity;lastOpacity=nextOpacity;}
     const showOptics=!hide;
-    optics.setVisible(showOptics);animateOptics=!hide&&!waitingForOpening&&!motion.matches;
+    optics.setVisible(showOptics,simpleOptics);
+    animateOptics=!hide&&!waitingForOpening&&!reduced&&(entrancePending||!simpleOptics);
     if(hide||(waitingForOpening&&shown)){dirty=false;return;}
     const scrollVelocity=scroll?.getVelocity()??(performance.now()-nativeScrollAt<400?nativeDelta:0);
-    if(showOptics)optics.update(time,reduced?0:scrollVelocity,reduced,bandLift,entranceBandPresence,entranceBandOffset,entranceEdgeLight,docking,viewportWidth,viewportHeight,seated?viewportHeight:visibleHeight);
+    if(showOptics)optics.update(time,reduced||simpleOptics?0:scrollVelocity,reduced||simpleOptics,bandLift,entranceBandPresence,entranceBandOffset,entranceEdgeLight,docking,viewportWidth,viewportHeight,seated?viewportHeight:visibleHeight,simpleOptics);
     surface.render(scene,camera,!seated&&visibleHeight<viewportHeight?drawVisibleArea:undefined);
     dirty=framingSettles;
     host.dataset.frameDrawCalls=String(surface.engine.info.render.calls);

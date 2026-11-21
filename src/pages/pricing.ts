@@ -19,9 +19,10 @@ const lifetimeCard = document.querySelector('html[data-plan-design="carved"] #pl
 if (openingChapter) ornaments.set(openingChapter, 'data-engraving-visible');
 if (lifetimeCard) ornaments.set(lifetimeCard, 'data-glint-visible');
 const visibleOrnaments = new Set<Element>();
+const desktopOrnaments = matchMedia('(min-width: 768px)');
 const syncOrnaments = () => {
   for (const [element, attribute] of ornaments) {
-    element.toggleAttribute(attribute, visibleOrnaments.has(element) && !document.hidden);
+    element.toggleAttribute(attribute, desktopOrnaments.matches && visibleOrnaments.has(element) && !document.hidden);
   }
 };
 const ornamentObserver = new IntersectionObserver(entries => {
@@ -33,6 +34,7 @@ const ornamentObserver = new IntersectionObserver(entries => {
 });
 for (const element of ornaments.keys()) ornamentObserver.observe(element);
 document.addEventListener('visibilitychange', syncOrnaments, { signal: events.signal });
+desktopOrnaments.addEventListener('change', syncOrnaments, { signal: events.signal });
 events.signal.addEventListener('abort', () => {
   ornamentObserver.disconnect();
   for (const [element, attribute] of ornaments) element.removeAttribute(attribute);

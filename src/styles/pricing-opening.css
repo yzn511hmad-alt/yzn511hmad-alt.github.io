@@ -552,6 +552,7 @@ html[data-pricing-fallback] .pricing-holders-column { display: none; }
 @media (max-width: 767px) {
   .pricing-engraving { display: none; }
   .pricing-engraving::before { content: none; animation: none; }
+  .snowy-signoff .signoff-crystal { animation: none; }
   .journey-canvas { bottom: auto; height: 100vh; height: 100lvh; }
   .journey-canvas[data-pricing-seated] { position: absolute; top: var(--pricing-seated-top); }
 }
@@ -623,14 +624,14 @@ html[data-pricing-fallback] .pricing-scene-slot { display: none; }
   --title-accent: var(--snow-frost);
 }
 
-@media (hover: hover) and (pointer: fine) and (forced-colors: none) {
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) and (forced-colors: none) {
   .pricing-journey em.pricing-title-accent:hover {
     color: #f2faff;
   }
 }
 
 @supports (background-clip: text) {
-  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  @media (min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
     /* Give the clipped gradient room for italic overhangs and descenders
        without changing the advance width or line height. */
     .pricing-journey em.pricing-title-accent {

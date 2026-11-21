@@ -182,17 +182,25 @@ export function createPricingOptics(objects:THREE.Group,card:THREE.Group,coins:T
   const point=new THREE.Vector3();
   const rimPath=rounded(2.77,4.32,.2).getSpacedPoints(192);
   return{
-    setVisible(value:boolean){root.visible=value;rim.visible=value;aura.visible=value;frontSheen.visible=value;backSheen.visible=value;if(!value)interaction.suspend();},
-    update(time:number,velocity:number,reduced:boolean,bandLift:number,framePresence:number,bandOffset:number,edgeLight:number,dockAmount:number,width:number,height:number,visibleHeight:number){
+    setVisible(value:boolean,simple:boolean){
+      root.visible=value;
+      const extras=value&&!simple;
+      rim.visible=extras;aura.visible=extras;frontSheen.visible=extras;backSheen.visible=extras;sparkles.visible=extras;
+      for(const {ring} of ripples)ring.visible=extras;
+      if(!value)interaction.suspend();
+    },
+    update(time:number,velocity:number,reduced:boolean,bandLift:number,framePresence:number,bandOffset:number,edgeLight:number,dockAmount:number,width:number,height:number,visibleHeight:number,simple:boolean){
       phase.value=reduced?0:(time%12)/12*Math.PI*2;energy.value=1+Math.min(Math.abs(velocity)/200,.08);
       engravingAngle.value=reduced?0:(time%32)/32*Math.PI*2;
       viewport.value.set(width,height);dpr.value=QualityTier.getDPR();bottomCrop.value=height-visibleHeight;
-      bands.rotation.set(.08+Math.sin(card.rotation.z)*.04,Math.sin(card.rotation.y)*.13,Math.sin(card.rotation.y)*.04+Math.sin(phase.value)*.015);
-      bands.position.y=bandLift*.3*(1-dockAmount)+bandOffset;
+      if(simple)bands.rotation.set(.08,0,0);
+      else bands.rotation.set(.08+Math.sin(card.rotation.z)*.04,Math.sin(card.rotation.y)*.13,Math.sin(card.rotation.y)*.04+Math.sin(phase.value)*.015);
+      bands.position.y=simple?0:bandLift*.3*(1-dockAmount)+bandOffset;
       bands.position.z=-.48-.18*dockAmount;
       entranceEdge.value=edgeLight;
       bandPresence.value=framePresence;
-      bands.scale.setScalar(.92+.08*framePresence);
+      bands.scale.setScalar(simple?1:.92+.08*framePresence);
+      if(simple){interaction.suspend();return;}
       const rippleBack=.13+.15*dockAmount;
       for(const {coin,ring} of ripples){ring.position.copy(coin.position);ring.position.z-=rippleBack;ring.scale.copy(coin.scale);ring.rotation.set(Math.sin(coin.rotation.x)*.1,Math.sin(coin.rotation.y)*.15,0);}
       interaction.update(time,reduced);
