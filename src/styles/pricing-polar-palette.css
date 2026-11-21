@@ -132,7 +132,7 @@ body {background: var(--snow-night)}
   }
 }
 
-@media (max-width: 767px) and (forced-colors: none) {
+@media (max-width: 820px) and (forced-colors: none) {
   #chapter-two .chapter-copy::before {
     background: linear-gradient(#07152240 0 calc(100% - 64px), #07152200);
     box-shadow: none;

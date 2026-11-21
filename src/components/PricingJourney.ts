@@ -14,9 +14,9 @@ export function createPricingJourney(host:HTMLElement) {
   gsap.registerPlugin(ScrollTrigger);
   const events=new AbortController();
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
-  const phone=matchMedia('(max-width: 767px)');
+  const portableScene=matchMedia('(max-width: 820px), (max-width: 1366px) and (pointer: coarse)');
   const phoneScreen=Math.min(screen.width,screen.height)<=767;
-  const nativeTouch=(phone.matches||phoneScreen)&&matchMedia('(pointer: coarse)').matches;
+  const nativeTouch=(portableScene.matches||phoneScreen)&&matchMedia('(pointer: coarse)').matches;
   // Lenis registers non-passive touch handlers even for its native touch mode.
   const scroll=nativeTouch?undefined:new ScrollManager();
   let surface:SharedSurface;
@@ -61,7 +61,7 @@ export function createPricingJourney(host:HTMLElement) {
   let entranceElapsed=0;
   let entranceClip='';
   const entranceDuration=1.93;
-  const mobileEntranceTimeScale=2/3;
+  const portableEntranceTimeScale=2/3;
   let entranceBandOffset=0;
   let entranceBandPresence=1;
   let entranceEdgeLight=0;
@@ -114,8 +114,8 @@ export function createPricingJourney(host:HTMLElement) {
   const smooth=(from:number,to:number,value:number)=>THREE.MathUtils.smoothstep(value,from,to);
   const progressBetween=(start:number,length:number,scroll:number)=>THREE.MathUtils.clamp((scroll-start)/length,0,1);
   function resize(){
-    const width=phone.matches?host.clientWidth:innerWidth;
-    const height=phone.matches?host.clientHeight:innerHeight;
+    const width=portableScene.matches?host.clientWidth:innerWidth;
+    const height=portableScene.matches?host.clientHeight:innerHeight;
     const dpr=QualityTier.getDPR();
     const nextVisibleHeight=Math.min(height,innerHeight);
     if(visibleHeight!==nextVisibleHeight){visibleHeight=nextVisibleHeight;mark();}
@@ -141,10 +141,10 @@ export function createPricingJourney(host:HTMLElement) {
   const observer=new IntersectionObserver(e=>{visible=e.some(v=>v.isIntersecting);dirty=true;});observer.observe(main);
   document.addEventListener('visibilitychange',mark,{signal:events.signal});
   surface.domElement.addEventListener('webglcontextrestored',mark,{signal:events.signal});
-  phone.addEventListener('change',mark,{signal:events.signal});
+  portableScene.addEventListener('change',()=>{resize();mark();},{signal:events.signal});
   motion.addEventListener('change',()=>{ScrollTrigger.refresh();mark();},{signal:events.signal});
   let shown=false,last=-Infinity,framedMobileY=-2.5;
-  let nextPhoneFrame=-Infinity;
+  let nextPortableFrame=-Infinity;
   function setEntranceClip(top:number,bottom=0) {
     const clip=top>0||bottom>0?`inset(${top}px 0 ${bottom}px 0)`:'';
     if(clip===entranceClip)return;
@@ -224,18 +224,18 @@ export function createPricingJourney(host:HTMLElement) {
     entranceBandPresence=1-(1-smooth(1.24,1.84,entranceElapsed))*scrollWeight;
     lightTrails??=createPricingLightTrails(scene,card,bitcoin,paypal);
     lightTrails.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,viewportWidth,viewportHeight);
-    entranceElapsed+=delta*(phone.matches?mobileEntranceTimeScale:1);
+    entranceElapsed+=delta*(portableScene.matches?portableEntranceTimeScale:1);
     return false;
   }
 
   const remove=onFrame((time)=>{
     if((!dirty&&!animateOptics)||!visible||document.hidden||disposed)return;
     const interval=QualityTier.getFrameInterval();
-    const simpleOptics=phone.matches;
+    const simpleOptics=portableScene.matches;
     if(simpleOptics){
       // Keep a regular cadence without replaying missed frames after a stall.
-      if(time+.001<nextPhoneFrame)return;
-      nextPhoneFrame=time-nextPhoneFrame>=interval?time+interval:nextPhoneFrame+interval;
+      if(time+.001<nextPortableFrame)return;
+      nextPortableFrame=time-nextPortableFrame>=interval?time+interval:nextPortableFrame+interval;
     }else if(time-last<interval)return;
     const frameGap=shown?time-last:0;
     const delta=Math.min(.05,frameGap);last=time;
@@ -243,10 +243,10 @@ export function createPricingJourney(host:HTMLElement) {
     const easedScroll=THREE.MathUtils.lerp(travel.start,travel.end,pose.progress);
     const reduced=motion.matches;
     const currentScroll=scroll?.getScroll()??scrollY;
-    const phoneMotion=simpleOptics&&!reduced;
-    // Phone poses and chapter transitions share the browser's scroll clock.
+    const portableMotion=simpleOptics&&!reduced;
+    // Handheld poses and chapter transitions share the browser's scroll clock.
     const paymentHandoff=smooth(paymentArtCenter-viewportHeight*.32,paymentArtCenter+viewportHeight*.21,currentScroll);
-    const sceneScroll=phoneMotion?currentScroll:easedScroll;
+    const sceneScroll=portableMotion?currentScroll:easedScroll;
     let idx=0;
     while(idx<stops.length-2&&sceneScroll>=anchors[idx+1])idx++;
     const fraction=THREE.MathUtils.clamp((sceneScroll-anchors[idx])/Math.max(1,anchors[idx+1]-anchors[idx]),0,1);
@@ -265,10 +265,10 @@ export function createPricingJourney(host:HTMLElement) {
     // Reserve space for the reference's broad annular field around the metal.
     const trackStart=opening.y-viewportHeight*.42;
     const trackEnd=paymentArtCenter-viewportHeight*.61;
-    const trackProgress=phoneMotion?progressBetween(trackStart,trackEnd-trackStart,currentScroll):0;
+    const trackProgress=portableMotion?progressBetween(trackStart,trackEnd-trackStart,currentScroll):0;
     const paymentTurnStart=Math.max(0,opening.y-viewportHeight*.85);
     const paymentTurnEnd=paymentArtCenter-viewportHeight*.26;
-    const paymentTurn=phoneMotion?smooth(paymentTurnStart,paymentTurnEnd,currentScroll):0;
+    const paymentTurn=portableMotion?smooth(paymentTurnStart,paymentTurnEnd,currentScroll):0;
     const turnAngle=paymentTurn*Math.PI*2;
     const turnEnvelope=Math.sin(paymentTurn*Math.PI);
     let mobileY=-2.5;
@@ -276,7 +276,7 @@ export function createPricingJourney(host:HTMLElement) {
       const half=2.9*scale*viewportHeight/viewH;
       const paymentBottom=sectionLayout[1].copyBottom??0;
       let paymentCenter=Math.max(viewportHeight*.67,paymentBottom-currentScroll+half+24);
-      if(phoneMotion){
+      if(portableMotion){
         // Join the two document anchors to a slow downward path in screen
         // space. The payment panel covers the same scene as it passes behind.
         const movingCenter=THREE.MathUtils.lerp(.42,.61,trackProgress)*viewportHeight;
@@ -285,7 +285,7 @@ export function createPricingJourney(host:HTMLElement) {
         const fromOpening=THREE.MathUtils.lerp(opening.y-currentScroll,movingCenter,releaseOpening);
         paymentCenter=THREE.MathUtils.lerp(fromOpening,paymentArtCenter-currentScroll,reachPayment);
       }
-      const fromPayment=phoneMotion?paymentHandoff:smooth(1.65,2.15,p);
+      const fromPayment=portableMotion?paymentHandoff:smooth(1.65,2.15,p);
       const toKey=smooth(.34,.83,arrivalProgress);
       const center=THREE.MathUtils.lerp(
         THREE.MathUtils.lerp(paymentCenter,viewportHeight*.59,fromPayment),
@@ -294,24 +294,24 @@ export function createPricingJourney(host:HTMLElement) {
       );
       mobileY=(.5-center/viewportHeight)*viewH;
     }
-    // Phone framing follows document scroll through the entire journey.
-    framedMobileY=shown&&!reduced&&!phoneMotion?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
+    // Handheld framing follows document scroll through the entire journey.
+    framedMobileY=shown&&!reduced&&!portableMotion?THREE.MathUtils.damp(framedMobileY,mobileY,12,delta):mobileY;
     const framingSettles=mobile&&Math.abs(framedMobileY-mobileY)>.002;
     if(!framingSettles)framedMobileY=mobileY;
 
     // Keep the original poses and scroll curves, mapped to the current opening grid.
-    const openingWeight=reduced?1:phoneMotion?1-smooth(0,1,trackProgress):1-smooth(mobile?.36:0,1,p);
+    const openingWeight=reduced?1:portableMotion&&mobile?1-smooth(0,1,trackProgress):1-smooth(mobile?.36:0,1,p);
     const openingScale=opening.size/viewportHeight*viewH/7.3;
     const parkedX=(opening.x/viewportWidth-.5)*viewW;
     const parkedY=(.5-(opening.y-currentScroll)/viewportHeight)*viewH;
     objects.scale.setScalar(THREE.MathUtils.lerp(scale*.84,openingScale,openingWeight));
     objects.position.set(
       THREE.MathUtils.lerp(mobile?0:(lerp('x')-orbitWeight*.02)*viewW,parkedX,openingWeight),
-      THREE.MathUtils.lerp(mobile?framedMobileY:lerp('y'),parkedY,phoneMotion?0:openingWeight),0,
+      THREE.MathUtils.lerp(mobile?framedMobileY:lerp('y'),parkedY,portableMotion&&mobile?0:openingWeight),0,
     );
     const spinTrigger=spinTween.scrollTrigger!;
     // One continuous turn joins the opening artwork to the payment section.
-    const sceneSpin=phoneMotion?turnAngle:spin.angle;
+    const sceneSpin=portableMotion?turnAngle:spin.angle;
     const approach=THREE.MathUtils.clamp(currentScroll/Math.max(1,spinTrigger.start),0,1);
     const departure=THREE.MathUtils.clamp((sceneScroll-spinTrigger.end)/Math.max(1,anchors[2]-spinTrigger.end),0,1);
     const cardYaw=p<2?THREE.MathUtils.lerp(-.22,.55,approach)+departure*2.75:lerp('ry');
@@ -325,7 +325,7 @@ export function createPricingJourney(host:HTMLElement) {
     bitcoin.rotation.set(.12,motion.matches?0:-.25*approach+sceneSpin-departure*3,-.18);
     paypal.rotation.set(-.2,motion.matches?0:.25*approach-sceneSpin+departure*3,.2);
 
-    if(phoneMotion){
+    if(portableMotion){
       // Lead with the card and let the two coins bank slightly out of phase.
       const bank=Math.sin(turnAngle)*turnEnvelope;
       const paymentWeight=1-paymentHandoff;
@@ -348,7 +348,7 @@ export function createPricingJourney(host:HTMLElement) {
     const turn=smooth(.08,.88,orbitProgress);
     const sweep=Math.sin(Math.PI*turn);
     const mix=THREE.MathUtils.lerp;
-    if(phoneMotion&&reveal>0){
+    if(portableMotion&&reveal>0){
       // Sweep each coin outward before docking. Keep both on their own side
       // so they do not race across the card while the holders are appearing.
       const arc=THREE.MathUtils.smootherstep(orbitProgress,.14,.78);
@@ -392,7 +392,7 @@ export function createPricingJourney(host:HTMLElement) {
     const docking=reduced?(keyOnScreen?1:0):arrivalProgress;
     // All three objects are fully seated by .87. Once seated, the browser
     // scrolls this canvas with the section, even between WebGL frames.
-    const seated=phoneMotion&&docking>=.88;
+    const seated=portableMotion&&docking>=.88;
     const canvasDocumentTop=seated?arrivalCenter-viewportHeight*.5:currentScroll;
     const nextSeatedTop=seated?canvasDocumentTop-mainTop:undefined;
     if(nextSeatedTop!==seatedCanvasTop){
@@ -419,7 +419,7 @@ export function createPricingJourney(host:HTMLElement) {
     // Move the fixed view's framing toward a projection shift as the set
     // docks. After full attachment this matches the absolute canvas exactly,
     // including the perspective of surfaces at different depths.
-    const projectionY=phoneMotion?slotY*attach:0;
+    const projectionY=portableMotion?slotY*attach:0;
     const projectionOffset=-2*projectionY/viewH;
     if(camera.projectionMatrix.elements[9]!==projectionOffset){
       camera.projectionMatrix.elements[9]=projectionOffset;
@@ -502,7 +502,7 @@ export function createPricingJourney(host:HTMLElement) {
       host.dataset.ready='true';
     }
     host.dataset.phase=p.toFixed(3);host.dataset.renderCount=String(Number(host.dataset.renderCount||0)+1);
-    host.dataset.sectionTwoTurn=(reduced?0:phoneMotion?paymentTurn:spin.angle/(Math.PI*2)).toFixed(4);
+    host.dataset.sectionTwoTurn=(reduced?0:portableMotion?paymentTurn:spin.angle/(Math.PI*2)).toFixed(4);
     host.dataset.orbitProgress=orbitProgress.toFixed(4);host.dataset.arrivalProgress=arrivalProgress.toFixed(4);
     host.dataset.localAngles=[card.rotation.y,bitcoin.rotation.y,paypal.rotation.y].map(v=>v.toFixed(4)).join(',');
   });

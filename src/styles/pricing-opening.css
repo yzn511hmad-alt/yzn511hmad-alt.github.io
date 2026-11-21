@@ -555,6 +555,8 @@ html[data-pricing-fallback] .pricing-holders-column { display: none; }
   .pricing-engraving { display: none; }
   .pricing-engraving::before { content: none; animation: none; }
   .snowy-signoff .signoff-crystal { animation: none; }
+}
+@media (max-width: 820px), (max-width: 1366px) and (pointer: coarse) {
   .journey-canvas { bottom: auto; height: 100vh; height: 100lvh; }
   .journey-canvas[data-pricing-seated] { position: absolute; top: var(--pricing-seated-top); }
 }
