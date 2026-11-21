@@ -144,6 +144,7 @@ export function createPricingJourney(host:HTMLElement) {
   phone.addEventListener('change',mark,{signal:events.signal});
   motion.addEventListener('change',()=>{ScrollTrigger.refresh();mark();},{signal:events.signal});
   let shown=false,last=-Infinity,framedMobileY=-2.5;
+  let nextPhoneFrame=-Infinity;
   function setEntranceClip(top:number,bottom=0) {
     const clip=top>0||bottom>0?`inset(${top}px 0 ${bottom}px 0)`:'';
     if(clip===entranceClip)return;
@@ -232,14 +233,19 @@ export function createPricingJourney(host:HTMLElement) {
 
   const remove=onFrame((time)=>{
     if((!dirty&&!animateOptics)||!visible||document.hidden||disposed)return;
-    if(time-last<QualityTier.getFrameInterval())return;
+    const interval=QualityTier.getFrameInterval();
+    const simpleOptics=phone.matches;
+    if(simpleOptics){
+      // Keep a regular cadence without replaying missed frames after a stall.
+      if(time+.001<nextPhoneFrame)return;
+      nextPhoneFrame=time-nextPhoneFrame>=interval?time+interval:nextPhoneFrame+interval;
+    }else if(time-last<interval)return;
     const frameGap=shown?time-last:0;
     const delta=Math.min(.05,frameGap);last=time;
     const travel=tween.scrollTrigger!;
     const easedScroll=THREE.MathUtils.lerp(travel.start,travel.end,pose.progress);
     const reduced=motion.matches;
     const currentScroll=scroll?.getScroll()??scrollY;
-    const simpleOptics=phone.matches;
     const phoneMotion=simpleOptics&&!reduced;
     // Position and rotation use the same scroll sample through the payment
     // sequence; blend back into the existing scrub before the later chapters.
@@ -265,8 +271,12 @@ export function createPricingJourney(host:HTMLElement) {
     const trackStart=opening.y-viewportHeight*.42;
     const trackEnd=paymentArtCenter-viewportHeight*.61;
     const trackProgress=phoneMotion?progressBetween(trackStart,trackEnd-trackStart,currentScroll):0;
-    const openingTurn=phoneMotion?smooth(Math.max(0,opening.y-viewportHeight*.91),opening.y-viewportHeight*.28,currentScroll):0;
-    const paymentTurn=phoneMotion?smooth(paymentArtCenter-viewportHeight*.93,paymentArtCenter-viewportHeight*.32,currentScroll):0;
+    const openingTurnStart=Math.max(0,opening.y-viewportHeight*.95);
+    const openingTurnEnd=opening.y-viewportHeight*.18;
+    const paymentTurnStart=Math.max(openingTurnEnd,sectionLayout[1].top-viewportHeight*.30);
+    const paymentTurnEnd=paymentArtCenter-viewportHeight*.26;
+    const openingTurn=phoneMotion?smooth(openingTurnStart,openingTurnEnd,currentScroll):0;
+    const paymentTurn=phoneMotion?smooth(paymentTurnStart,paymentTurnEnd,currentScroll):0;
     const phoneTurn=openingTurn+paymentTurn;
     const turnAngle=phoneTurn*Math.PI*2;
     const turnEnvelope=Math.abs(Math.sin(phoneTurn*Math.PI));
@@ -279,8 +289,8 @@ export function createPricingJourney(host:HTMLElement) {
         // Join the two document anchors to a slow downward path in screen
         // space. The payment panel covers the same scene as it passes behind.
         const movingCenter=THREE.MathUtils.lerp(.42,.61,trackProgress)*viewportHeight;
-        const releaseOpening=smooth(trackStart,trackStart+viewportHeight*.18,currentScroll);
-        const reachPayment=smooth(trackEnd-viewportHeight*.18,trackEnd,currentScroll);
+        const releaseOpening=smooth(trackStart,trackStart+viewportHeight*.32,currentScroll);
+        const reachPayment=smooth(trackEnd-viewportHeight*.32,trackEnd,currentScroll);
         const fromOpening=THREE.MathUtils.lerp(opening.y-currentScroll,movingCenter,releaseOpening);
         paymentCenter=THREE.MathUtils.lerp(fromOpening,paymentArtCenter-currentScroll,reachPayment);
       }
@@ -327,18 +337,20 @@ export function createPricingJourney(host:HTMLElement) {
     paypal.rotation.set(-.2,motion.matches?0:.25*approach-sceneSpin+departure*3,.2);
 
     if(phoneMotion){
-      // Replace the long, mostly hidden chapter spin with one turn in each
-      // visible slot. The coins bank in opposite directions around the card.
-      objects.position.x+=Math.sin(turnAngle)*turnEnvelope*objects.scale.x*.44;
-      card.position.y+=turnEnvelope*.24;
-      card.rotation.x+=Math.sin(turnAngle)*.23;
-      card.rotation.z-=turnEnvelope*.18;
-      bitcoin.position.x-=turnEnvelope*.42;
-      paypal.position.x+=turnEnvelope*.42;
-      bitcoin.position.y+=Math.sin(turnAngle)*.49;
-      paypal.position.y-=Math.sin(turnAngle)*.49;
-      bitcoin.rotation.x+=turnEnvelope*.41;
-      paypal.rotation.x-=turnEnvelope*.41;
+      // Lead with the card and let the two coins bank slightly out of phase.
+      const bank=Math.sin(turnAngle)*turnEnvelope;
+      objects.position.x+=bank*objects.scale.x*.28;
+      card.position.y+=turnEnvelope*.16;
+      card.rotation.x+=bank*.20;
+      card.rotation.z-=turnEnvelope*.13;
+      bitcoin.position.x-=turnEnvelope*.31;
+      paypal.position.x+=turnEnvelope*.31;
+      bitcoin.position.y+=Math.sin(turnAngle-.38)*turnEnvelope*.42;
+      paypal.position.y-=Math.sin(turnAngle-.72)*turnEnvelope*.42;
+      bitcoin.rotation.x+=turnEnvelope*.31;
+      paypal.rotation.x-=turnEnvelope*.31;
+      bitcoin.rotation.y-=turnEnvelope*.30;
+      paypal.rotation.y+=turnEnvelope*.48;
     }
 
     // Unfold into a single spatial revolution after clearing the library.
