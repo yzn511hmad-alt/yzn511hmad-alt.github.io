@@ -222,11 +222,8 @@ export function createPricingJourney(host:HTMLElement) {
     // The engraved band settles behind the metals during the last beat.
     entranceBandOffset=Math.max(0,above+3.8)*descent(1.19,.74);
     entranceBandPresence=1-(1-smooth(1.24,1.84,entranceElapsed))*scrollWeight;
-    if(phone.matches)lightTrails?.hide();
-    else {
-      lightTrails??=createPricingLightTrails(scene,card,bitcoin,paypal);
-      lightTrails.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,viewportWidth,viewportHeight);
-    }
+    lightTrails??=createPricingLightTrails(scene,card,bitcoin,paypal);
+    lightTrails.update(entranceElapsed,entranceDuration-entranceElapsed,scrollWeight,viewportWidth,viewportHeight);
     entranceElapsed+=delta*(phone.matches?mobileEntranceTimeScale:1);
     return false;
   }
